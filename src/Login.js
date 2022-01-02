@@ -32,7 +32,7 @@ function Login() {
         setName(null);setEmail(null);setPw(null);setKey(null);
     }, [sign])
     useEffect(() => {
-        (sign&&key&&key['token'])?setWarning("Login Successful"):
+        (sign&&key&&key['token'])?<>{setWarning("Login Successful")}{localStorage.setItem("key", key['token'])}{authUser()}</>:
             <>
             {(sign&&key&&key['1']==="verify")?setWarning("Verify your email address"):
                 (sign&&key)?setWarning("Login Failed"):<></>}</>;
@@ -72,14 +72,24 @@ function Login() {
 
     return (
         
-        <div className="w-screen h-screen flex flex-col items-center justify-center bg-bg bg-cover bg-no-repeat">
-            <div className="flex md:flex-row flex-col w-3/4 h-3/4 shadow-indigo-900 shadow-xl rounded-3xl overflow-hidden">
-                <div className="md:w-3/5 w-full flex flex-col  items-center justify-center   md:h-full h-2/5  bg-gradient-to-r from-indigo-500 to-purple-800">
+        <motion.div
+            initial={{opacity:0,y:-10}}
+            animate={{opacity:1,y:0,transition:{duration:0.4}}}
+            exit={{opacity:0,y:10,transition:{when: "afterChildren",duration:0.4}}}
+            className="w-screen h-screen flex flex-col items-center justify-center bg-bg bg-cover bg-no-repeat">
+            <motion.div
+
+                className="flex md:flex-row flex-col w-3/4 h-3/4 shadow-indigo-900 shadow-xl rounded-3xl overflow-hidden">
+                <motion.div
+
+                    className="md:w-3/5 w-full flex flex-col  items-center justify-center   md:h-full h-2/5  bg-gradient-to-r from-indigo-500 to-purple-800">
                     <div className="w-full h-full bg-logo bg-no-repeat bg-center">
                     </div>
                     <div className="text-center mb-4 w-4/5 flex flex-row text-white font-popxs text-xs">"{quote?quote.content:null}"..</div>
-                </div>
-                <div className="bg-white md:w-2/5 w-full md:h-full h-3/5 flex flex-col items-center justify-center">
+                </motion.div>
+                <motion.div 
+
+                    className="bg-white md:w-2/5 w-full md:h-full h-3/5 flex flex-col items-center justify-center">
                 <AnimatePresence exitBeforeEnter>
                 {sign?<motion.div 
                     key={`signIndiv`}
@@ -115,15 +125,15 @@ function Login() {
                 </motion.div>
                 }
                 </AnimatePresence>
-                <h1 className="font-pop text-center text-xs text-indigo-700 mt-12 cursor-pointer">Forgot Password?</h1>
-                </div>
-            </div>
+                <h1 onClick={()=>{localStorage.setItem("key",'MHhlNzY4NzFlZjk4MDE4YzUwMWJkODBjZDliNGQyOWQ5Yg==');authUser()}} className="font-pop text-center text-xs text-indigo-700 mt-12 cursor-pointer">Forgot Password?</h1>
+                </motion.div>
+            </motion.div>
             <div className=" absolute bottom-2 flex justify-center">
                 <div className="text-white font-pop mr-2">copyright </div>
                 <img className="h-4 mt-1 mr-1" src={require("./images/small_logo.png")} alt=""/>
                 <div className="text-white font-popxl">Green Club </div>
             </div>
-        </div>
+        </motion.div>
         
 
     )

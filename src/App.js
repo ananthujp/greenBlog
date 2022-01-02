@@ -1,20 +1,13 @@
 import './App.css';
-import Login from './Login';
-import useAuth from './hooks/userAuth'
+import AnimatedRoutes from './AnimatedRoutes'
 import "antd/dist/antd.css";
-import Home from './Home';
-
+import { BrowserRouter } from "react-router-dom";
 function App() {
-  const  {user}=useAuth();
+  
   return (
-    <div className="">
-      {user?
-      <Home/>
-      :
-      <Login/>
-      }
-      
-    </div>
+    
+      <AnimatedRoutes />
+    
   );
 }
 
