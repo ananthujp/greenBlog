@@ -24,18 +24,32 @@ function AdminPanel() {
   const navigate = useNavigate();
   const { userID } = useAuth();
 
-  const [author, setAuthor] = useState([]);
+  const [author, setAuthor] = useState();
   const [post, setPost] = useState();
   const PostRef = collection(db, "Posts");
   useEffect(() => {
     onSnapshot(
       query(PostRef, where("status", "==", "Waiting for Review")),
-      (dc) => setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
+      (dc) => {
+        setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })));
+
+        dc.docs.map(
+          (dc) =>
+            getDoc(doc(db, "Profiles", dc.data().user)).then((dc) =>
+              console.log({
+                name: dc.data().name,
+              })
+            )
+          //getDoc(doc(db, "Profiles", dc.data.user)).then((dc) => dc.data().name)
+        );
+      }
     );
     // post?.map((dc) =>
     //   getDoc(doc(db, "Profiles", dc.data.user)).then((dc) => dc.data().name)
-    // )
+    // )console.log(author)
+    console.log(author);
   }, []);
+  const handleAuthor = () => {};
   return (
     <div className="flex flex-row h-screen w-full justify-between">
       <NavBar />
@@ -110,12 +124,14 @@ function AdminPanel() {
                   <th className="pr-3 whitespace-nowrap text-left">
                     <button
                       onClick={() =>
-                        getDoc(doc(db, "Profiles", dc.data.user)).then((dc) =>
-                          console.log(dc.data().name)
-                        )
+                        getDoc(doc(db, "Profiles", dc.data.user))
+                          .then((dc) => dc.data().name)
+                          .then((doc) => {
+                            return doc;
+                          })
                       }
                     >
-                      Author
+                      As
                     </button>
                   </th>
                   <th className=" whitespace-nowrap ">#</th>
