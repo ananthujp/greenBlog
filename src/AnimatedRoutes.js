@@ -1,23 +1,29 @@
 import { AnimatePresence } from "framer-motion";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Home from "./Home";
+import Home from "./Pages/Home";
 import useAuth from "./hooks/userAuth";
-import Login from "./Login";
+import Login from "./Pages/Login";
+import Write from "./Pages/Write";
+import UserDash from "./Pages/UserDash";
+import AdminPanel from "./Pages/AdminPanel";
 
 const AnimatedRoutes = () => {
-    const location = useLocation();
-    const  {user}=useAuth();
+  const location = useLocation();
+  const { user } = useAuth();
   return (
     <AnimatePresence exitBeforeEnter>
-
-    {user?
+      {user ? (
         <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="/Write/:id" element={<Write />} />
+          <Route path="/Write" element={<Write />} />
+          <Route path="/UserDash" element={<UserDash />} />
+          <Route path="/AdminPanel" element={<AdminPanel />} />
         </Routes>
-        :
-        <Login/>
-    }
+      ) : (
+        <Login />
+      )}
     </AnimatePresence>
-    );
+  );
 };
 export default AnimatedRoutes;

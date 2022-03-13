@@ -1,20 +1,18 @@
 module.exports = {
-    content: [
-      "./src/**/*.{js,jsx,ts,tsx}",
-    ],
-    theme: {
-      extend: {
-        fontFamily: {
-            'pop': 'Poppins, Arial',
-            'popxs': 'Poppins-Thin, Arial',
-            'popxl': 'Poppins-Bold, Arial',
-            
-          },
-        backgroundImage: {
-            'logo':"url('./images/blogLogo.svg')",
-            'bg':"url('./images/bg.svg')"
-        }
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      fontFamily: {
+        pop: "Poppins, Arial",
+        popxs: "Poppins-Thin, Arial",
+        popxl: "Poppins-Bold, Arial",
+        poplg: "Poppins-SemiBold, Arial",
+      },
+      backgroundImage: {
+        logo: "url('./images/blogLogo.svg')",
+        bg: "url('./images/bg.svg')",
       },
     },
-    plugins: [],
-  }
+  },
+  plugins: [],
+};
