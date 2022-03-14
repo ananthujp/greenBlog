@@ -11,6 +11,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   //const [user,setUser]=useState(null);
   const [user, setUser] = useState("null");
+  const [role, setRole] = useState("user");
   const [userID, setUserID] = useState();
   useEffect(() => {
     authUser();
@@ -49,8 +50,10 @@ export const AuthProvider = ({ children }) => {
       logout,
       userID,
       setUserID,
+      role,
+      setRole,
     }),
-    [user, userID]
+    [user, userID, role]
   );
   return (
     <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>

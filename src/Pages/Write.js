@@ -20,7 +20,10 @@ import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
 import useAuth from "../hooks/userAuth";
 import { useNavigate } from "react-router-dom";
 import { convertFromRaw } from "draft-js";
+import { setNotification } from "../Actions/setNotification";
+
 function Write() {
+  const { role } = useAuth();
   const navigate = useNavigate();
   const route = useLocation();
   const [editorState, setEditorState] = useState(() =>
@@ -29,19 +32,37 @@ function Write() {
   const [title, setTitle] = useState(null);
   const [preview, setPreview] = useState(false);
   const [load, setLoad] = useState(false);
-  const [docID, setDocID] = useState(
-    route.pathname.split("/")[2] ? route.pathname.split("/")[2] : "Create"
-  );
+  const docID = route.pathname.split("/")[2]
+    ? route.pathname.split("/")[2]
+    : "Create";
   const { userID } = useAuth();
   const docRef = doc(db, "Posts", docID);
+
   const autoSave = (flag) => {
     setLoad(true);
-    updateDoc(docRef, {
-      user: userID.id,
-      title: title,
-      status: flag ? "Waiting for Review" : "Draft Saved",
-      data: convertToRaw(editorState.getCurrentContent()),
-    }).then(navigate("/UserDash"));
+    setNotification(
+      userID.id,
+      "Your article is submitted",
+      "Your article titled " +
+        title +
+        (flag ? " has been submitted for review." : " has been saved as draft")
+    );
+    setTimeout(
+      () =>
+        updateDoc(docRef, {
+          user: userID.id,
+          title: title,
+          status: flag
+            ? role === "admin"
+              ? "Approved"
+              : "Waiting for Review"
+            : role === "admin"
+            ? "Waiting for Review"
+            : "Draft Saved",
+          data: convertToRaw(editorState.getCurrentContent()),
+        }).then(navigate("/UserDash")),
+      1200
+    );
   };
   useEffect(() => {
     docID === "Create"
@@ -65,9 +86,9 @@ function Write() {
           {load ? (
             <Messaging
               color="#818cf8"
-              width="100px"
-              height="100px"
-              duration="2s"
+              width="15px"
+              height="15px"
+              duration="0.5s"
             />
           ) : (
             <FillingBottle
@@ -95,6 +116,7 @@ function Write() {
         </div>
       ) : (
         <div className="flex flex-col mt-4">
+          <h1 className="font-poplg text-3xl pl-6">Edit Post</h1>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}

@@ -3,35 +3,37 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import useAuth from "../hooks/userAuth";
 function Sidebar({ preview, view, save }) {
+  const { role } = useAuth();
   const route = useLocation();
   const { userID } = useAuth();
   return (
     <div className="flex transition-all flex-col h-full border-l border-gray-300 px-4 pt-4 w-56 min-w-56">
       {route.pathname.split("/")[1] === "Write" && (
-        <div className="flex flex-col mb-4 border-b border-gray-100">
-          <h1 className="font-poplg text-gray-600">Actions</h1>
+        <div className="flex flex-col mb-4 bg-indigo-50 px-2 py-1 rounded-md border-b border-gray-100">
+          <h1 className="font-poplg text-gray-600">Publish</h1>
 
-          <div className="flex flex-row flex-wrap mb-8 justify-around items-center">
+          <div className="flex flex-row flex-wrap mb-6 justify-around items-center">
             <button
               onClick={() => preview(!view)}
               className={
-                "rounded-full text-white px-3" +
+                "rounded-full mt-2 text-white px-3" +
                 (view ? " bg-gray-400" : " bg-indigo-400")
               }
             >
               {view ? "Close" : "Preview"}
             </button>
-            <button
-              onClick={() => save(true)}
-              className="rounded-full bg-green-400 text-white px-3"
-            >
-              Submit
-            </button>
+
             <button
               onClick={() => save(false)}
               className="rounded-full mt-2 bg-gray-400 text-white px-3"
             >
-              Save Draft
+              {role === "admin" ? "Approve Later" : "Save Draft"}
+            </button>
+            <button
+              onClick={() => save(true)}
+              className="rounded-full mt-2 bg-green-400 text-white px-3"
+            >
+              {role === "admin" ? "Approve" : "Submit"}
             </button>
           </div>
         </div>

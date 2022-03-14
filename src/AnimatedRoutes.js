@@ -6,6 +6,7 @@ import Login from "./Pages/Login";
 import Write from "./Pages/Write";
 import UserDash from "./Pages/UserDash";
 import AdminPanel from "./Pages/AdminPanel";
+import Notifications from "./Pages/Notifications";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ const AnimatedRoutes = () => {
           <Route path="/Write" element={<Write />} />
           <Route path="/UserDash" element={<UserDash />} />
           <Route path="/AdminPanel" element={<AdminPanel />} />
+          <Route path="/Notifications" element={<Notifications />} />
         </Routes>
       ) : (
         <Login />

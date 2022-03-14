@@ -22,34 +22,33 @@ import useAuth from "../hooks/userAuth";
 
 function AdminPanel() {
   const navigate = useNavigate();
-  const { userID } = useAuth();
+  const { userID, role } = useAuth();
 
   const [author, setAuthor] = useState();
   const [post, setPost] = useState();
+  const [approvedpost, setapprovedPost] = useState();
   const PostRef = collection(db, "Posts");
   useEffect(() => {
     onSnapshot(
       query(PostRef, where("status", "==", "Waiting for Review")),
       (dc) => {
         setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })));
-
-        dc.docs.map(
-          (dc) =>
-            getDoc(doc(db, "Profiles", dc.data().user)).then((dc) =>
-              console.log({
-                name: dc.data().name,
-              })
-            )
-          //getDoc(doc(db, "Profiles", dc.data.user)).then((dc) => dc.data().name)
-        );
       }
     );
-    // post?.map((dc) =>
-    //   getDoc(doc(db, "Profiles", dc.data.user)).then((dc) => dc.data().name)
-    // )console.log(author)
-    console.log(author);
+    onSnapshot(query(PostRef, where("status", "==", "Approved")), (dc) => {
+      setapprovedPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })));
+    });
   }, []);
-  const handleAuthor = () => {};
+  const HandleAuthor = ({ user }) => {
+    const [author, setAuthor] = useState("Loading..");
+    useEffect(() => {
+      return getDoc(doc(db, "Profiles", user)).then((dc) =>
+        setAuthor(dc.data().name)
+      );
+      //setAuthor(handleAuthor(user));
+    }, []);
+    return <div>{author}</div>;
+  };
   return (
     <div className="flex flex-row h-screen w-full justify-between">
       <NavBar />
@@ -101,7 +100,10 @@ function AdminPanel() {
             </div>
           </div>
         </div>
-        <div className="flex px-3 py-2 flex-row bg-white w-full mt-4">
+        <h1 className="font-poplg text-lg text-indigo-800 text mt-4">
+          Waiting for approval
+        </h1>
+        <div className="flex px-3 py-2 flex-row bg-white w-full">
           <table className=" w-full">
             <tbody>
               <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900">
@@ -122,16 +124,8 @@ function AdminPanel() {
                     {dc.data.title}
                   </th>
                   <th className="pr-3 whitespace-nowrap text-left">
-                    <button
-                      onClick={() =>
-                        getDoc(doc(db, "Profiles", dc.data.user))
-                          .then((dc) => dc.data().name)
-                          .then((doc) => {
-                            return doc;
-                          })
-                      }
-                    >
-                      As
+                    <button>
+                      <HandleAuthor user={dc.data.user} />
                     </button>
                   </th>
                   <th className=" whitespace-nowrap ">#</th>
@@ -140,20 +134,81 @@ function AdminPanel() {
                   </th>
                   <th className="pr-3 text-left whitespace-nowrap flex flex-row">
                     {dc.data.status !== "Approved" ? (
-                      <>
-                        <div
-                          onClick={() => navigate(`/Write/${dc.id}`)}
-                          className="hover:bg-gray-200 rounded-full p-1"
-                        >
-                          <PencilAltIcon className="w-5 hover:text-indigo-600" />
-                        </div>
-                        <div
-                          onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
-                          className="hover:bg-gray-200 rounded-full p-1"
-                        >
-                          <TrashIcon className="w-5 hover:text-indigo-600" />
-                        </div>
-                      </>
+                      <div
+                        onClick={() => navigate(`/Write/${dc.id}`)}
+                        className="hover:bg-gray-200 rounded-full p-1"
+                      >
+                        <PencilAltIcon className="w-5 hover:text-indigo-600" />
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                    {dc.data.status !== "Approved" || role === "admin" ? (
+                      <div
+                        onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
+                        className="hover:bg-gray-200 rounded-full p-1"
+                      >
+                        <TrashIcon className="w-5 hover:text-indigo-600" />
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <h1 className="font-poplg text-lg text-indigo-800 text mt-4">
+          Approved Articles
+        </h1>
+        <div className="flex px-3 py-2 flex-row bg-white w-full">
+          <table className=" w-full">
+            <tbody>
+              <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900">
+                <th className="whitespace-nowrap pr-3">No</th>
+                <th className="whitespace-nowrap w-1/5">Title</th>
+                <th className="whitespace-nowrap w-1/5 ">Author</th>
+                <th className="whitespace-nowrap">Tags</th>
+                <th className="whitespace-nowrap pl-3 w-2/5">Status</th>
+                <th className="whitespace-nowrap w-4/5">Edit</th>
+              </tr>
+              {approvedpost?.map((dc, i) => (
+                <tr
+                  key={`data.jkey${i}`}
+                  className="cursor-default py-3 font-pop text-gray-400 hover:text-gray-600"
+                >
+                  <th className="pr-3 whitespace-nowrap">{i + 1}</th>
+                  <th className="pr-3 whitespace-nowrap text-left">
+                    {dc.data.title}
+                  </th>
+                  <th className="pr-3 whitespace-nowrap text-left">
+                    <button>
+                      <HandleAuthor user={dc.data.user} />
+                    </button>
+                  </th>
+                  <th className=" whitespace-nowrap ">#</th>
+                  <th className="pr-3 text-left pl-3 whitespace-nowrap text-gray-300">
+                    {dc.data.status}
+                  </th>
+                  <th className="pr-3 text-left whitespace-nowrap flex flex-row">
+                    {dc.data.status !== "Approved" || role === "admin" ? (
+                      <div
+                        onClick={() => navigate(`/Write/${dc.id}`)}
+                        className="hover:bg-gray-200 rounded-full p-1"
+                      >
+                        <PencilAltIcon className="w-5 hover:text-indigo-600" />
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                    {dc.data.status !== "Approved" || role === "admin" ? (
+                      <div
+                        onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
+                        className="hover:bg-gray-200 rounded-full p-1"
+                      >
+                        <TrashIcon className="w-5 hover:text-indigo-600" />
+                      </div>
                     ) : (
                       <></>
                     )}

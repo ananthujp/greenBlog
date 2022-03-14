@@ -47,12 +47,6 @@ function UserDash() {
     },
   ];
   const PostRef = collection(db, "Posts");
-  // useEffect(() => {
-  //   getDoc(docRef).then((doc) => {
-  //     //setPosts(doc.data().posts);
-  //     doc.data().posts.map((dc) => console.log(dc));
-  //   });
-  // }, []);
   useEffect(() => {
     onSnapshot(query(PostRef, where("user", "==", userID.id)), (dc) =>
       setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
