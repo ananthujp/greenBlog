@@ -19,47 +19,35 @@ import {
   collection,
   getDocs,
   onSnapshot,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { setNotification } from "../Actions/setNotification";
 
 function UserDash() {
   const navigate = useNavigate();
   const { userID } = useAuth();
-  const [posts, setPosts] = useState([]);
   const [post, setPost] = useState();
-  const docRef = doc(db, "Profiles", userID.id);
-  const Data = [
-    {
-      title: "Lorem Ipsum is simply dummy text of the printing",
-      tag: "lorem",
-      status: "Waiting for review",
-    },
-    {
-      title: "Lorem Ipsum is simply dummy text of the printing",
-      tag: "lorem",
-      status: "Waiting for review",
-    },
-    {
-      title: "Lorem Ipsum is simply dummy text of the printing",
-      tag: "lorem",
-      status: "Waiting for review",
-    },
-  ];
   const PostRef = collection(db, "Posts");
   useEffect(() => {
-    onSnapshot(query(PostRef, where("user", "==", userID.id)), (dc) =>
-      setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
+    onSnapshot(
+      query(
+        PostRef,
+        where("user", "==", userID?.id),
+        orderBy("timestamp", "desc")
+      ),
+      (dc) => setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
     );
   }, []);
 
   //console.log(posts);
   return (
-    <div className="flex flex-row h-screen w-full justify-between">
+    <div className="flex flex-col md:flex-row h-screen w-full md:justify-between">
       <NavBar />
-      <div className="flex flex-col w-full px-16 pt-12 bg-gray-50">
+      <div className=" flex flex-col w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50">
         <h1 className="font-poplg text-2xl text-left text-indigo-900">
-          {"Hi " + userID.name.split(" ")[0] + ", Welcome back!"}
+          {"Hi " + userID?.name.split(" ")[0] + ", Welcome back!"}
         </h1>
         <h1 className="font-popxs text-md text-indigo-300">
           Green blog dashboard
@@ -120,30 +108,40 @@ function UserDash() {
               {post?.map((dc, i) => (
                 <tr
                   key={`data.jkey${i}`}
-                  className="cursor-default py-3 font-pop text-gray-400 hover:text-gray-600"
+                  className="cursor-default py-3 h-12 font-pop text-gray-700 hover:bg-indigo-200"
                 >
                   <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                   <th className="pr-3 whitespace-nowrap text-left">
                     {dc.data.title}
                   </th>
                   <th className=" whitespace-nowrap ">#</th>
-                  <th className="pr-3 text-left pl-3 whitespace-nowrap text-gray-300">
+                  <th className=" pr-3 text-left pl-3 whitespace-nowrap text-gray-400">
                     {dc.data.status}
                   </th>
-                  <th className="pr-3 text-left whitespace-nowrap flex flex-row">
+                  <th className="pr-3 text-left h-12 text-gray-400 whitespace-nowrap flex flex-row">
                     {dc.data.status !== "Approved" ? (
                       <>
                         <div
                           onClick={() => navigate(`/Write/${dc.id}`)}
-                          className="hover:bg-gray-200 rounded-full p-1"
+                          className="hover:bg-indigo-400 my-auto group rounded-full p-1"
                         >
-                          <PencilAltIcon className="w-5 hover:text-indigo-600" />
+                          <PencilAltIcon className="w-5 flex group-hover:text-white" />
                         </div>
                         <div
-                          onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
-                          className="hover:bg-gray-200 rounded-full p-1"
+                          onClick={() => {
+                            deleteDoc(doc(db, "Posts", dc.id));
+                            setNotification(
+                              userID?.id,
+                              "Your article is  removed",
+                              "Your article titled " +
+                                dc.data.title +
+                                " has been removed.",
+                              3
+                            );
+                          }}
+                          className="hover:bg-indigo-400 my-auto group rounded-full p-1"
                         >
-                          <TrashIcon className="w-5 hover:text-indigo-600" />
+                          <TrashIcon className="w-5 group-hover:text-white" />
                         </div>
                       </>
                     ) : (

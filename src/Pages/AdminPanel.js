@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { setNotification } from "../Actions/setNotification";
 import NavBar from "../Components/NavBar";
 import Sidebar from "../Components/Sidebar";
 import { db } from "../firebase";
@@ -23,8 +24,6 @@ import useAuth from "../hooks/userAuth";
 function AdminPanel() {
   const navigate = useNavigate();
   const { userID, role } = useAuth();
-
-  const [author, setAuthor] = useState();
   const [post, setPost] = useState();
   const [approvedpost, setapprovedPost] = useState();
   const PostRef = collection(db, "Posts");
@@ -54,7 +53,7 @@ function AdminPanel() {
       <NavBar />
       <div className="flex flex-col w-full px-16 pt-12 bg-gray-50">
         <h1 className="font-poplg text-2xl text-left text-indigo-900">
-          {"Hi " + userID.name.split(" ")[0] + ", Welcome back!"}
+          {"Hi " + userID?.name.split(" ")[0] + ", Welcome back!"}
         </h1>
         <h1 className="font-popxs text-md text-indigo-300">Admin Panel</h1>
         <div className="flex flex-row w-full">
@@ -74,7 +73,9 @@ function AdminPanel() {
                 <div className="w-3 h-3 my-1 mr-1 ml-8 rounded-full bg-cyan-400"></div>
                 <div className="flex flex-col">
                   <h1 className="font-pop text-sm text-gray-300">Approved</h1>
-                  <h1 className="font-pop text-lg text-gray-500">0</h1>
+                  <h1 className="font-pop text-lg text-gray-500">
+                    {approvedpost?.length}
+                  </h1>
                 </div>
               </div>
             </div>
@@ -124,9 +125,7 @@ function AdminPanel() {
                     {dc.data.title}
                   </th>
                   <th className="pr-3 whitespace-nowrap text-left">
-                    <button>
-                      <HandleAuthor user={dc.data.user} />
-                    </button>
+                    <HandleAuthor user={dc.data.user} />
                   </th>
                   <th className=" whitespace-nowrap ">#</th>
                   <th className="pr-3 text-left pl-3 whitespace-nowrap text-gray-300">
@@ -145,7 +144,17 @@ function AdminPanel() {
                     )}
                     {dc.data.status !== "Approved" || role === "admin" ? (
                       <div
-                        onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
+                        onClick={() => {
+                          deleteDoc(doc(db, "Posts", dc.id));
+                          setNotification(
+                            dc.data.user,
+                            "Your article is  removed",
+                            "Your article titled " +
+                              dc.data.title +
+                              " has been removed.",
+                            3
+                          );
+                        }}
                         className="hover:bg-gray-200 rounded-full p-1"
                       >
                         <TrashIcon className="w-5 hover:text-indigo-600" />

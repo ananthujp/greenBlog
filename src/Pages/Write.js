@@ -6,7 +6,7 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Sidebar from "../Components/Sidebar";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import {
   updateDoc,
   doc,
@@ -14,6 +14,7 @@ import {
   collection,
   getDoc,
   getDocs,
+  serverTimestamp,
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
@@ -21,8 +22,24 @@ import useAuth from "../hooks/userAuth";
 import { useNavigate } from "react-router-dom";
 import { convertFromRaw } from "draft-js";
 import { setNotification } from "../Actions/setNotification";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 function Write() {
+  const uploadCallback = (file) => {
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function () {
+        uploadBytes(ref(storage, reader.file.name), reader.result).then(
+          (snapshot) => {
+            getDownloadURL(ref(storage, reader.file.name)).then((url) => {
+              console.log(url);
+            });
+          }
+        );
+      };
+    });
+  };
   const { role } = useAuth();
   const navigate = useNavigate();
   const route = useLocation();
@@ -30,6 +47,7 @@ function Write() {
     EditorState.createEmpty()
   );
   const [title, setTitle] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [preview, setPreview] = useState(false);
   const [load, setLoad] = useState(false);
   const docID = route.pathname.split("/")[2]
@@ -40,18 +58,33 @@ function Write() {
 
   const autoSave = (flag) => {
     setLoad(true);
-    setNotification(
-      userID.id,
-      "Your article is submitted",
-      "Your article titled " +
-        title +
-        (flag ? " has been submitted for review." : " has been saved as draft")
-    );
+    role !== "admin"
+      ? setNotification(
+          userID.id,
+          flag ? "Your article is submitted" : "Your article is saved as draft",
+          "Your article titled " +
+            title +
+            (flag
+              ? " has been submitted for review."
+              : " has been saved as draft"),
+          flag ? 1 : 2
+        )
+      : setNotification(
+          author.id,
+          flag ? "Your article is Approved" : "Your article is submitted",
+          "Your article titled " +
+            title +
+            (flag
+              ? " has been approved and live now."
+              : "  has been submitted for review."),
+          flag ? 0 : 1
+        );
     setTimeout(
       () =>
         updateDoc(docRef, {
-          user: userID.id,
+          user: role !== "admin" ? userID.id : author.id,
           title: title,
+          timestamp: serverTimestamp(),
           status: flag
             ? role === "admin"
               ? "Approved"
@@ -69,20 +102,24 @@ function Write() {
       ? addDoc(collection(db, "Posts"), {
           title: "",
           user: userID.id,
+          timestamp: serverTimestamp(),
         }).then((dc) => navigate(dc.id))
       : getDoc(doc(db, "Posts", docID)).then((dc) => {
           setTitle(dc.data().title);
           setEditorState(
             EditorState.createWithContent(convertFromRaw(dc.data().data))
           );
+          getDoc(doc(db, "Profiles", dc.data().user)).then((dic) =>
+            setAuthor({ id: dic.id, data: dic.data() })
+          );
         });
   }, []);
 
   return (
-    <motion.div className="flex flex-row h-screen">
+    <motion.div className="flex flex-col md:flex-row h-screen">
       <NavBar />
       {docID === "Create" || load === true ? (
-        <div className="w-full h-full flex flex-col items-center justify-center">
+        <div className="w-full h-full   bg-white flex flex-col items-center justify-center">
           {load ? (
             <Messaging
               color="#818cf8"
@@ -103,8 +140,25 @@ function Write() {
           </h1>
         </div>
       ) : preview ? (
-        <div className="flex mx-16 flex-col mt-16 w-full h-full justify-start">
-          <h1 className="font-pop text-3xl">{title}</h1>
+        <div className="flex  bg-white px-16 flex-col mt-16 w-full h-full justify-start">
+          <div className="flex flex-row items-center mb-8">
+            <div className="mr-1">
+              <img
+                src={author?.data.img}
+                alt=""
+                className="w-12 h-12 rounded-full"
+              />
+            </div>
+            <div className="flex flex-col ml-1">
+              <h1 className="font-poplg text-md my-auto">
+                {author?.data.name}
+              </h1>
+              <h1 className=" font-popxs text-xs my-auto">
+                {Date().slice(4, 9)} . 6 min read
+              </h1>
+            </div>
+          </div>
+          <h1 className="font-pop text-4xl">{title}</h1>
           <div
             className="Container"
             dangerouslySetInnerHTML={{
@@ -124,12 +178,13 @@ function Write() {
             placeholder="Title of the blog"
             className="mx-auto bg-white shadow-sm outline-none placeholder:font-pop  w-[95%] py-1 px-2 text-xl font-semibold max-w-5xl  flex border"
           />
-          <div className="flex pt-4 flex-row w-full justify-center  my-auto min-h-screen pb-16">
+          <div className="flex bg-gray-50 pt-4 flex-row w-full justify-center  my-auto min-h-screen pb-16">
             <Editor
               toolbar={{
                 options: [
                   "history",
                   "inline",
+                  "image",
                   "blockType",
                   "fontSize",
                   "list",
@@ -138,7 +193,7 @@ function Write() {
                   "link",
                   "embedded",
                   "emoji",
-                  "image",
+
                   "remove",
                 ],
                 blockType: {
@@ -148,15 +203,33 @@ function Write() {
                   component: undefined,
                   dropdownClassName: undefined,
                 },
+                image: {
+                  // icon: <div>as</div>,
+                  className: undefined,
+                  component: undefined,
+                  popupClassName: undefined,
+                  urlEnabled: true,
+                  uploadEnabled: true,
+                  alignmentEnabled: true,
+                  uploadCallback: uploadCallback,
+                  previewImage: true,
+                  inputAccept:
+                    "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+                  alt: { present: false, mandatory: false },
+                  defaultSize: {
+                    height: "auto",
+                    width: "auto",
+                  },
+                },
                 fontSize: {
-                  options: [8, 9, 10, 11, 12, 24, 72, 96],
+                  options: [20, 24, 72, 96],
                   className: undefined,
                   component: undefined,
                   dropdownClassName: undefined,
                 },
               }}
-              toolbarClassName="flex sticky top-0 z-20 !justify-center mx-auto"
-              editorClassName="mt-8 p-10 bg-white shadow-lg w-[95%] mx-auto mb-12 border"
+              toolbarClassName="flex sticky top-0 z-20 mx-auto  w-[95%]"
+              editorClassName=" p-10 bg-white shadow-lg w-[95%] mx-auto mb-12 border"
               editorState={editorState}
               onEditorStateChange={setEditorState}
             />

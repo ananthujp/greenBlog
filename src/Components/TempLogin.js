@@ -13,10 +13,11 @@ import { db, provider, auth } from "../firebase";
 import CryptoJS from "crypto-js";
 import useAuth from "../hooks/userAuth";
 import { Spin } from "react-cssfx-loading/lib";
-function TempLogin() {
-  const { setUserID } = useAuth();
-  const [usrCheck, setUsrCheck] = useState(true);
+function TempLogin({ show }) {
+  const { setUserID, userID } = useAuth();
+  const [usrCheck, setUsrCheck] = useState(false);
   const [user, setUser] = useState(null);
+  const [status, setStatus] = useState(null);
   const [load, setLoad] = useState(false);
   const [bio, setBio] = useState(null);
   const [screen, Switch] = useState(true); ///ivideyaanu ivideyaanu
@@ -25,15 +26,19 @@ function TempLogin() {
   const [email, setEmail] = useState(null);
   const UserRef = collection(db, "Profiles");
   const checkUser = (value) => {
-    getDocs(query(UserRef, where("username", "!=", value))).then((doc) =>
-      doc.docs.length === 2 ? setUsrCheck(false) : setUsrCheck(true)
-    );
+    // getDocs(query(UserRef, where("username", "!=", value))).then((doc) =>
+    //   doc.docs.length === 2 ? setUsrCheck(false) : setUsrCheck(true)
+    // );
+    setUsrCheck(false);
+    getDocs(
+      query(collection(db, "Profiles"), where("username", "==", value))
+    ).then((doc) => doc.docs.map((dc) => setUsrCheck(true)));
   };
   const createUser = () => {
     setLoad(true);
     user &&
-      email &&
-      usrCheck &&
+      !email &&
+      !usrCheck &&
       pass &&
       addDoc(UserRef, {
         name: user.name,
@@ -47,12 +52,14 @@ function TempLogin() {
     setLoad(false);
   };
   const checkEmail = (value) => {
-    getDocs(query(UserRef, where("email", "!=", value))).then((doc) =>
-      doc.docs.length === 2 ? setEmail(false) : setEmail(true)
-    );
+    setEmail(false);
+    getDocs(
+      query(collection(db, "Profiles"), where("email", "==", value))
+    ).then((doc) => doc.docs.map((dc) => setEmail(true)));
   };
   const handleLogin = () => {
     setLoad(true);
+    setStatus("");
     onSnapshot(query(UserRef, where("username", "==", username)), (dc) =>
       dc.docs.map((dc) =>
         CryptoJS.AES.decrypt(dc.data().password.toString(), "ae!@qws").toString(
@@ -69,13 +76,24 @@ function TempLogin() {
               username: dc.data().username,
               img: dc.data().img,
             })
-          : console.log("Loggin Failed")
+          : setStatus("Login failed : Incorrect password")
       )
+    );
+
+    setTimeout(() => setLoad(false), 3000);
+    setTimeout(
+      () =>
+        status !== "Login failed : Incorrect password" &&
+        setStatus("Login failed"),
+      3000
     );
   };
   useEffect(() => {
     user ? checkEmail(user.email) : <></>;
   }, [user]);
+  useEffect(() => {
+    userID && show(false);
+  }, [userID]);
   //   useEffect(() => {
   //     console.log(pass.toString());
   //     //console.log(CryptoJS.AES.decrypt(pass.toString(), "ae!@qws"));
@@ -88,7 +106,7 @@ function TempLogin() {
 
   return (
     <div className="absolute bg-white/20 backdrop-blur-sm z-50 w-screen h-screen flex items-center justify-center ">
-      <div className="bg-white flex flex-col px-2 py-4 md:w-2/5 w-4/5 md:h-3/5 rounded-xl  shadow-lg">
+      <div className="bg-white flex flex-col px-2 py-4 md:w-2/5 w-4/5 md:h-auto rounded-xl  shadow-lg">
         {screen ? (
           <>
             <div className="flex flex-row justify-center">
@@ -102,21 +120,25 @@ function TempLogin() {
                 &nbsp;/ Sign In
               </h1>
             </div>
+
             <div className="grid grid-cols-2 px-4 gap-2 grid-flow-row items-center ">
               <h1
                 className={
-                  "font-pop text-gray-600" + (!usrCheck && " text-red-600")
+                  "font-pop text-gray-600" + (usrCheck && " text-red-600")
                 }
               >
-                {usrCheck ? "Username" : "Username taken already"}
+                {!usrCheck ? "Username" : "Username taken already"}
               </h1>
               <input
                 type="text"
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                  setUsrCheck(false);
+                }}
                 onBlur={(e) => checkUser(e.target.value)}
                 className={
                   "rounded-lg w-full bg-indigo-50 outline-none p-1 " +
-                  (!usrCheck && " outline outline-red-600")
+                  (usrCheck && " outline outline-red-600")
                 }
               />
               <h1 className="font-pop text-gray-600">Password</h1>
@@ -142,7 +164,7 @@ function TempLogin() {
                 }
                 className="flex px-2  flex-row items-center justify-center bg-gradient-to-b from-indigo-100 to-indigo-300 hover:to-indigo-200 rounded-md"
               >
-                {user && email ? (
+                {user && !email ? (
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/512px-Flat_tick_icon.svg.png?20170316053531"
                     className="w-4 h-4"
@@ -172,10 +194,10 @@ function TempLogin() {
               />
               <h1
                 className={
-                  "font-pop text-gray-600" + (user && !email && " text-red-600")
+                  "font-pop text-gray-600" + (user && email && " text-red-600")
                 }
               >
-                {user && !email ? "Email already used" : "Email"}
+                {user && email ? "Email already used" : "Email"}
               </h1>
               <input
                 type="text"
@@ -183,7 +205,7 @@ function TempLogin() {
                 disabled
                 className={
                   "rounded-lg font-pop px-2 text-sm text-gray-600 bg-indigo-50 outline-none p-1" +
-                  (user && !email && " outline outline-red-600")
+                  (user && email && " outline outline-red-600")
                 }
               />
               <h1 className="font-pop text-gray-600">Bio (optional)</h1>
@@ -213,7 +235,7 @@ function TempLogin() {
             </button>
           </>
         ) : (
-          <div className="h-full flex flex-col justify-around">
+          <div className="h-auto flex flex-col justify-around">
             <div className="flex flex-row justify-center">
               <h1
                 onClick={() => Switch(true)}
@@ -223,6 +245,11 @@ function TempLogin() {
               </h1>
               <h1 className="font-poplg text-center text-indigo-600 text-xl">
                 &nbsp;/ Sign In
+              </h1>
+            </div>
+            <div className="flex flex-col">
+              <h1 className="font-pop text-red-500 text-xs text-center">
+                {status}
               </h1>
             </div>
             <div className="grid grid-cols-2 px-4 gap-2 grid-flow-row items-center ">

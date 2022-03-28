@@ -12,10 +12,26 @@ export const AuthProvider = ({ children }) => {
   //const [user,setUser]=useState(null);
   const [user, setUser] = useState("null");
   const [role, setRole] = useState("user");
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
+  );
   useEffect(() => {
     authUser();
   }, []);
+  useEffect(() => {
+    userID
+      ? localStorage.setItem("user", JSON.stringify(userID))
+      : localStorage.removeItem("user");
+
+    userID &&
+      (userID.email === "ananthujp@gmail.com" ||
+        userID.email === "hrushti.n@iitgn.ac.in" ||
+        userID.email === "devvrat.joshi@iitgn.ac.in" ||
+        userID.email === "dhanesh.bhutada@iitgn.ac.in") &&
+      setRole("admin");
+  }, [userID]);
   const logout = () => {
     setUser(null);
     localStorage.removeItem("key");

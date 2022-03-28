@@ -7,6 +7,7 @@ import Write from "./Pages/Write";
 import UserDash from "./Pages/UserDash";
 import AdminPanel from "./Pages/AdminPanel";
 import Notifications from "./Pages/Notifications";
+import MailBox from "./Pages/MailBox";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const AnimatedRoutes = () => {
           <Route path="/UserDash" element={<UserDash />} />
           <Route path="/AdminPanel" element={<AdminPanel />} />
           <Route path="/Notifications" element={<Notifications />} />
+          <Route path="/MailBox" element={<MailBox />} />
         </Routes>
       ) : (
         <Login />
