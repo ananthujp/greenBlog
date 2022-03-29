@@ -70,6 +70,7 @@ function TempLogin({ show }) {
         )
           ? setUserID({
               id: dc.id,
+              back: dc.id,
               name: dc.data().name,
               Bio: dc.data().Bio,
               email: dc.data().email,

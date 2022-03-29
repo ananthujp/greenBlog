@@ -21,6 +21,9 @@ export const AuthProvider = ({ children }) => {
     authUser();
   }, []);
   useEffect(() => {
+    console.log(userID.id);
+  }, [userID]);
+  useEffect(() => {
     userID
       ? localStorage.setItem("user", JSON.stringify(userID))
       : localStorage.removeItem("user");
@@ -32,6 +35,17 @@ export const AuthProvider = ({ children }) => {
         userID.email === "dhanesh.bhutada@iitgn.ac.in") &&
       setRole("admin");
   }, [userID]);
+  const switChId = (n) => {
+    switch (parseInt(n)) {
+      case 0:
+        setUserID({ ...userID, id: userID.back });
+        break;
+      case 1:
+        setUserID({ ...userID, id: "HyAS9bQrGoNbH6yekzzK" });
+        break;
+      default:
+    }
+  };
   const logout = () => {
     setUser(null);
     localStorage.removeItem("key");
@@ -68,6 +82,7 @@ export const AuthProvider = ({ children }) => {
       setUserID,
       role,
       setRole,
+      switChId,
     }),
     [user, userID, role]
   );

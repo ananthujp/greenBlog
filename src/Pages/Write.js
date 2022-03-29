@@ -40,6 +40,7 @@ function Write() {
       };
     });
   };
+  const x = window.matchMedia("(min-width: 768px)");
   const { role } = useAuth();
   const navigate = useNavigate();
   const route = useLocation();
@@ -53,12 +54,12 @@ function Write() {
   const docID = route.pathname.split("/")[2]
     ? route.pathname.split("/")[2]
     : "Create";
-  const { userID } = useAuth();
+  const { userID, switChId } = useAuth();
   const docRef = doc(db, "Posts", docID);
 
   const autoSave = (flag) => {
     setLoad(true);
-    role !== "admin"
+    userID.id !== "HyAS9bQrGoNbH6yekzzK"
       ? setNotification(
           userID.id,
           flag ? "Your article is submitted" : "Your article is saved as draft",
@@ -82,18 +83,22 @@ function Write() {
     setTimeout(
       () =>
         updateDoc(docRef, {
-          user: role !== "admin" ? userID.id : author.id,
+          user: userID.id !== "HyAS9bQrGoNbH6yekzzK" ? userID.id : author.id,
           title: title,
           timestamp: serverTimestamp(),
           status: flag
-            ? role === "admin"
+            ? userID.id === "HyAS9bQrGoNbH6yekzzK"
               ? "Approved"
               : "Waiting for Review"
-            : role === "admin"
+            : userID.id === "HyAS9bQrGoNbH6yekzzK"
             ? "Waiting for Review"
             : "Draft Saved",
           data: convertToRaw(editorState.getCurrentContent()),
-        }).then(navigate("/UserDash")),
+        }).then(
+          userID.id === "HyAS9bQrGoNbH6yekzzK"
+            ? navigate("/AdminPanel")
+            : navigate("/UserDash")
+        ),
       1200
     );
   };
@@ -114,7 +119,6 @@ function Write() {
           );
         });
   }, []);
-
   return (
     <motion.div className="flex flex-col md:flex-row h-screen">
       <NavBar />
@@ -140,7 +144,37 @@ function Write() {
           </h1>
         </div>
       ) : preview ? (
-        <div className="flex  bg-white px-16 flex-col mt-16 w-full h-full justify-start">
+        <div className="flex  bg-white px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
+          {!x.matches && (
+            <div className="flex mr-2 flex-col mb-4 bg-indigo-50 px-0 py-1 rounded-full border-b border-gray-100">
+              <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
+                <button
+                  onClick={() => setPreview(!preview)}
+                  className={
+                    "rounded-full mt-1 mx-0.5 text-white px-3" +
+                    (preview ? " bg-gray-400" : " bg-indigo-400")
+                  }
+                >
+                  {preview ? "Close" : "Preview"}
+                </button>
+
+                <button
+                  onClick={() => autoSave(false)}
+                  className="rounded-full mt-1 mx-0.5 bg-gray-400 text-white px-3"
+                >
+                  {userID.id === "HyAS9bQrGoNbH6yekzzK"
+                    ? "Approve Later"
+                    : "Save Draft"}
+                </button>
+                <button
+                  onClick={() => autoSave(true)}
+                  className="rounded-full mt-1 mx-0.5 bg-green-400 text-white px-3"
+                >
+                  {userID.id === "HyAS9bQrGoNbH6yekzzK" ? "Approve" : "Submit"}
+                </button>
+              </div>
+            </div>
+          )}
           <div className="flex flex-row items-center mb-8">
             <div className="mr-1">
               <img
@@ -170,7 +204,41 @@ function Write() {
         </div>
       ) : (
         <div className="flex flex-col mt-4">
-          <h1 className="font-poplg text-3xl pl-6">Edit Post</h1>
+          <div className="flex flex-row items-center justify-between">
+            <h1 className="font-poplg text-3xl pl-6">Edit Post</h1>
+            {!x.matches && (
+              <div className="flex mr-2 flex-col mb-4 bg-indigo-50 px-2 py-1 rounded-full border-b border-gray-100">
+                <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
+                  <button
+                    onClick={() => setPreview(!preview)}
+                    className={
+                      "rounded-full mt-1 mx-0.5 text-white px-3" +
+                      (preview ? " bg-gray-400" : " bg-indigo-400")
+                    }
+                  >
+                    {preview ? "Close" : "Preview"}
+                  </button>
+
+                  <button
+                    onClick={() => autoSave(false)}
+                    className="rounded-full mt-1 mx-0.5 bg-gray-400 text-white px-3"
+                  >
+                    {userID.id === "HyAS9bQrGoNbH6yekzzK"
+                      ? "Approve Later"
+                      : "Save Draft"}
+                  </button>
+                  <button
+                    onClick={() => autoSave(true)}
+                    className="rounded-full mt-1 mx-0.5 bg-green-400 text-white px-3"
+                  >
+                    {userID.id === "HyAS9bQrGoNbH6yekzzK"
+                      ? "Approve"
+                      : "Submit"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -222,14 +290,17 @@ function Write() {
                   },
                 },
                 fontSize: {
-                  options: [20, 24, 72, 96],
+                  defaultSize: {
+                    fontSize: 20,
+                  },
+                  options: [14, 16, 20, 24, 72, 96],
                   className: undefined,
                   component: undefined,
                   dropdownClassName: undefined,
                 },
               }}
-              toolbarClassName="flex sticky top-0 z-20 mx-auto  w-[95%]"
-              editorClassName=" p-10 bg-white shadow-lg w-[95%] mx-auto mb-12 border"
+              toolbarClassName="flex top-0 z-20 mx-auto  w-[95%]"
+              editorClassName=" p-10 bg-white shadow-lg w-[95%] mx-auto md:mb-12 border"
               editorState={editorState}
               onEditorStateChange={setEditorState}
             />

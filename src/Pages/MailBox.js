@@ -21,6 +21,7 @@ import {
 import React, { useState, useEffect } from "react";
 import NavBar from "../Components/NavBar";
 import Sidebar from "../Components/Sidebar";
+import SwitchAdmin from "../Components/SwitchAdmin";
 import { db } from "../firebase";
 import useAuth from "../hooks/userAuth";
 
@@ -59,25 +60,11 @@ function MailBox() {
     changeScreen(true);
     setThread(id);
     setDoc(
-      doc(
-        db,
-        "Profiles",
-        role === "admin" ? "HyAS9bQrGoNbH6yekzzK" : userID?.id,
-        "Mailbox",
-        id
-      ),
+      doc(db, "Profiles", userID?.id, "Mailbox", id),
       { read: true },
       { merge: true }
     );
-    getDoc(
-      doc(
-        db,
-        "Profiles",
-        role === "admin" ? "HyAS9bQrGoNbH6yekzzK" : userID?.id,
-        "Mailbox",
-        id
-      )
-    ).then((dc) => {
+    getDoc(doc(db, "Profiles", userID?.id, "Mailbox", id)).then((dc) => {
       settitle(dc.data().title);
       settextCont(dc.data().text);
       setReply(dc.data().reply);
@@ -89,23 +76,15 @@ function MailBox() {
   const submitThread = () => {
     title &&
       textCont &&
-      addDoc(
-        collection(
-          db,
-          "Profiles",
-          role === "admin" ? "HyAS9bQrGoNbH6yekzzK" : userID.id,
-          "Mailbox"
-        ),
-        {
-          title: title,
-          from: role === "admin" ? "HyAS9bQrGoNbH6yekzzK" : userID.id,
-          text: textCont,
-          reply: reply,
-          to: to,
-          read: false,
-          timestamp: serverTimestamp(),
-        }
-      ).then((response) => {
+      addDoc(collection(db, "Profiles", userID.id, "Mailbox"), {
+        title: title,
+        from: userID.id,
+        text: textCont,
+        reply: reply,
+        to: to,
+        read: false,
+        timestamp: serverTimestamp(),
+      }).then((response) => {
         setThread(response.id);
         getDoc(doc(db, "Profiles", userID?.id, "Mailbox", response.id)).then(
           (dc) => {
@@ -120,7 +99,7 @@ function MailBox() {
       textCont &&
       addDoc(collection(db, "Profiles", to.id, "Mailbox"), {
         title: title,
-        from: role === "admin" ? "HyAS9bQrGoNbH6yekzzK" : userID.id,
+        from: userID.id,
         text: textCont,
         reply: reply,
         read: false,
@@ -153,11 +132,7 @@ function MailBox() {
       doc(
         db,
         "Profiles",
-        role === "admin"
-          ? "HyAS9bQrGoNbH6yekzzK"
-          : fromUser === userID?.id
-          ? userID?.id
-          : fromUser,
+        fromUser === userID?.id ? userID?.id : fromUser,
         "Mailbox",
         id
       )
@@ -179,23 +154,13 @@ function MailBox() {
   };
 
   useEffect(() => {
-    role === "admin"
-      ? onSnapshot(
-          query(
-            collection(db, "Profiles", "HyAS9bQrGoNbH6yekzzK", "Mailbox"),
-            orderBy("timestamp", "desc")
-          ),
-          (dc) =>
-            setMails(dc.docs.map((dc) => ({ data: dc.data(), id: dc.id })))
-        )
-      : onSnapshot(
-          query(
-            collection(db, "Profiles", userID?.id, "Mailbox"),
-            orderBy("timestamp", "desc")
-          ),
-          (dc) =>
-            setMails(dc.docs.map((dc) => ({ data: dc.data(), id: dc.id })))
-        );
+    onSnapshot(
+      query(
+        collection(db, "Profiles", userID?.id, "Mailbox"),
+        orderBy("timestamp", "desc")
+      ),
+      (dc) => setMails(dc.docs.map((dc) => ({ data: dc.data(), id: dc.id })))
+    );
     onSnapshot(collection(db, "Profiles"), (dc) =>
       setProfiles(
         dc.docs.map((dc) => ({
@@ -205,7 +170,7 @@ function MailBox() {
         }))
       )
     );
-  }, []);
+  }, [userID]);
   return (
     <div className="flex flex-col md:flex-row h-screen w-full justify-between">
       <div className="flex flex-col md:flex-row md:w-full">
@@ -214,9 +179,12 @@ function MailBox() {
           <h1 className="font-poplg text-2xl text-left text-indigo-900">
             Mailbox
           </h1>
-          <h1 className="font-popxs text-md text-indigo-300">
-            Green blog mailbox
-          </h1>
+          <div className="flex flex-row justify-between">
+            <h1 className="font-popxs text-md text-indigo-300">
+              Green blog mailbox
+            </h1>
+            <SwitchAdmin />
+          </div>
 
           {x.matches ? (
             <div className="flex flex-row border rounded-lg h-2/3 md:h-[80%] md:mb-8 border-gray-200 w-full bg-white">
@@ -257,15 +225,7 @@ function MailBox() {
                         <TrashIcon
                           onClick={() =>
                             deleteDoc(
-                              doc(
-                                db,
-                                "Profiles",
-                                role === "admin"
-                                  ? "HyAS9bQrGoNbH6yekzzK"
-                                  : userID?.id,
-                                "Mailbox",
-                                dic.id
-                              )
+                              doc(db, "Profiles", userID?.id, "Mailbox", dic.id)
                             )
                           }
                           className="w-8 p-2 text-gray-500 hover:text-white hover:bg-indigo-400 rounded-full"
@@ -451,7 +411,7 @@ function MailBox() {
               >
                 {!mob ? (
                   <>
-                    <div className="flex flex-col h-full overflow-y-auto">
+                    <div className="flex flex-col  h-screen overflow-y-auto">
                       {mails?.map((dic) => (
                         <div
                           onClick={() => handleView(dic.id)}
@@ -490,9 +450,7 @@ function MailBox() {
                                   doc(
                                     db,
                                     "Profiles",
-                                    role === "admin"
-                                      ? "HyAS9bQrGoNbH6yekzzK"
-                                      : userID?.id,
+                                    userID?.id,
                                     "Mailbox",
                                     dic.id
                                   )
@@ -521,7 +479,7 @@ function MailBox() {
                 ) : (
                   <div
                     onClick={() => changeScreen(false)}
-                    className="flex flex-col h-full overflow-y-auto"
+                    className="flex flex-col h-screen overflow-y-auto"
                   >
                     <div className="flex p-1 rounded-tl-lg flex-row bg-indigo-200 hover:text-white hover:bg-indigo-600 cursor-pointer font-pop items-center">
                       <BackspaceIcon className="w-4" /> Back

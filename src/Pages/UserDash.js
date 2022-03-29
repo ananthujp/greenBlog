@@ -26,21 +26,22 @@ import { useNavigate } from "react-router-dom";
 import { setNotification } from "../Actions/setNotification";
 
 function UserDash() {
+  const scr = window.matchMedia("(min-width: 768px)");
   const navigate = useNavigate();
-  const { userID } = useAuth();
+  const { userID, setUserID, switChId } = useAuth();
   const [post, setPost] = useState();
   const PostRef = collection(db, "Posts");
   useEffect(() => {
+    switChId(0);
     onSnapshot(
       query(
         PostRef,
-        where("user", "==", userID?.id),
+        where("user", "==", userID?.back),
         orderBy("timestamp", "desc")
       ),
       (dc) => setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
     );
   }, []);
-
   //console.log(posts);
   return (
     <div className="flex flex-col md:flex-row h-screen w-full md:justify-between">
@@ -49,9 +50,23 @@ function UserDash() {
         <h1 className="font-poplg text-2xl text-left text-indigo-900">
           {"Hi " + userID?.name.split(" ")[0] + ", Welcome back!"}
         </h1>
-        <h1 className="font-popxs text-md text-indigo-300">
-          Green blog dashboard
-        </h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="font-popxs text-md text-indigo-300">
+            Green blog dashboard
+          </h1>
+          {!scr.matches && (
+            <h1
+              onClick={() => {
+                navigate("/");
+                localStorage.removeItem("user");
+                setUserID(null);
+              }}
+              className="font-pop cursor-pointer text-md text-indigo-300"
+            >
+              (Logout)
+            </h1>
+          )}
+        </div>
         <div className="flex flex-row w-full">
           <div className="flex flex-col w-1/2 bg-white p-4">
             <h1 className="font-pop text-md text-indigo-900">Articles</h1>

@@ -28,13 +28,15 @@ function Sidebar({ preview, view, save }) {
               onClick={() => save(false)}
               className="rounded-full mt-2 bg-gray-400 text-white px-3"
             >
-              {role === "admin" ? "Approve Later" : "Save Draft"}
+              {userID.id === "HyAS9bQrGoNbH6yekzzK"
+                ? "Approve Later"
+                : "Save Draft"}
             </button>
             <button
               onClick={() => save(true)}
               className="rounded-full mt-2 bg-green-400 text-white px-3"
             >
-              {role === "admin" ? "Approve" : "Submit"}
+              {userID.id === "HyAS9bQrGoNbH6yekzzK" ? "Approve" : "Submit"}
             </button>
           </div>
         </div>

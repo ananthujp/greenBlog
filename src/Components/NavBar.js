@@ -20,6 +20,7 @@ import {
 import { db } from "../firebase";
 
 function NavBar() {
+  const scr = window.matchMedia("(min-width: 768px)");
   const { role, userID } = useAuth();
   const route = useLocation();
   const [hover, setHover] = useState(false);
@@ -131,7 +132,10 @@ function NavBar() {
               className={
                 " transition-all  group-hover:text-indigo-400 cursor-pointer my-4 " +
                 (index === items.length - 1 &&
-                  "md:border-t border-l md:mt-1 ml-1 pl-4 md:pt-4 pt-0 border-gray-200") +
+                  "md:border-t md:mt-1 md:pt-4 pt-0 border-gray-200") +
+                (!scr.matches &&
+                  index === items.length - 1 &&
+                  " ml-1 pl-4  border-l ") +
                 (route.pathname === item.link
                   ? "  text-indigo-400"
                   : "  text-gray-200")

@@ -124,8 +124,13 @@ function Home() {
             <div className="flex flex-row">
               <div className=" mx-auto md:mx-0" onClick={() => setShow(true)}>
                 <Link to={show || userID ? "/Write" : ""}>
-                  <div className="bg-indigo-400  cursor-pointer transition-all hover:bg-white hover:text-indigo-400 shadow-md md:mt-6 mt-2 px-6 py-2 rounded-3xl text-center text-white">
-                    Write
+                  <div
+                    className={
+                      "  cursor-pointer transition-all hover:bg-white hover:text-indigo-400 shadow-md md:mt-6 mt-2 px-6 py-2 rounded-3xl text-center text-white" +
+                      (userID ? " bg-indigo-400" : " bg-orange-400")
+                    }
+                  >
+                    {userID ? "Write" : "Login/Register"}
                   </div>
                 </Link>
               </div>
