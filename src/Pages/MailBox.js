@@ -183,7 +183,7 @@ function MailBox() {
             <h1 className="font-popxs text-md text-indigo-300">
               Green blog mailbox
             </h1>
-            <SwitchAdmin />
+            {role === "admin" && <SwitchAdmin />}
           </div>
 
           {x.matches ? (

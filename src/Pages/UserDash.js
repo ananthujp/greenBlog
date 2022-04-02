@@ -42,6 +42,7 @@ function UserDash() {
       (dc) => setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
     );
   }, []);
+  const item = " rounded-md border border-gray-200 shadow-sm";
   //console.log(posts);
   return (
     <div className="flex flex-col md:flex-row h-screen w-full md:justify-between">
@@ -68,7 +69,7 @@ function UserDash() {
           )}
         </div>
         <div className="flex flex-row w-full">
-          <div className="flex flex-col w-1/2 bg-white p-4">
+          <div className={"flex flex-col w-1/2 bg-white p-4" + item}>
             <h1 className="font-pop text-md text-indigo-900">Articles</h1>
             <div className="flex flex-row mx-auto">
               <div className="flex flex-row">
@@ -90,7 +91,11 @@ function UserDash() {
             </div>
           </div>
           <div className="flex flex-col w-1/2 ml-4">
-            <div className="flex flex-row bg-white pl-4 pr-16 items-center">
+            <div
+              className={
+                "flex flex-row bg-white pl-4 pr-16 items-center" + item
+              }
+            >
               <div className="p-2 bg-gray-100 rounded-full">
                 <DocumentTextIcon className="w-6 text-indigo-600" />
               </div>
@@ -99,7 +104,11 @@ function UserDash() {
                 <h1 className="font-popxs text-md text-gray-300">Reads</h1>
               </div>
             </div>
-            <div className="flex flex-row bg-white mt-4 pl-4 pr-16 items-center">
+            <div
+              className={
+                "flex flex-row bg-white mt-4 pl-4 pr-16 items-center" + item
+              }
+            >
               <div className="p-2 bg-gray-100 rounded-full">
                 <AnnotationIcon className="w-6 text-sky-400" />
               </div>
@@ -110,7 +119,7 @@ function UserDash() {
             </div>
           </div>
         </div>
-        <div className="flex px-3 py-2 flex-row bg-white w-full mt-4">
+        <div className={"flex px-3 py-2 flex-row bg-white w-full mt-4" + item}>
           <table className=" w-full">
             <tbody>
               <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900">
@@ -123,7 +132,7 @@ function UserDash() {
               {post?.map((dc, i) => (
                 <tr
                   key={`data.jkey${i}`}
-                  className="cursor-default py-3 h-12 font-pop text-gray-700 hover:bg-indigo-200"
+                  className="cursor-default py-3 h-12 font-pop transition-all rounded-md text-gray-700 hover:bg-indigo-100"
                 >
                   <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                   <th className="pr-3 whitespace-nowrap text-left">

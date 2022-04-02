@@ -68,7 +68,7 @@ function Notifications() {
             Clear all notifications
             <TrashIcon className="w-4" />
           </h1>
-          <div className="flex px-3 py-2 flex-row bg-white w-full mt-4">
+          <div className="flex px-3 py-2 flex-row bg-white w-full mt-4 rounded-md border shadow-sm border-gray-200">
             <table className=" w-full">
               <tbody>
                 <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900">
@@ -91,7 +91,7 @@ function Notifications() {
                     }
                     key={`data.jkey.${dc.id}`}
                     className={
-                      "cursor-default py-3 h-12 md:h-4 font-pop text-gray-400 rounded-lg hover:bg-indigo-50" +
+                      "cursor-default py-3 border-b border-gray-200 h-12 md:h-4 font-pop text-gray-400 rounded-lg hover:bg-indigo-50" +
                       (dc.data.read ? " " : " bg-yellow-100")
                     }
                   >
