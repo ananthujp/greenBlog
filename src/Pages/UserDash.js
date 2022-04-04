@@ -5,6 +5,7 @@ import {
   TrashIcon,
   PencilAltIcon,
 } from "@heroicons/react/solid";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import NavBar from "../Components/NavBar";
 import useAuth from "../hooks/userAuth";
@@ -45,9 +46,13 @@ function UserDash() {
   const item = " rounded-md border border-gray-200 shadow-sm";
   //console.log(posts);
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full md:justify-between">
-      <NavBar />
-      <div className=" flex flex-col w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50">
+    <>
+      {/* <NavBar /> */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className=" flex flex-col w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50"
+      >
         <h1 className="font-poplg text-2xl text-left text-indigo-900">
           {"Hi " + userID?.name.split(" ")[0] + ", Welcome back!"}
         </h1>
@@ -177,10 +182,9 @@ function UserDash() {
             </tbody>
           </table>
         </div>
-      </div>
-      <Sidebar />
-    </div>
+      </motion.div>
+      {/* <Sidebar /> */}
+    </>
   );
 }
-
 export default UserDash;

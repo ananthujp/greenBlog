@@ -120,8 +120,7 @@ function Write() {
         });
   }, []);
   return (
-    <motion.div className="flex flex-col md:flex-row h-screen">
-      <NavBar />
+    <>
       {docID === "Create" || load === true ? (
         <div className="w-full h-full   bg-white flex flex-col items-center justify-center">
           {load ? (
@@ -145,7 +144,8 @@ function Write() {
         </div>
       ) : preview ? (
         <div className="flex  bg-white px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
-          {!x.matches && (
+          <div className="flex flex-row items-center justify-between">
+            <h1 className="font-poplg text-2xl ">Preview </h1>
             <div className="flex mr-2 flex-col mb-4 bg-indigo-50 px-0 py-1 rounded-full border-b border-gray-100">
               <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
                 <button
@@ -174,7 +174,8 @@ function Write() {
                 </button>
               </div>
             </div>
-          )}
+          </div>
+
           <div className="flex flex-row items-center mb-8">
             <div className="mr-1">
               <img
@@ -206,45 +207,42 @@ function Write() {
         <div className="flex flex-col mt-4">
           <div className="flex flex-row items-center justify-between">
             <h1 className="font-poplg text-3xl pl-6">Edit Post</h1>
-            {!x.matches && (
-              <div className="flex mr-2 flex-col mb-4 bg-indigo-50 px-2 py-1 rounded-full border-b border-gray-100">
-                <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
-                  <button
-                    onClick={() => setPreview(!preview)}
-                    className={
-                      "rounded-full mt-1 mx-0.5 text-white px-3" +
-                      (preview ? " bg-gray-400" : " bg-indigo-400")
-                    }
-                  >
-                    {preview ? "Close" : "Preview"}
-                  </button>
 
-                  <button
-                    onClick={() => autoSave(false)}
-                    className="rounded-full mt-1 mx-0.5 bg-gray-400 text-white px-3"
-                  >
-                    {userID.id === "HyAS9bQrGoNbH6yekzzK"
-                      ? "Approve Later"
-                      : "Save Draft"}
-                  </button>
-                  <button
-                    onClick={() => autoSave(true)}
-                    className="rounded-full mt-1 mx-0.5 bg-green-400 text-white px-3"
-                  >
-                    {userID.id === "HyAS9bQrGoNbH6yekzzK"
-                      ? "Approve"
-                      : "Submit"}
-                  </button>
-                </div>
+            <div className="flex mr-2 flex-col mb-4 bg-indigo-50 px-2 py-1 rounded-full border-b border-gray-100">
+              <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
+                <button
+                  onClick={() => setPreview(!preview)}
+                  className={
+                    "rounded-full mt-1 mx-0.5 text-white px-3" +
+                    (preview ? " bg-gray-400" : " bg-indigo-400")
+                  }
+                >
+                  {preview ? "Close" : "Preview"}
+                </button>
+
+                <button
+                  onClick={() => autoSave(false)}
+                  className="rounded-full mt-1 mx-0.5 bg-gray-400 text-white px-3"
+                >
+                  {userID.id === "HyAS9bQrGoNbH6yekzzK"
+                    ? "Approve Later"
+                    : "Save Draft"}
+                </button>
+                <button
+                  onClick={() => autoSave(true)}
+                  className="rounded-full mt-1 mx-0.5 bg-green-400 text-white px-3"
+                >
+                  {userID.id === "HyAS9bQrGoNbH6yekzzK" ? "Approve" : "Submit"}
+                </button>
               </div>
-            )}
+            </div>
           </div>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             type="text"
             placeholder="Title of the blog"
-            className="mx-auto bg-white shadow-sm outline-none placeholder:font-pop  w-[95%] py-1 px-2 text-xl font-semibold max-w-5xl  flex border"
+            className="mx-auto bg-white shadow-sm outline-none placeholder:font-pop  w-[95%] py-1 px-2 text-xl font-semibold  flex border"
           />
           <div className="flex bg-gray-50 pt-4 flex-row w-full justify-center  my-auto min-h-screen pb-16">
             <Editor
@@ -277,7 +275,7 @@ function Write() {
                   component: undefined,
                   popupClassName: undefined,
                   urlEnabled: true,
-                  uploadEnabled: true,
+                  uploadEnabled: false,
                   alignmentEnabled: true,
                   uploadCallback: uploadCallback,
                   previewImage: true,
@@ -299,8 +297,8 @@ function Write() {
                   dropdownClassName: undefined,
                 },
               }}
-              toolbarClassName="flex top-0 z-20 mx-auto  w-[95%]"
-              editorClassName=" p-10 bg-white shadow-lg w-[95%] mx-auto md:mb-12 border"
+              toolbarClassName="flex top-0 z-20 mx-auto w-[95%]"
+              editorClassName=" p-10 bg-white text-[20px] shadow-lg w-[95%] mx-auto md:mb-12 border"
               editorState={editorState}
               onEditorStateChange={setEditorState}
             />
@@ -308,8 +306,8 @@ function Write() {
           <div></div>
         </div>
       )}
-      <Sidebar preview={setPreview} view={preview} save={autoSave} />
-    </motion.div>
+      {/* // <Sidebar preview={setPreview} view={preview} save={autoSave} /> */}
+    </>
   );
 }
 

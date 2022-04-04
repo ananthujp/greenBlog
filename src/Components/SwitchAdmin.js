@@ -3,28 +3,25 @@ import useAuth from "../hooks/userAuth";
 function SwitchAdmin() {
   const { userID, switChId } = useAuth();
   const [value, setValue] = useState(
-    userID.id !== "HyAS9bQrGoNbH6yekzzK" ? 0 : 1
+    userID?.id !== "HyAS9bQrGoNbH6yekzzK" ? false : true
   );
   useEffect(() => {
-    switChId(value);
+    switChId(value ? 1 : 0);
   }, [value]);
-
+  useEffect(() => {
+    userID?.id !== "HyAS9bQrGoNbH6yekzzK" ? setValue(false) : setValue(true);
+  }, [userID]);
   return (
-    <div>
+    <label class="relative w-24 flex justify-between items-center group p-2 font-poplg text-xs">
       <input
-        type="range"
-        min="0"
-        max="1"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        class="w-20 mx-6 text-indigo-400"
-        step="1"
+        checked={value}
+        onChange={(e) => setValue(e.target.checked)}
+        type="checkbox"
+        class="absolute peer appearance-none rounded-md"
       />
-      <div class="w-full -mt-1 mb-1 flex justify-between text-xs px-2 font-pop text-blue-600">
-        <span>User</span>
-        <span>Admin</span>
-      </div>
-    </div>
+      <span class="w-8 h-5 flex items-center flex-shrink-0 ml-1 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-indigo-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-0.5"></span>
+      Admin
+    </label>
   );
 }
 

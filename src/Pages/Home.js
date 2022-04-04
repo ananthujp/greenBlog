@@ -99,13 +99,17 @@ function Home() {
     );
   };
   return (
-    <motion.div className="flex flex-col md:flex-row h-full">
+    <>
       {!show ? <></> : <TempLogin show={setShow} />}
-      <div className="relative md:h-screen">
+      {/* <div className="relative md:h-screen">
         <NavBar />
-      </div>
+      </div> */}
 
-      <div className="relative flex flex-col overflow-y-auto">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="relative flex flex-col overflow-y-auto"
+      >
         <div className="relative flex flex-col h-screen w-full justify-between">
           <div className="flex bg-white md:flex-row flex-col w-full justify-between px-8 my-auto h-auto md:h-full">
             <div>
@@ -170,9 +174,8 @@ function Home() {
             alt=""
           />
         </div> */}
-      </div>
-      <div className="h-screen">{userID ? <Sidebar /> : <></>}</div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 }
 
