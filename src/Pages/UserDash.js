@@ -76,7 +76,7 @@ function UserDash() {
         <div className="flex flex-row w-full">
           <div className={"flex flex-col w-1/2 bg-white p-4" + item}>
             <h1 className="font-pop text-md text-indigo-900">Articles</h1>
-            <div className="flex flex-row mx-auto">
+            <div className="flex md:flex-row w-full items-center md:justify-around flex-col mx-auto">
               <div className="flex flex-row">
                 <div className="w-3 h-3 my-1 mr-1 rounded-full bg-indigo-700"></div>
                 <div className="flex flex-col">
@@ -87,7 +87,7 @@ function UserDash() {
                 </div>
               </div>
               <div className="flex flex-row">
-                <div className="w-3 h-3 my-1 mr-1 ml-8 rounded-full bg-cyan-400"></div>
+                <div className="w-3 h-3 my-1 mr-1 rounded-full bg-cyan-400"></div>
                 <div className="flex flex-col">
                   <h1 className="font-pop text-sm text-gray-300">Approved</h1>
                   <h1 className="font-pop text-lg text-gray-500">0</h1>

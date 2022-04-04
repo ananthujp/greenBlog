@@ -6,8 +6,6 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Sidebar from "../Components/Sidebar";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { db, storage } from "../firebase";
 import {
   updateDoc,
@@ -22,14 +20,33 @@ import { useLocation } from "react-router-dom";
 import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
 import useAuth from "../hooks/userAuth";
 import { useNavigate } from "react-router-dom";
+import { convertFromRaw } from "draft-js";
 import { setNotification } from "../Actions/setNotification";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import "react-quill/dist/quill.snow.css";
 
 function Write() {
+  const uploadCallback = (file) => {
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function () {
+        uploadBytes(ref(storage, reader.file.name), reader.result).then(
+          (snapshot) => {
+            getDownloadURL(ref(storage, reader.file.name)).then((url) => {
+              console.log(url);
+            });
+          }
+        );
+      };
+    });
+  };
+  const x = window.matchMedia("(min-width: 768px)");
+  const { role } = useAuth();
   const navigate = useNavigate();
   const route = useLocation();
-  const [editorState, setEditorState] = useState();
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
   const [title, setTitle] = useState(null);
   const [author, setAuthor] = useState(null);
   const [preview, setPreview] = useState(false);
@@ -37,7 +54,7 @@ function Write() {
   const docID = route.pathname.split("/")[2]
     ? route.pathname.split("/")[2]
     : "Create";
-  const { userID } = useAuth();
+  const { userID, switChId } = useAuth();
   const docRef = doc(db, "Posts", docID);
 
   const autoSave = (flag) => {
@@ -76,7 +93,7 @@ function Write() {
             : userID.id === "HyAS9bQrGoNbH6yekzzK"
             ? "Waiting for Review"
             : "Draft Saved",
-          data: editorState,
+          data: convertToRaw(editorState.getCurrentContent()),
         }).then(
           userID.id === "HyAS9bQrGoNbH6yekzzK"
             ? navigate("/AdminPanel")
@@ -93,14 +110,15 @@ function Write() {
           timestamp: serverTimestamp(),
         }).then((dc) => navigate(dc.id))
       : getDoc(doc(db, "Posts", docID)).then((dc) => {
-          setEditorState(dc.data().data ? dc.data().data : "");
+          setTitle(dc.data().title);
+          setEditorState(
+            EditorState.createWithContent(convertFromRaw(dc.data().data))
+          );
           getDoc(doc(db, "Profiles", dc.data().user)).then((dic) =>
             setAuthor({ id: dic.id, data: dic.data() })
           );
-          setTitle(dc?.data()?.title);
         });
   }, []);
-
   return (
     <>
       {docID === "Create" || load === true ? (
@@ -177,14 +195,16 @@ function Write() {
           </div>
           <h1 className="font-pop text-4xl">{title}</h1>
           <div
-            className="ql-editor"
+            className="Container"
             dangerouslySetInnerHTML={{
-              __html: editorState,
+              __html: draftToHtml(
+                convertToRaw(editorState.getCurrentContent())
+              ),
             }}
           ></div>
         </div>
       ) : (
-        <div className="flex flex-col mt-4 w-full">
+        <div className="flex flex-col mt-4">
           <div className="flex flex-row items-center justify-between">
             <h1 className="font-poplg text-3xl pl-6">Edit Post</h1>
 
@@ -224,42 +244,63 @@ function Write() {
             placeholder="Title of the blog"
             className="mx-auto bg-white shadow-sm outline-none placeholder:font-pop  w-[95%] py-1 px-2 text-xl font-semibold  flex border"
           />
-          <div className="flex bg-white pt-4 flex-row w-full justify-center  my-auto min-h-screen pb-16">
-            <ReactQuill
-              modules={{
-                toolbar: [
-                  [{ header: [1, 2, false] }],
-                  ["bold", "italic", "underline", "strike", "blockquote"],
-                  [{ align: [] }],
-                  [
-                    { list: "ordered" },
-                    { list: "bullet" },
-                    { indent: "-1" },
-                    { indent: "+1" },
-                  ],
-                  ["link", "image"],
+          <div className="flex bg-gray-50 pt-4 flex-row w-full justify-center  my-auto min-h-screen pb-16">
+            <Editor
+              toolbar={{
+                options: [
+                  "history",
+                  "inline",
+                  "image",
+                  "blockType",
+                  "fontSize",
+                  "list",
+                  "textAlign",
+                  "colorPicker",
+                  "link",
+                  "embedded",
+                  "emoji",
 
-                  ["clean"],
+                  "remove",
                 ],
+                blockType: {
+                  inDropdown: true,
+                  options: ["Normal", "Blockquote", "Code"],
+                  className: undefined,
+                  component: undefined,
+                  dropdownClassName: undefined,
+                },
+                image: {
+                  // icon: <div>as</div>,
+                  className: undefined,
+                  component: undefined,
+                  popupClassName: undefined,
+                  urlEnabled: true,
+                  uploadEnabled: false,
+                  alignmentEnabled: true,
+                  uploadCallback: uploadCallback,
+                  previewImage: true,
+                  inputAccept:
+                    "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+                  alt: { present: false, mandatory: false },
+                  defaultSize: {
+                    height: "auto",
+                    width: "auto",
+                  },
+                },
+                fontSize: {
+                  defaultSize: {
+                    fontSize: 20,
+                  },
+                  options: [14, 16, 20, 24, 72, 96],
+                  className: undefined,
+                  component: undefined,
+                  dropdownClassName: undefined,
+                },
               }}
-              formats={[
-                "header",
-                "bold",
-                "italic",
-                "underline",
-                "strike",
-                "blockquote",
-                "align",
-                "list",
-                "bullet",
-                "indent",
-                "link",
-                "image",
-              ]}
-              theme="snow"
-              className="w-[95%]"
-              value={editorState}
-              onChange={setEditorState}
+              toolbarClassName="flex top-0 z-20 mx-auto w-[95%]"
+              editorClassName=" p-10 bg-white text-[20px] shadow-lg w-[95%] mx-auto md:mb-12 border"
+              editorState={editorState}
+              onEditorStateChange={setEditorState}
             />
           </div>
           <div></div>

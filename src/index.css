@@ -19,3 +19,8 @@
   }
 }
 @tailwind utilities;
+blockquote {
+  font-size: 14px;
+  font-style: italic;
+  color: rgb(94, 94, 94);
+}

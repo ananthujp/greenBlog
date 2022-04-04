@@ -18,12 +18,11 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import SwitchAdmin from "./SwitchAdmin";
-
+import UserMenu from "./UserMenu";
 function NavBar() {
   const scr = window.matchMedia("(min-width: 768px)");
-  const { role, userID, setUserID } = useAuth();
-  const navigate = useNavigate();
+  const { role, userID } = useAuth();
+
   const route = useLocation();
   const [hover, setHover] = useState(false);
   const [showMenu, setshowMenu] = useState(false);
@@ -106,23 +105,10 @@ function NavBar() {
       </div>
     );
   };
-  const handleLogout = () => {
-    navigate("/");
-    localStorage.removeItem("user");
-    setUserID(null);
-    setshowMenu(false);
-  };
+
   return (
     <>
-      {showMenu && (
-        <div className="absolute shadow-md top-16 right-2 bg-white border border-gray-100 px-6 py-4 z-50 font-pop text-sm">
-          <h1>{userID?.name}</h1>
-          <h1 className="-ml-4">{role === "admin" && <SwitchAdmin />}</h1>
-          <h1 className="cursor-pointer" onClick={() => handleLogout()}>
-            Logout
-          </h1>
-        </div>
-      )}
+      {showMenu && <UserMenu setshowMenu={setshowMenu} />}
       <div
         onMouseEnter={() => window.innerWidth > 640 && setHover(true)}
         onMouseLeave={() => window.innerWidth > 640 && setHover(false)}
