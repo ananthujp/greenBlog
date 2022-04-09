@@ -28,35 +28,43 @@ function NavBar() {
   const [showMenu, setshowMenu] = useState(false);
   const items = [
     {
-      name: <HomeIcon className="w-8 rounded-full p-1 hover:bg-indigo-50" />,
+      name: (
+        <HomeIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+      ),
       link: "/",
       title: "Home",
     },
     {
-      name: <BellIcon className="w-8 rounded-full p-1 hover:bg-indigo-50" />,
+      name: (
+        <BellIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+      ),
       link: "/Notifications",
       title: "Notifications",
     },
     {
-      name: <MailIcon className="w-8 rounded-full p-1 hover:bg-indigo-50" />,
+      name: (
+        <MailIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+      ),
       link: "/MailBox",
       title: "Mailbox",
     },
     {
-      name: <UserIcon className="w-8 rounded-full p-1 hover:bg-indigo-50" />,
+      name: (
+        <UserIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+      ),
       link: "/UserDash",
       title: "Dashboard",
     },
     {
       name: (
-        <LibraryIcon className="w-8 rounded-full p-1 hover:bg-indigo-50 " />
+        <LibraryIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200 " />
       ),
       link: "/AdminPanel",
       title: "Admin Panel",
     },
     {
       name: (
-        <PencilAltIcon className="w-8 rounded-full p-1 hover:bg-indigo-50" />
+        <PencilAltIcon className="w-8 rounded-full p-1 bg-gradient-to-br hover:bg-indfromo-50" />
       ),
       link: "/Write",
       title: "Write",
@@ -113,8 +121,8 @@ function NavBar() {
         onMouseEnter={() => window.innerWidth > 640 && setHover(true)}
         onMouseLeave={() => window.innerWidth > 640 && setHover(false)}
         className={
-          "flex flex-row md:flex-col h-16 md:w-16  transition-all w-full md:h-full items-start md:justify-center justify-around md:border-r border-b border-gray-300" +
-          (hover && " md:w-64")
+          "flex z-50 bg-white/30 backdrop-blur-md md:fixed flex-row md:flex-col shadow-md h-16 md:w-16  transition-all w-full md:h-full items-start md:justify-center justify-around md:border-r border-b border-gray-300" +
+          (hover && " md:w-52")
         }
       >
         {items.map((item, index) => (

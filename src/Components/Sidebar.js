@@ -4,44 +4,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/userAuth";
 
 import SwitchAdmin from "../Components/SwitchAdmin";
-function Sidebar({ preview, view, save }) {
+import { PlusIcon } from "@heroicons/react/outline";
+function Sidebar({ preview, setOpen }) {
   const route = useLocation();
   const { userID, setUserID, role } = useAuth();
   const navigate = useNavigate();
   return (
-    <div className="hidden md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-4 md:pt-4 md:w-56">
-      {/* {route.pathname.split("/")[1] === "Write" && (
-        <div className="flex flex-col mb-4 bg-indigo-50 px-2 py-1 rounded-md border-b border-gray-100">
-          <h1 className="font-poplg text-gray-600">Publish</h1>
-
-          <div className="flex flex-row flex-wrap mb-6 justify-around items-center">
-            <button
-              onClick={() => preview(!view)}
-              className={
-                "rounded-full mt-2 text-white px-3" +
-                (view ? " bg-gray-400" : " bg-indigo-400")
-              }
-            >
-              {view ? "Close" : "Preview"}
-            </button>
-
-            <button
-              onClick={() => save(false)}
-              className="rounded-full mt-2 bg-gray-400 text-white px-3"
-            >
-              {userID.id === "HyAS9bQrGoNbH6yekzzK"
-                ? "Approve Later"
-                : "Save Draft"}
-            </button>
-            <button
-              onClick={() => save(true)}
-              className="rounded-full mt-2 bg-green-400 text-white px-3"
-            >
-              {userID.id === "HyAS9bQrGoNbH6yekzzK" ? "Approve" : "Submit"}
-            </button>
-          </div>
-        </div>
-      )} */}
+    <div className="hidden fixed shadow-md md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-4 md:pt-4 md:w-56">
       <div>
         <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
           <img src={userID?.img} className="h-16 w-16" alt="" />
@@ -57,58 +26,43 @@ function Sidebar({ preview, view, save }) {
               localStorage.removeItem("user");
               setUserID(null);
             }}
-            className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full bg-indigo-300"
+            className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
           >
             Logout
           </div>
           <div
             onClick={() => preview(false)}
-            className="w-6 h-6 rounded-full bg-indigo-300 ml-1"
-          ></div>
+            className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1"
+          >
+            <PlusIcon className="w-4 mt-1 flex text-white mx-auto my-auto" />
+          </div>
         </div>
         <div className="w-32 mt-4 text-indigo-400">
           {role === "admin" && <SwitchAdmin />}
         </div>
       </div>
-      {/* <div className="flex flex-col my-8">
+      <div className="flex flex-col my-8">
         <h1 className="font-pop text-lg">Popular Articles</h1>
-        <div className="my-2 flex flex-row">
-          <div className="w-12 h-12 bg-black"></div>
-          <div className="ml-2">
-            <h1 className="font-pop my-auto">Heading</h1>
-            <h1 className="font-popxs text-xs whitespace-nowrap">
-              Lorem ipsum text
-            </h1>
+
+        {[0, 0, 0, 0].map(() => (
+          <div className="my-2 flex flex-row active:bg-gray-200 hover:bg-indigo-100 p-1.5 rounded-lg cursor-default transition-all">
+            <div className="w-12 h-12 bg-black"></div>
+            <div className="ml-2">
+              <h1 className="font-pop my-auto">Heading</h1>
+              <h1 className="font-popxs text-xs whitespace-nowrap">
+                Lorem ipsum text
+              </h1>
+            </div>
           </div>
-        </div>
-        <div className="my-2 flex flex-row">
-          <div className="w-12 h-12 bg-black"></div>
-          <div className="ml-2">
-            <h1 className="font-pop my-auto">Heading</h1>
-            <h1 className="font-popxs text-xs whitespace-nowrap">
-              Lorem ipsum text
-            </h1>
-          </div>
-        </div>
-        <div className="my-2 flex flex-row">
-          <div className="w-12 h-12 bg-black"></div>
-          <div className="ml-2">
-            <h1 className="font-pop my-auto">Heading</h1>
-            <h1 className="font-popxs text-xs whitespace-nowrap">
-              Lorem ipsum text
-            </h1>
-          </div>
-        </div>
-        <div className="my-2 flex flex-row">
-          <div className="w-12 h-12 bg-black"></div>
-          <div className="ml-2">
-            <h1 className="font-pop my-auto">Heading</h1>
-            <h1 className="font-popxs text-xs whitespace-nowrap">
-              Lorem ipsum text
-            </h1>
-          </div>
-        </div>
-      </div> */}
+        ))}
+      </div>
+      <button
+        type="button"
+        className="px-2 py-1 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
+        onClick={() => setOpen((o) => !o)}
+      >
+        Subscribe
+      </button>
     </div>
   );
 }

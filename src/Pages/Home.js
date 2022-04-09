@@ -1,16 +1,11 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import HomeLogo from "../images/homeLogo.svg";
-import NavBar from "../Components/NavBar";
+import HomeLogo from "../images/homeLogo2.png";
 import { Link } from "react-router-dom";
 import TempLogin from "../Components/TempLogin";
 import useAuth from "../hooks/userAuth";
-
-import Sidebar from "../Components/Sidebar";
 import {
   BellIcon,
-  HomeIcon,
-  LibraryIcon,
   MailIcon,
   PencilAltIcon,
   UserIcon,
@@ -21,7 +16,7 @@ import { db } from "../firebase";
 const Item = [
   {
     icon: (
-      <PencilAltIcon className="text-indigo-400 group-hover:text-white w-12 md:w-20" />
+      <PencilAltIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Write",
     link: "/Write",
@@ -29,7 +24,7 @@ const Item = [
   },
   {
     icon: (
-      <BellIcon className="text-indigo-400 group-hover:text-white w-12 md:w-20" />
+      <BellIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Notifications",
     link: "/Notifications",
@@ -37,7 +32,7 @@ const Item = [
   },
   {
     icon: (
-      <UserIcon className="text-indigo-400 group-hover:text-white w-12 md:w-20" />
+      <UserIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Dashboard",
     link: "/UserDash",
@@ -45,7 +40,7 @@ const Item = [
   },
   {
     icon: (
-      <MailIcon className="text-indigo-400 group-hover:text-white w-12 md:w-20" />
+      <MailIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Mailbox",
     link: "/MailBox",
@@ -99,7 +94,7 @@ function Home() {
     );
   };
   return (
-    <>
+    <div className="w-full bg-gradient-to-br from-indigo-100 to-purple-100">
       {!show ? <></> : <TempLogin show={setShow} />}
       {/* <div className="relative md:h-screen">
         <NavBar />
@@ -108,18 +103,18 @@ function Home() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative flex flex-col overflow-y-auto"
+        className=" flex flex-col overflow-y-auto"
       >
         <div className="relative flex flex-col h-screen w-full justify-between">
-          <div className="flex bg-white md:flex-row flex-col w-full justify-between px-8 my-auto h-auto md:h-full">
-            <div>
+          <div className="flex  md:flex-row flex-col w-full justify-between px-8 py-12 my-auto h-auto md:h-full">
+            <div className="flex md:my-auto">
               <img
                 src={HomeLogo}
-                className="w-4/5 h-full mx-auto my-auto"
+                className="w-3/5 h-auto mx-auto my-auto"
                 alt=""
               />
             </div>
-            <div className="md:w-2/5 w-4/5 my-auto md:mx-0 mx-auto pr-4">
+            <div className="md:w-full w-4/5 my-auto md:mx-0 mx-auto  rounded-lg border-white border bg-white/40 backdrop-blur-md px-6 py-4">
               <h1 className="font-pop text-indigo-500 text-4xl md:text-5xl">
                 Write Your
               </h1>
@@ -137,8 +132,10 @@ function Home() {
                   <Link to={show || userID ? "/Write" : ""}>
                     <div
                       className={
-                        "  cursor-pointer transition-all hover:bg-white hover:text-indigo-400 shadow-md md:mt-6 mt-2 px-6 py-2 rounded-3xl text-center text-white" +
-                        (userID ? " bg-indigo-400" : " bg-orange-400")
+                        "  cursor-pointer transition-all hover:bg-white shadow-md md:mt-6 mt-2 px-6 py-2 rounded-3xl text-center text-white" +
+                        (userID
+                          ? " bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 shadow-md"
+                          : " bg-gradient-to-br from-orange-400 to-orange-500 hover:to-orange-600 shadow-md")
                       }
                     >
                       {userID ? "Write" : "Login/Register"}
@@ -152,13 +149,13 @@ function Home() {
             {userID &&
               Item.map((doc) => (
                 <Link to={doc.link}>
-                  <div className="relative flex flex-col group hover:shadow-md shadow-sm overflow-hidden md:p-6 p-4 md:mx-4 mx-2 rounded-xl bg-indigo-50 transition-all hover:bg-indigo-400">
+                  <div className="relative border-white hover:border-indigo-400 border w-24 md:w-36 lg:w-44 flex flex-col group hover:shadow-md shadow-sm overflow-hidden md:p-6 p-4 md:mx-4 mx-2 rounded-xl bg-gradient-to-br from-white/60 to-white/30 backdrop-blur-md transition-all hover:from-indigo-400 hover:to-indigo-500">
                     {doc.icon}
                     <ReadCount items={doc.name} />
-                    <h1 className="font-popxl mt-2 sm:text-sm text-xs md:text-xl text-indigo-400 group-hover:text-white my-auto">
+                    <h1 className="font-popxl mt-2 sm:text-sm text-xs md:text-xl text-gray-600 group-hover:text-white my-auto">
                       {doc.name}
                     </h1>
-                    <div className="font-pop hidden md:flex text-xs group-hover:text-white text-indigo-400">
+                    <div className="font-pop hidden md:flex text-xs group-hover:text-white text-gray-400">
                       {doc.txt}
                     </div>
                   </div>
@@ -166,16 +163,8 @@ function Home() {
               ))}
           </div>
         </div>
-        {/* <div className=" relative flex flex-col px-16">
-          Lorem ipsum dolor sit amet, consectetur adip lorem ipsum dolor sit
-          amet, consectetur adip
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BOTVmMDMwYWMtOGM1Ni00YmFiLTg4OGItMjEyYTQ3MDQ1MzVmXkEyXkFqcGdeQXVyMjkxNzQ1NDI@._V1_.jpg"
-            alt=""
-          />
-        </div> */}
       </motion.div>
-    </>
+    </div>
   );
 }
 

@@ -95,19 +95,10 @@ function TempLogin({ show }) {
   useEffect(() => {
     userID && show(false);
   }, [userID]);
-  //   useEffect(() => {
-  //     console.log(pass.toString());
-  //     //console.log(CryptoJS.AES.decrypt(pass.toString(), "ae!@qws"));
-  //     console.log(
-  //       CryptoJS.AES.decrypt(pass.toString(), "ae!@qws").toString(
-  //         CryptoJS.enc.Utf8
-  //       )
-  //     );
-  //   }, [pass]);
 
   return (
     <div className="absolute bg-white/20 backdrop-blur-sm z-50 w-screen h-screen flex items-center justify-center ">
-      <div className="bg-white flex flex-col px-2 py-4 md:w-2/5 w-4/5 md:h-auto rounded-xl  shadow-lg">
+      <div className="bg-white/40 backdrop-blur-xl border-white border flex flex-col px-2 py-4 md:w-2/5 w-4/5 md:h-auto rounded-xl  shadow-lg">
         {screen ? (
           <>
             <div className="flex flex-row justify-center">
@@ -138,7 +129,7 @@ function TempLogin({ show }) {
                 }}
                 onBlur={(e) => checkUser(e.target.value)}
                 className={
-                  "rounded-lg w-full bg-indigo-50 outline-none p-1 " +
+                  " border-white border rounded-lg w-full bg-indigo-50 outline-none p-1 " +
                   (usrCheck && " outline outline-red-600")
                 }
               />
@@ -148,7 +139,7 @@ function TempLogin({ show }) {
                   setPass(CryptoJS.AES.encrypt(e.target.value, "ae!@qws"))
                 }
                 type="password"
-                className="rounded-lg bg-indigo-50 outline-none p-1"
+                className=" border-white border rounded-lg bg-indigo-50 outline-none p-1"
               />
               <h1 className="font-pop cursor-pointer text-gray-600 mr-12">
                 Verify
@@ -191,7 +182,7 @@ function TempLogin({ show }) {
                 type="text"
                 value={user?.name}
                 disabled
-                className="rounded-lg font-pop px-2 text-sm text-gray-600 bg-indigo-50 outline-none p-1"
+                className=" border-white border rounded-lg font-pop px-2 text-sm text-gray-600 bg-indigo-50 outline-none p-1"
               />
               <h1
                 className={
@@ -205,14 +196,14 @@ function TempLogin({ show }) {
                 value={user?.email}
                 disabled
                 className={
-                  "rounded-lg font-pop px-2 text-sm text-gray-600 bg-indigo-50 outline-none p-1" +
+                  " border-white border rounded-lg font-pop px-2 text-sm text-gray-600 bg-indigo-50 outline-none p-1" +
                   (user && email && " outline outline-red-600")
                 }
               />
               <h1 className="font-pop text-gray-600">Bio (optional)</h1>
               <textarea
                 onChange={(e) => setBio(e.target.value)}
-                className="rounded-lg bg-indigo-50 h-24 outline-none p-1"
+                className="  border-white border rounded-lg bg-indigo-50 h-24 outline-none p-1"
               />
             </div>
             <button
@@ -258,7 +249,9 @@ function TempLogin({ show }) {
               <input
                 type="text"
                 onChange={(e) => setUserName(e.target.value)}
-                className={"rounded-lg w-full bg-indigo-50 outline-none p-1 "}
+                className={
+                  "  border-white border rounded-lg w-full bg-indigo-50 outline-none p-1 "
+                }
               />
               <h1 className={"font-pop text-gray-600"}>Password</h1>
               <input
@@ -266,7 +259,9 @@ function TempLogin({ show }) {
                 onChange={(e) =>
                   setPass(CryptoJS.AES.encrypt(e.target.value, "ae!@qws"))
                 }
-                className={"rounded-lg w-full bg-indigo-50 outline-none p-1 "}
+                className={
+                  " border-white border rounded-lg w-full bg-indigo-50 outline-none p-1 "
+                }
               />
             </div>
             <button

@@ -7,7 +7,6 @@ import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Sidebar from "../Components/Sidebar";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { db, storage } from "../firebase";
 import {
   updateDoc,
@@ -134,7 +133,9 @@ function Write() {
                   onClick={() => setPreview(!preview)}
                   className={
                     "rounded-full mt-1 mx-0.5 text-white px-3" +
-                    (preview ? " bg-gray-400" : " bg-indigo-400")
+                    (preview
+                      ? "  bg-gradient-to-br from-gray-400 to-gray-600"
+                      : " bg-indigo-400")
                   }
                 >
                   {preview ? "Close" : "Preview"}
@@ -142,7 +143,7 @@ function Write() {
 
                 <button
                   onClick={() => autoSave(false)}
-                  className="rounded-full mt-1 mx-0.5 bg-gray-400 text-white px-3"
+                  className="rounded-full mt-1 mx-0.5  bg-gradient-to-br from-blue-400 to-blue-600 text-white px-3"
                 >
                   {userID.id === "HyAS9bQrGoNbH6yekzzK"
                     ? "Approve Later"
@@ -150,7 +151,7 @@ function Write() {
                 </button>
                 <button
                   onClick={() => autoSave(true)}
-                  className="rounded-full mt-1 mx-0.5 bg-green-400 text-white px-3"
+                  className="rounded-full mt-1 mx-0.5  bg-gradient-to-br from-green-400 to-green-600 text-white px-3"
                 >
                   {userID.id === "HyAS9bQrGoNbH6yekzzK" ? "Approve" : "Submit"}
                 </button>
@@ -194,7 +195,9 @@ function Write() {
                   onClick={() => setPreview(!preview)}
                   className={
                     "rounded-full mt-1 mx-0.5 text-white px-3" +
-                    (preview ? " bg-gray-400" : " bg-indigo-400")
+                    (preview
+                      ? "  bg-gradient-to-br from-gray-400 to-gray-600"
+                      : " bg-gradient-to-br from-indigo-400 to-indigo-600 hover:shadow-md")
                   }
                 >
                   {preview ? "Close" : "Preview"}
@@ -202,7 +205,7 @@ function Write() {
 
                 <button
                   onClick={() => autoSave(false)}
-                  className="rounded-full mt-1 mx-0.5 bg-gray-400 text-white px-3"
+                  className="rounded-full mt-1 mx-0.5 bg-gradient-to-br from-gray-400 to-gray-600 hover:shadow-md text-white px-3"
                 >
                   {userID.id === "HyAS9bQrGoNbH6yekzzK"
                     ? "Approve Later"
@@ -210,7 +213,7 @@ function Write() {
                 </button>
                 <button
                   onClick={() => autoSave(true)}
-                  className="rounded-full mt-1 mx-0.5 bg-green-400 text-white px-3"
+                  className="rounded-full mt-1 mx-0.5 bg-gradient-to-br from-green-400 to-green-600 hover:shadow-md text-white px-3"
                 >
                   {userID.id === "HyAS9bQrGoNbH6yekzzK" ? "Approve" : "Submit"}
                 </button>

@@ -8,6 +8,9 @@ module.exports = {
         popxl: "Poppins-Bold, Arial",
         poplg: "Poppins-SemiBold, Arial",
       },
+      fontSize: {
+        xxs: "0.6rem",
+      },
       backgroundImage: {
         logo: "url('./images/blogLogo.svg')",
         bg: "url('./images/bg.svg')",

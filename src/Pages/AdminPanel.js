@@ -5,6 +5,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
+
 import {
   collection,
   deleteDoc,
@@ -51,6 +52,7 @@ function AdminPanel() {
     }, []);
     return <div>{author}</div>;
   };
+
   return (
     <>
       {/* <div className="flex flex-col  md:flex-row  w-full">
