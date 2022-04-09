@@ -6,9 +6,11 @@ import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
 import Clap from "../images/clap.svg";
 import Read from "../images/read.svg";
 import party from "party-js";
+import useAuth from "../hooks/userAuth";
 function Post() {
   const route = useLocation();
   const ref = useRef([]);
+  const { userID } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
   const [author, setAuthor] = useState(null);
@@ -83,6 +85,7 @@ function Post() {
               __html: editorState,
             }}
           ></div>
+
           <div className="flex flex-row justify-between w-full mt-4">
             <div
               onClick={() => confetti(`id.${1}`)}
@@ -107,6 +110,35 @@ function Post() {
           </div>
 
           <div className="flex flex-col mt-5 border-t">
+            <div className="flex justify-center mt-4">
+              {!userID ? (
+                <div className="cursor-pointer bg-gradient-to-br hover:shadow-md text-white font-pop from-orange-400 to-orange-600 p-2 rounded-md">
+                  Login to post your comment
+                </div>
+              ) : (
+                <div className="flex flex-col w-full rounded-md bg-indigo-100 border border-indigo-200 mb-4">
+                  <div className="flex flex-row w-full items-center justify-between">
+                    <div className="mt-2 ml-2 flex flex-row items-center">
+                      <img
+                        className="w-8 h-8 object-cover rounded-full"
+                        alt=""
+                        src={userID?.img}
+                      />
+                      <div className="flex flex-col">
+                        <h1 className="ml-2 font-poplg my-auto">
+                          {userID?.name}
+                        </h1>
+                        <h1 className="ml-2 text-xs font-popxs my-auto">Now</h1>
+                      </div>
+                    </div>
+                    <div className="mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-md font-pop h-6 text-white px-4">
+                      Post
+                    </div>
+                  </div>
+                  <textarea className="h-24 text-sm font-pop w-full bg-transparent p-4 outline-none" />
+                </div>
+              )}
+            </div>
             {[0, 0, 0].map((dc) => (
               <div className="flex flex-col my-2">
                 <div className="flex flex-row items-center">
