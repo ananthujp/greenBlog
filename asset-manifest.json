@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.d9de13ef.css",
-    "main.js": "./static/js/main.d12ec677.js",
+    "main.css": "./static/css/main.0ca7c3ac.css",
+    "main.js": "./static/js/main.6fba41f0.js",
     "static/js/787.be2caf21.chunk.js": "./static/js/787.be2caf21.chunk.js",
     "static/media/homeLogo2.png": "./static/media/homeLogo2.e2b20776c9506bac91ed.png",
     "static/media/blogLogo.svg": "./static/media/blogLogo.4073dc846ca9e8b55ccf.svg",
@@ -10,16 +10,16 @@
     "static/media/Poppins-Regular.ttf": "./static/media/Poppins-Regular.8081832fc5cfbf634aa6.ttf",
     "static/media/Poppins-SemiBold.ttf": "./static/media/Poppins-SemiBold.cce5625b56ec678e4202.ttf",
     "static/media/subscribe.svg": "./static/media/subscribe.c296b640b55dcb38020fde4ad5f42ab6.svg",
-    "static/media/read.svg": "./static/media/read.54a4daa29de4d5eff3e760ddf8996b36.svg",
     "static/media/clap.svg": "./static/media/clap.bd1d32b04972ede1ba1b3ee0b25d306a.svg",
     "static/media/bg.svg": "./static/media/bg.9a27f0e0521f878e8a89.svg",
+    "static/media/read.svg": "./static/media/read.deda4d4a4c5752d119eea376a8df33b0.svg",
     "index.html": "./index.html",
-    "main.d9de13ef.css.map": "./static/css/main.d9de13ef.css.map",
-    "main.d12ec677.js.map": "./static/js/main.d12ec677.js.map",
+    "main.0ca7c3ac.css.map": "./static/css/main.0ca7c3ac.css.map",
+    "main.6fba41f0.js.map": "./static/js/main.6fba41f0.js.map",
     "787.be2caf21.chunk.js.map": "./static/js/787.be2caf21.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d9de13ef.css",
-    "static/js/main.d12ec677.js"
+    "static/css/main.0ca7c3ac.css",
+    "static/js/main.6fba41f0.js"
   ]
 }
