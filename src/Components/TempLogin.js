@@ -13,8 +13,9 @@ import { db, provider, auth } from "../firebase";
 import CryptoJS from "crypto-js";
 import useAuth from "../hooks/userAuth";
 import { Spin } from "react-cssfx-loading/lib";
+import { XIcon } from "@heroicons/react/outline";
 function TempLogin({ show }) {
-  const { setUserID, userID } = useAuth();
+  const { setUserID, userID, setLogin } = useAuth();
   const [usrCheck, setUsrCheck] = useState(false);
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState(null);
@@ -93,24 +94,31 @@ function TempLogin({ show }) {
     user ? checkEmail(user.email) : <></>;
   }, [user]);
   useEffect(() => {
-    userID && show(false);
+    userID && setLogin(false);
   }, [userID]);
 
   return (
-    <div className="absolute bg-white/20 backdrop-blur-sm z-50 w-screen h-screen flex items-center justify-center ">
-      <div className="bg-white/40 backdrop-blur-xl border-white border flex flex-col px-2 py-4 md:w-2/5 w-4/5 md:h-auto rounded-xl  shadow-lg">
+    <div className="absolute bg-white/60  z-50 w-screen h-screen flex items-center justify-center ">
+      <div className="bg-white/40 backdrop-blur-lg border-white border flex flex-col px-2 py-4 md:w-2/5 w-4/5 md:h-auto rounded-xl  shadow-lg">
         {screen ? (
           <>
-            <div className="flex flex-row justify-center">
-              <h1 className="font-poplg text-center text-indigo-600 text-xl">
-                Sign Up
-              </h1>
-              <h1
-                onClick={() => Switch(false)}
-                className="cursor-pointer font-poplg text-center text-gray-200 text-xl"
-              >
-                &nbsp;/ Sign In
-              </h1>
+            <div className="flex flex-row justify-between items-center">
+              <div></div>
+              <div className="flex flex-row items-center">
+                <h1 className="font-poplg text-center text-indigo-600 text-xl">
+                  Sign Up
+                </h1>
+                <h1
+                  onClick={() => Switch(false)}
+                  className="cursor-pointer font-poplg text-center text-gray-200 text-xl"
+                >
+                  &nbsp;/ Sign In
+                </h1>
+              </div>
+              <XIcon
+                onClick={() => setLogin(false)}
+                className="w-6 p-1 hover:bg-indigo-200 rounded-full"
+              />
             </div>
 
             <div className="grid grid-cols-2 px-4 gap-2 grid-flow-row items-center ">

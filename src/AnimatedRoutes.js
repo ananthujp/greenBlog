@@ -13,18 +13,20 @@ import Sidebar from "./Components/Sidebar";
 import Subscribe from "./Pages/Subscribe";
 import Feed from "./Pages/Feed";
 import Post from "./Pages/Post";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import SubLogo from "./images/subscribe.svg";
 import { XIcon } from "@heroicons/react/outline";
+import TempLogin from "./Components/TempLogin";
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const { user } = useAuth();
-  const { userID } = useAuth();
+  const { user, login, userID } = useAuth();
+
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
   return (
     <AnimatePresence exitBeforeEnter>
+      {!login ? <></> : <TempLogin />}
       {user ? (
         <div className="flex flex-col md:flex-row h-full bg-white">
           <div className="flex flex-col md:flex-row md:w-full">
@@ -59,19 +61,24 @@ const AnimatedRoutes = () => {
             </Popup>
             <Routes location={location} key={location.pathname}>
               <Route exact path="/" element={<Home />} />
-              <Route path="/Write/:id" element={<Write />} />
+
               <Route path="/Posts/:id" element={<Post />} />
-              <Route path="/Write" element={<Write />} />
-              <Route path="/UserDash" element={<UserDash />} />
-              <Route path="/AdminPanel" element={<AdminPanel />} />
-              <Route path="/Notifications" element={<Notifications />} />
-              <Route path="/MailBox" element={<MailBox />} />
-              <Route path="/Subscribe" element={<Subscribe />} />
+              {userID && (
+                <>
+                  <Route path="/Write/:id" element={<Write />} />
+                  <Route path="/Write" element={<Write />} />
+                  <Route path="/UserDash" element={<UserDash />} />
+                  <Route path="/AdminPanel" element={<AdminPanel />} />
+                  <Route path="/Notifications" element={<Notifications />} />
+                  <Route path="/MailBox" element={<MailBox />} />
+                  <Route path="/MailBox/:id" element={<MailBox />} />
+                </>
+              )}
               <Route path="/Feed" element={<Feed />} />
             </Routes>
           </div>
           <div className="md:h-screen md:w-60">
-            {userID ? <Sidebar setOpen={setOpen} /> : <></>}
+            <Sidebar setOpen={setOpen} />
           </div>
         </div>
       ) : (

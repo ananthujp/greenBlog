@@ -29,42 +29,42 @@ function NavBar() {
   const items = [
     {
       name: (
-        <HomeIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+        <HomeIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
       ),
       link: "/",
       title: "Home",
     },
     {
       name: (
-        <BellIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+        <BellIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
       ),
       link: "/Notifications",
       title: "Notifications",
     },
     {
       name: (
-        <MailIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+        <MailIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
       ),
       link: "/MailBox",
       title: "Mailbox",
     },
     {
       name: (
-        <UserIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200" />
+        <UserIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
       ),
       link: "/UserDash",
       title: "Dashboard",
     },
     {
       name: (
-        <LibraryIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-50 group-hover:to-indigo-200 " />
+        <LibraryIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 " />
       ),
       link: "/AdminPanel",
       title: "Admin Panel",
     },
     {
       name: (
-        <PencilAltIcon className="w-8 rounded-full p-1 bg-gradient-to-br hover:bg-indfromo-50" />
+        <PencilAltIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
       ),
       link: "/Write",
       title: "Write",
@@ -142,7 +142,7 @@ function NavBar() {
               {userID && <ReadCount items={item.title} />}
               <h1
                 className={
-                  " transition-all  group-hover:text-indigo-400 cursor-pointer my-4 " +
+                  " transition-all  group-hover:text-white cursor-pointer my-4 " +
                   (index === items.length - 1 &&
                     "md:border-t md:mt-1 md:pt-4 pt-0 border-gray-200") +
                   (!scr.matches &&
@@ -150,17 +150,17 @@ function NavBar() {
                     " ml-1 pl-4  border-l ") +
                   (route.pathname === item.link
                     ? "  text-indigo-400"
-                    : "  text-gray-200")
+                    : "  text-gray-400")
                 }
               >
                 {item.name}
               </h1>
               <h1
                 className={
-                  "my-auto ml-4 group transition-all  group-hover:text-indigo-400" +
+                  "my-auto ml-4 group transition-all  group-hover:text-indigo-600" +
                   (route.pathname === item.link
                     ? "  text-indigo-400"
-                    : "  text-gray-200") +
+                    : "  text-gray-400") +
                   (hover ? " hidden md:flex" : " hidden")
                 }
               >

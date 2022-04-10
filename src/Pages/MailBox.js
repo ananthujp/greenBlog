@@ -20,6 +20,7 @@ import {
 } from "firebase/firestore";
 import { motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import Sidebar from "../Components/Sidebar";
 import SwitchAdmin from "../Components/SwitchAdmin";
@@ -41,6 +42,7 @@ function MailBox() {
   const [mailview, setView] = useState(false);
   const [mails, setMails] = useState();
   const { userID, role } = useAuth();
+  const route = useLocation();
   const x = window.matchMedia("(min-width: 768px)");
   const formatText = (txt) => {
     if (txt.length > 12) return txt.slice(0, 12) + "...";
@@ -115,7 +117,7 @@ function MailBox() {
       getDoc(doc(db, "Profiles", id)).then((dc) => {
         setName(dc.data().name);
       });
-    return <div className="ml-1">{id === userID.id ? "Me" : names}</div>;
+    return <div className="ml-1">{id === userID?.id ? "Me" : names}</div>;
   };
   const GetImage = ({ id }) => {
     const [img, setImg] = useState("");
@@ -153,7 +155,16 @@ function MailBox() {
       </div>
     );
   };
-
+  useEffect(() => {
+    route.pathname.split("$")[1] && setView(true);
+    route.pathname.split("$")[1] && setReply(false);
+    route.pathname.split("$")[1] && settitle("");
+    route.pathname.split("$")[1] && settextCont("");
+    route.pathname.split("$")[1] &&
+      getDoc(doc(db, "Profiles", route.pathname.split("$")[1])).then((dc) => {
+        setTo({ id: dc.id, name: dc.data().name });
+      });
+  }, []);
   useEffect(() => {
     onSnapshot(
       query(
@@ -195,8 +206,9 @@ function MailBox() {
           <div className="flex flex-row border rounded-lg h-2/3 md:h-[80%] md:mb-8 border-gray-200 w-full bg-white">
             <div className=" h-full w-2/5 flex flex-col justify-between border-r border-gray-200">
               <div className="flex flex-col h-full overflow-y-auto">
-                {mails?.map((dic) => (
+                {mails?.map((dic, i) => (
                   <div
+                    key={`mail.side${i}`}
                     onClick={() => handleView(dic.id)}
                     className={
                       "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100" +
@@ -277,6 +289,7 @@ function MailBox() {
                                 dxc.length > 0 &&
                                 dxc?.map((dc, j) => (
                                   <div
+                                    key={`search.res${j}`}
                                     onClick={() => {
                                       setSender(false);
                                       setTo({ id: dc.id, name: dc.name });
@@ -417,8 +430,9 @@ function MailBox() {
               {!mob ? (
                 <>
                   <div className="flex flex-col  h-screen overflow-y-auto">
-                    {mails?.map((dic) => (
+                    {mails?.map((dic, i) => (
                       <div
+                        key={`mails${i}`}
                         onClick={() => handleView(dic.id)}
                         className={
                           "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100" +
@@ -517,6 +531,7 @@ function MailBox() {
                                 dxc.length > 0 &&
                                 dxc?.map((dc, j) => (
                                   <div
+                                    key={`search2${j}`}
                                     onClick={() => {
                                       setSender(false);
                                       setTo({ id: dc.id, name: dc.name });

@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   //const [user,setUser]=useState(null);
   const [user, setUser] = useState("null");
   const [role, setRole] = useState("user");
+  const [login, setLogin] = useState(false);
   const [userID, setUserID] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
@@ -81,8 +82,10 @@ export const AuthProvider = ({ children }) => {
       role,
       setRole,
       switChId,
+      setLogin,
+      login,
     }),
-    [user, userID, role]
+    [user, userID, role, login]
   );
   return (
     <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>

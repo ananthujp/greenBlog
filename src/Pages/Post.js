@@ -13,17 +13,18 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
 import Clap from "../images/clap.svg";
 import Read from "../images/read.svg";
+import Write from "../images/write.svg";
 import party from "party-js";
 import useAuth from "../hooks/userAuth";
 import { TrashIcon } from "@heroicons/react/outline";
 function Post() {
   const route = useLocation();
   const ref = useRef([]);
-  const { userID } = useAuth();
+  const { userID, setLogin } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
   const [clap, setClap] = useState({ clap: 0, flag: false });
@@ -33,6 +34,7 @@ function Post() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [load, setLoad] = useState(false);
+  const navigate = useNavigate();
   const docID = route.pathname.split("/")[2]
     ? route.pathname.split("/")[2]
     : "Create";
@@ -67,7 +69,9 @@ function Post() {
           timestamp: serverTimestamp(),
           comment: img.images.fixed_height.url,
           image: true,
-        }).then(() => toggleGif(false))
+        })
+          .then(() => toggleGif(false))
+          .then(() => confetti(`idcom.${1}`))
       : comment &&
         addDoc(collection(db, "Posts", docID, "Comments"), {
           name: userID.name,
@@ -76,7 +80,9 @@ function Post() {
           timestamp: serverTimestamp(),
           comment: comment,
           image: false,
-        }).then(() => setComment(""));
+        })
+          .then(() => setComment(""))
+          .then(() => confetti(`idcom.${1}`));
   };
   useEffect(() => {
     getDoc(doc(db, "Posts", docID)).then((dc) => {
@@ -171,39 +177,79 @@ function Post() {
           ></div>
 
           <div className="flex flex-row justify-between w-full mt-4">
-            <div
-              onClick={() => AddClap()}
-              ref={(el) => (ref.current[`id.${1}`] = el)}
-              key={`id.${1}`}
-              className={
-                "flex flex-col cursor-pointer items-center rounded-lg hover:bg-indigo-200 " +
-                (clap.flag && " bg-indigo-100")
-              }
-            >
-              <img className="w-12 h-12 p-2" src={Clap} alt="" />
-              <h1 className=" font-pop text-gray-400 text-xxs -mt-2">Claps</h1>
-              <h1 className="font-popxl -mt-2">{clap.clap}</h1>
+            <div className="flex flex-row">
+              <div
+                onClick={() => AddClap()}
+                ref={(el) => (ref.current[`id.${1}`] = el)}
+                key={`id.${1}`}
+                className={
+                  "flex flex-row px-2 group cursor-pointer items-center rounded-lg  shadow-sm hover:bg-indigo-600 bg-indigo-50 " +
+                  (clap.flag && " bg-indigo-100")
+                }
+              >
+                <img className="w-12 p-2" src={Clap} alt="" />
+                <div className="flex flex-col items-center justify-center">
+                  <h1 className=" font-pop group-hover:text-white text-indigo-600 my-auto text-xxs">
+                    Claps
+                  </h1>
+                  <h1 className="font-popxl group-hover:text-white text-indigo-600  my-auto">
+                    {clap.clap}
+                  </h1>
+                </div>
+              </div>
+              <div
+                onClick={() => navigate("/MailBox/to$" + author.id)}
+                ref={(el) => (ref.current[`id.${1}`] = el)}
+                key={`id.${1}`}
+                className={
+                  "flex ml-4 flex-row px-2 cursor-pointer items-center rounded-lg group shadow-sm hover:bg-indigo-600 bg-indigo-50 " +
+                  (clap.flag && " bg-indigo-100")
+                }
+              >
+                <img className="w-12 h-12 p-2" src={Write} alt="" />
+                <div className="flex flex-col items-center justify-center">
+                  <h1 className=" font-pop group-hover:text-white text-indigo-600 text-xxs my-auto">
+                    Write to
+                  </h1>
+                  <h1 className="font-popxl group-hover:text-white text-indigo-600 text-xs my-auto">
+                    Author
+                  </h1>{" "}
+                </div>
+              </div>
             </div>
             <div
               onClick={() => confetti(`id.${2}`)}
               ref={(el) => (ref.current[`id.${2}`] = el)}
               key={`id.${2}`}
-              className="flex cursor-pointer flex-col items-center rounded-lg hover:bg-indigo-200 "
+              className="flex cursor-pointer flex-row px-2 items-center rounded-lg group shadow-sm hover:bg-indigo-600 bg-indigo-50 "
             >
               <img className="w-12 h-12 p-2" src={Read} alt="" />
-              <h1 className=" font-pop text-gray-400 text-xxs -mt-2">Reads</h1>
-              <h1 className="font-popxl -mt-2">{read}</h1>
+              <div className="flex flex-col items-center justify-center">
+                <h1 className=" font-pop group-hover:text-white text-indigo-600 text-xxs my-auto">
+                  Reads
+                </h1>
+                <h1 className="font-popxl group-hover:text-white text-indigo-600 my-auto">
+                  {read}
+                </h1>
+              </div>
             </div>
           </div>
 
           <div className="flex flex-col mt-5 border-t">
             <div className="flex justify-center mt-4">
               {!userID ? (
-                <div className="cursor-pointer bg-gradient-to-br hover:shadow-md text-white font-pop from-orange-400 to-orange-600 p-2 rounded-md">
+                <div
+                  onClick={() => setLogin(true)}
+                  className="cursor-pointer bg-gradient-to-br hover:shadow-md text-white font-pop from-orange-400 to-orange-600 p-2 rounded-md"
+                >
                   Login to post your comment
                 </div>
               ) : (
-                <div className="flex flex-col w-full rounded-md bg-indigo-100 border border-indigo-200 mb-4">
+                <div
+                  ref={(el) => (ref.current[`idcom.${1}`] = el)}
+                  key={`idcom.${1}`}
+                  className="flex flex-col w-full rounded-md bg-indigo-100 border border-indigo-200 mb-4"
+                >
                   <div className="flex flex-row border-b border-indigo-200 pb-2 w-full items-center justify-between">
                     <div className="mt-2 ml-2 flex flex-row items-center">
                       <img
@@ -265,7 +311,7 @@ function Post() {
               )}
             </div>
             {comments?.map((dc) => (
-              <div className="flex flex-col my-2">
+              <div className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 my-2">
                 <div className="flex flex-row items-center w-full justify-between">
                   <div className="flex flex-row items-center">
                     <img
@@ -282,8 +328,8 @@ function Post() {
                   </div>
                   <h1
                     className={
-                      "hover:bg-indigo-100 p-1 rounded-full" +
-                      (dc.auth === userID.id ? " flex" : " hidden")
+                      "hover:bg-indigo-600 p-1 hover:text-white rounded-full" +
+                      (dc.auth === userID?.id ? " flex" : " hidden")
                     }
                     onClick={() => deleteComment(dc.id)}
                   >

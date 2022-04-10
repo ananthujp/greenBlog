@@ -48,7 +48,7 @@ const Item = [
   },
 ];
 function Home() {
-  const { userID } = useAuth();
+  const { userID, login, setLogin } = useAuth();
   const [show, setShow] = useState(false);
   const ReadCount = ({ items }) => {
     const [count, setCount] = useState(0);
@@ -95,7 +95,6 @@ function Home() {
   };
   return (
     <div className="w-full bg-gradient-to-br from-indigo-100 to-purple-100">
-      {!show ? <></> : <TempLogin show={setShow} />}
       {/* <div className="relative md:h-screen">
         <NavBar />
       </div> */}
@@ -128,8 +127,11 @@ function Home() {
                 blog.
               </h1>
               <div className="flex flex-row">
-                <div className=" mx-auto md:mx-0" onClick={() => setShow(true)}>
-                  <Link to={show || userID ? "/Write" : ""}>
+                <div
+                  className=" mx-auto md:mx-0"
+                  onClick={() => setLogin(true)}
+                >
+                  <Link to={login || userID ? "/Write" : ""}>
                     <div
                       className={
                         "  cursor-pointer transition-all hover:bg-white shadow-md md:mt-6 mt-2 px-6 py-2 rounded-3xl text-center text-white" +

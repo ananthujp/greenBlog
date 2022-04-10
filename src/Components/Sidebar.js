@@ -22,7 +22,7 @@ function Sidebar({ preview, setOpen }) {
         <div className="flex flex-row mt-2">
           <div
             onClick={() => {
-              navigate("/");
+              route.pathname.split("/")[1] !== "Posts" && navigate("/");
               localStorage.removeItem("user");
               setUserID(null);
             }}
@@ -41,7 +41,7 @@ function Sidebar({ preview, setOpen }) {
           {role === "admin" && <SwitchAdmin />}
         </div>
       </div>
-      <div className="flex flex-col my-8">
+      <div className="flex flex-col my-8 mx-auto">
         <h1 className="font-pop text-lg">Popular Articles</h1>
 
         {[0, 0, 0, 0].map(() => (
@@ -58,7 +58,7 @@ function Sidebar({ preview, setOpen }) {
       </div>
       <button
         type="button"
-        className="px-2 py-1 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
+        className="flex mx-auto px-4 py-1 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
         onClick={() => setOpen((o) => !o)}
       >
         Subscribe
