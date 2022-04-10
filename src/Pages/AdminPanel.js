@@ -3,6 +3,7 @@ import {
   DocumentTextIcon,
   PencilAltIcon,
   TrashIcon,
+  EyeIcon,
 } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
 
@@ -220,12 +221,20 @@ function AdminPanel() {
                   </th>
                   <th className="pr-3 text-left whitespace-nowrap flex flex-row">
                     {dc.data.status !== "Approved" || role === "admin" ? (
-                      <div
-                        onClick={() => navigate(`/Write/${dc.id}`)}
-                        className="hover:bg-gray-200 rounded-full p-1"
-                      >
-                        <PencilAltIcon className="w-5 hover:text-indigo-600" />
-                      </div>
+                      <>
+                        <div
+                          onClick={() => navigate(`/Write/${dc.id}`)}
+                          className="hover:bg-gray-200 rounded-full p-1"
+                        >
+                          <PencilAltIcon className="w-5 hover:text-indigo-600" />
+                        </div>
+                        <div
+                          onClick={() => navigate(`/Posts/${dc.id}`)}
+                          className="hover:bg-gray-200 rounded-full p-1"
+                        >
+                          <EyeIcon className="w-5 hover:text-indigo-600" />
+                        </div>
+                      </>
                     ) : (
                       <></>
                     )}

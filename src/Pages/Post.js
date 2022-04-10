@@ -1,19 +1,37 @@
 import React, { useEffect, useState, useRef } from "react";
 import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import ReactGiphySearchbox from "react-giphy-searchbox";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
 import Clap from "../images/clap.svg";
 import Read from "../images/read.svg";
 import party from "party-js";
 import useAuth from "../hooks/userAuth";
+import { TrashIcon } from "@heroicons/react/outline";
 function Post() {
   const route = useLocation();
   const ref = useRef([]);
   const { userID } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
+  const [clap, setClap] = useState({ clap: 0, flag: false });
+  const [read, setRead] = useState(0);
+  const [gif, toggleGif] = useState(false);
   const [author, setAuthor] = useState(null);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
   const [load, setLoad] = useState(false);
   const docID = route.pathname.split("/")[2]
     ? route.pathname.split("/")[2]
@@ -26,6 +44,40 @@ function Post() {
 
     ref.current[id].style.animation = "explode 100ms forwards";
   }
+
+  const AddClap = () => {
+    confetti(`id.${1}`);
+    !clap.flag &&
+      updateDoc(
+        doc(db, "Posts", docID),
+        { clap: clap.clap + 1 },
+        { merge: true }
+      );
+    !clap.flag && setClap({ clap: clap.clap + 1, flag: true });
+  };
+  const deleteComment = (id) => {
+    deleteDoc(doc(db, "Posts", docID, "Comments", id));
+  };
+  const AddComment = (img) => {
+    img
+      ? addDoc(collection(db, "Posts", docID, "Comments"), {
+          name: userID.name,
+          img: userID.img,
+          auth: userID.id,
+          timestamp: serverTimestamp(),
+          comment: img.images.fixed_height.url,
+          image: true,
+        }).then(() => toggleGif(false))
+      : comment &&
+        addDoc(collection(db, "Posts", docID, "Comments"), {
+          name: userID.name,
+          img: userID.img,
+          auth: userID.id,
+          timestamp: serverTimestamp(),
+          comment: comment,
+          image: false,
+        }).then(() => setComment(""));
+  };
   useEffect(() => {
     getDoc(doc(db, "Posts", docID)).then((dc) => {
       setEditorState(dc.data().data ? dc.data().data : "");
@@ -33,7 +85,39 @@ function Post() {
         setAuthor({ id: dic.id, data: dic.data() })
       );
       setTitle(dc?.data()?.title);
+      setClap(
+        dc?.data().clap
+          ? { clap: dc?.data().clap, flag: false }
+          : { clap: 0, flag: false }
+      );
+      setRead(dc?.data().read ? dc?.data().read : 0);
+      updateDoc(
+        doc(db, "Posts", docID),
+        { read: (dc?.data().read ? dc?.data().read : 0) + 1 },
+        { merge: true }
+      );
     });
+
+    onSnapshot(
+      query(
+        collection(db, "Posts", docID, "Comments"),
+        orderBy("timestamp", "desc")
+      ),
+      (dc) =>
+        setComments(
+          dc.docs.map((dic) => ({
+            id: dic.id,
+            name: dic.data().name,
+            img: dic.data().img,
+            comment: dic.data().comment,
+            auth: dic.data().auth,
+            image: dic.data().image,
+            time: parseInt(
+              (new Date().getTime() - dic.data().timestamp) / 1000
+            ),
+          }))
+        )
+    );
   }, []);
 
   return (
@@ -88,14 +172,17 @@ function Post() {
 
           <div className="flex flex-row justify-between w-full mt-4">
             <div
-              onClick={() => confetti(`id.${1}`)}
+              onClick={() => AddClap()}
               ref={(el) => (ref.current[`id.${1}`] = el)}
               key={`id.${1}`}
-              className="flex flex-col cursor-pointer items-center rounded-lg hover:bg-indigo-200 "
+              className={
+                "flex flex-col cursor-pointer items-center rounded-lg hover:bg-indigo-200 " +
+                (clap.flag && " bg-indigo-100")
+              }
             >
               <img className="w-12 h-12 p-2" src={Clap} alt="" />
               <h1 className=" font-pop text-gray-400 text-xxs -mt-2">Claps</h1>
-              <h1 className="font-popxl -mt-2">25</h1>
+              <h1 className="font-popxl -mt-2">{clap.clap}</h1>
             </div>
             <div
               onClick={() => confetti(`id.${2}`)}
@@ -105,7 +192,7 @@ function Post() {
             >
               <img className="w-12 h-12 p-2" src={Read} alt="" />
               <h1 className=" font-pop text-gray-400 text-xxs -mt-2">Reads</h1>
-              <h1 className="font-popxl -mt-2">25</h1>
+              <h1 className="font-popxl -mt-2">{read}</h1>
             </div>
           </div>
 
@@ -117,7 +204,7 @@ function Post() {
                 </div>
               ) : (
                 <div className="flex flex-col w-full rounded-md bg-indigo-100 border border-indigo-200 mb-4">
-                  <div className="flex flex-row w-full items-center justify-between">
+                  <div className="flex flex-row border-b border-indigo-200 pb-2 w-full items-center justify-between">
                     <div className="mt-2 ml-2 flex flex-row items-center">
                       <img
                         className="w-8 h-8 object-cover rounded-full"
@@ -131,38 +218,85 @@ function Post() {
                         <h1 className="ml-2 text-xs font-popxs my-auto">Now</h1>
                       </div>
                     </div>
-                    <div className="mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-md font-pop h-6 text-white px-4">
-                      Post
+                    <div className="flex flex-row">
+                      <div
+                        onClick={() => toggleGif(!gif)}
+                        className={
+                          "mr-2 cursor-pointer hover:shadow-md rounded-md font-pop h-6 text-white px-4" +
+                          (gif
+                            ? " bg-gradient-to-br from-orange-400 to-orange-600"
+                            : " bg-gradient-to-br from-orange-200 to-orange-400")
+                        }
+                      >
+                        Gif
+                      </div>
+                      <div
+                        onClick={() => AddComment()}
+                        className="mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-md font-pop h-6 text-white px-4"
+                      >
+                        Post
+                      </div>
                     </div>
                   </div>
-                  <textarea className="h-24 text-sm font-pop w-full bg-transparent p-4 outline-none" />
+                  {!gif ? (
+                    <textarea
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      className="h-24 text-sm font-pop w-full bg-transparent p-4 outline-none"
+                    />
+                  ) : (
+                    <div className="flex justify-center mb-2">
+                      <ReactGiphySearchbox
+                        apiKey="9Ixlv3DWC1biJRI57RanyL7RTbfzz0o7"
+                        onSelect={(item) => AddComment(item)}
+                        masonryConfig={[
+                          { columns: 2, imageWidth: 110, gutter: 5 },
+                          {
+                            mq: "700px",
+                            columns: 3,
+                            imageWidth: 120,
+                            gutter: 5,
+                          },
+                        ]}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-            {[0, 0, 0].map((dc) => (
+            {comments?.map((dc) => (
               <div className="flex flex-col my-2">
-                <div className="flex flex-row items-center">
-                  <img
-                    className="w-8 h-8 object-cover rounded-full"
-                    alt=""
-                    src={
-                      "https://ichef.bbci.co.uk/news/976/cpsprodpb/5FEF/production/_123295542_hi073181766.jpg"
-                    }
-                  />
-                  <div className="flex flex-col">
-                    <h1 className="ml-2 font-poplg my-auto">Elon</h1>
-                    <h1 className="ml-2 text-xs font-popxs my-auto">
-                      About 1 hr ago
-                    </h1>
+                <div className="flex flex-row items-center w-full justify-between">
+                  <div className="flex flex-row items-center">
+                    <img
+                      className="w-8 h-8 object-cover rounded-full"
+                      alt=""
+                      src={dc.img}
+                    />
+                    <div className="flex flex-col">
+                      <h1 className="ml-2 font-poplg my-auto">{dc.name}</h1>
+                      <h1 className="ml-2 text-xs font-popxs my-auto">
+                        {dc.time}
+                      </h1>
+                    </div>
                   </div>
+                  <h1
+                    className={
+                      "hover:bg-indigo-100 p-1 rounded-full" +
+                      (dc.auth === userID.id ? " flex" : " hidden")
+                    }
+                    onClick={() => deleteComment(dc.id)}
+                  >
+                    <TrashIcon className="w-4" />
+                  </h1>
                 </div>
-                <h1 className="mt-2 font-popxs italic text-sm">
-                  "Recommend monitoring and track suspected cheating
-                  wive/husband and activities at work. However some great app
-                  couldn't grant all access I needed to detect and catch my
-                  spouse red handed in deceptive ways. It all started when I had
-                  a suspicion on my…..."
-                </h1>
+                {dc.image ? (
+                  <img className="w-1/2" src={dc.comment} alt="" />
+                ) : (
+                  <h1 className="mt-2 font-popxs italic text-sm">
+                    {dc.comment}
+                  </h1>
+                )}
               </div>
             ))}
           </div>
