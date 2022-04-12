@@ -7,7 +7,7 @@ import SwitchAdmin from "../Components/SwitchAdmin";
 import { PlusIcon } from "@heroicons/react/outline";
 function Sidebar({ preview, setOpen }) {
   const route = useLocation();
-  const { userID, setUserID, role } = useAuth();
+  const { userID, setUserID, role, setLogin } = useAuth();
   const navigate = useNavigate();
   return (
     <div className="hidden fixed shadow-md md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-4 md:pt-4 md:w-56">
@@ -44,7 +44,12 @@ function Sidebar({ preview, setOpen }) {
             </div>
           </>
         ) : (
-          <div>Login</div>
+          <div
+            onClick={() => setLogin(true)}
+            className="flex w-16 cursor-pointer bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white font-pop text-center from-gray-50 to-gray-100 p-0.5 rounded-md"
+          >
+            Login
+          </div>
         )}
       </div>
       <div className="flex flex-col my-8 mx-auto">
