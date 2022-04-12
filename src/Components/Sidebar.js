@@ -12,34 +12,40 @@ function Sidebar({ preview, setOpen }) {
   return (
     <div className="hidden fixed shadow-md md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-4 md:pt-4 md:w-56">
       <div>
-        <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
-          <img src={userID?.img} className="h-16 w-16" alt="" />
-        </div>
-        <h1 className=" font-poplg my-1 text-gray-500">{userID?.name}</h1>
+        {userID ? (
+          <>
+            <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
+              <img src={userID?.img} className="h-16 w-16" alt="" />
+            </div>
+            <h1 className=" font-poplg my-1 text-gray-500">{userID?.name}</h1>
 
-        <h1 className="text-xs font-pop  text-gray-300">{userID?.Bio}</h1>
+            <h1 className="text-xs font-pop  text-gray-300">{userID?.Bio}</h1>
 
-        <div className="flex flex-row mt-2">
-          <div
-            onClick={() => {
-              route.pathname.split("/")[1] !== "Posts" && navigate("/");
-              localStorage.removeItem("user");
-              setUserID(null);
-            }}
-            className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
-          >
-            Logout
-          </div>
-          <div
-            onClick={() => preview(false)}
-            className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1"
-          >
-            <PlusIcon className="w-4 mt-1 flex text-white mx-auto my-auto" />
-          </div>
-        </div>
-        <div className="w-32 mt-4 text-indigo-400">
-          {role === "admin" && <SwitchAdmin />}
-        </div>
+            <div className="flex flex-row mt-2">
+              <div
+                onClick={() => {
+                  route.pathname.split("/")[1] !== "Posts" && navigate("/");
+                  localStorage.removeItem("user");
+                  setUserID(null);
+                }}
+                className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
+              >
+                Logout
+              </div>
+              <div
+                onClick={() => preview(false)}
+                className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1"
+              >
+                <PlusIcon className="w-4 mt-1 flex text-white mx-auto my-auto" />
+              </div>
+            </div>
+            <div className="w-32 mt-4 text-indigo-400">
+              {role === "admin" && <SwitchAdmin />}
+            </div>
+          </>
+        ) : (
+          <div>Login</div>
+        )}
       </div>
       <div className="flex flex-col my-8 mx-auto">
         <h1 className="font-pop text-lg">Popular Articles</h1>
