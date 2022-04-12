@@ -46,7 +46,7 @@ function Sidebar({ preview, setOpen }) {
         ) : (
           <div
             onClick={() => setLogin(true)}
-            className="flex w-16 cursor-pointer bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white font-pop text-center from-gray-50 to-gray-100 p-0.5 rounded-md"
+            className="flex w-16 cursor-pointer bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white font-pop text-center from-gray-50 to-gray-100 hover:from-indigo-400 hover:to-indigo-600 p-0.5 rounded-md"
           >
             Login
           </div>
