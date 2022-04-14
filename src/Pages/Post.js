@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { db } from "../firebase";
+import moment from "moment";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import {
   addDoc,
@@ -27,6 +28,7 @@ function Post() {
   const { userID, setLogin } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
+  const [time, setTime] = useState(null);
   const [clap, setClap] = useState({ clap: 0, flag: false });
   const [read, setRead] = useState(0);
   const [gif, toggleGif] = useState(false);
@@ -84,11 +86,21 @@ function Post() {
           .then(() => setComment(""))
           .then(() => confetti(`idcom.${1}`));
   };
+
   useEffect(() => {
     getDoc(doc(db, "Posts", docID)).then((dc) => {
       setEditorState(dc.data().data ? dc.data().data : "");
       getDoc(doc(db, "Profiles", dc.data().user)).then((dic) =>
         setAuthor({ id: dic.id, data: dic.data() })
+      );
+      setTime(
+        dc
+          .data()
+          .timestamp.toDate()
+          .toLocaleDateString(
+            {},
+            { timeZone: "UTC", month: "long", day: "2-digit" }
+          )
       );
       setTitle(dc?.data()?.title);
       setClap(
@@ -118,9 +130,7 @@ function Post() {
             comment: dic.data().comment,
             auth: dic.data().auth,
             image: dic.data().image,
-            time: parseInt(
-              (new Date().getTime() - dic.data().timestamp) / 1000
-            ),
+            time: moment(dic.data().timestamp.toDate()).fromNow(),
           }))
         )
     );
@@ -164,7 +174,7 @@ function Post() {
                 {author?.data.name}
               </h1>
               <h1 className=" font-popxs text-xs my-auto">
-                {Date().slice(4, 9)} . 6 min read
+                {time} . 6 min read
               </h1>
             </div>
           </div>
@@ -313,7 +323,7 @@ function Post() {
             {comments?.map((dc) => (
               <div className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 my-2">
                 <div className="flex flex-row items-center w-full justify-between">
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row items-center mb-1">
                     <img
                       className="w-8 h-8 object-cover rounded-full"
                       alt=""
@@ -321,7 +331,7 @@ function Post() {
                     />
                     <div className="flex flex-col">
                       <h1 className="ml-2 font-poplg my-auto">{dc.name}</h1>
-                      <h1 className="ml-2 text-xs font-popxs my-auto">
+                      <h1 className="ml-2 text-xs font-pop italic text-gray-400 my-auto">
                         {dc.time}
                       </h1>
                     </div>
