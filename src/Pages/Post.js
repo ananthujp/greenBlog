@@ -98,35 +98,38 @@ function Post() {
   };
 
   useEffect(() => {
-    getDoc(doc(db, "Posts", docID)).then((dc) => {
-      setEditorState(dc.data().data ? dc.data().data : "");
-      getDoc(doc(db, "Profiles", dc.data().user)).then((dic) =>
-        setAuthor({ id: dic.id, data: dic.data() })
-      );
-      setTime(
-        dc
-          .data()
-          .timestamp.toDate()
-          .toLocaleDateString(
-            {},
-            { timeZone: "UTC", month: "long", day: "2-digit" }
-          )
-      );
-      setTitle(dc?.data()?.title);
-      setTitleMsg(dc?.data()?.title);
-      setUrl(docID);
-      setClap(
-        dc?.data().clap
-          ? { clap: dc?.data().clap, flag: false }
-          : { clap: 0, flag: false }
-      );
-      setRead(dc?.data().read ? dc?.data().read : 0);
-      updateDoc(
-        doc(db, "Posts", docID),
-        { read: (dc?.data().read ? dc?.data().read : 0) + 1 },
-        { merge: true }
-      );
-    });
+    setLoad(true);
+    getDoc(doc(db, "Posts", docID))
+      .then((dc) => {
+        setEditorState(dc.data().data ? dc.data().data : "");
+        getDoc(doc(db, "Profiles", dc.data().user)).then((dic) =>
+          setAuthor({ id: dic.id, data: dic.data() })
+        );
+        setTime(
+          dc
+            .data()
+            .timestamp.toDate()
+            .toLocaleDateString(
+              {},
+              { timeZone: "UTC", month: "long", day: "2-digit" }
+            )
+        );
+        setTitle(dc?.data()?.title);
+        setTitleMsg(dc?.data()?.title);
+        setUrl(docID);
+        setClap(
+          dc?.data().clap
+            ? { clap: dc?.data().clap, flag: false }
+            : { clap: 0, flag: false }
+        );
+        setRead(dc?.data().read ? dc?.data().read : 0);
+        updateDoc(
+          doc(db, "Posts", docID),
+          { read: (dc?.data().read ? dc?.data().read : 0) + 1 },
+          { merge: true }
+        );
+      })
+      .then(() => setLoad(false));
 
     onSnapshot(
       query(
@@ -168,7 +171,7 @@ function Post() {
             />
           )}
           <h1 className="font-pop text-gray-500 text-center md:text-2xl lg:text-3xl mt-8">
-            {load ? "Saving..." : "Creating New Post"}
+            {load ? "Loading.." : "Creating New Post"}
           </h1>
         </div>
       ) : (
