@@ -70,7 +70,7 @@ function NavBar() {
       title: "Write",
     },
   ];
-  const ReadCount = ({ items }) => {
+  const ReadCount = ({ key, items }) => {
     const [count, setCount] = useState(0);
     useEffect(() => {
       switch (items) {
@@ -80,7 +80,7 @@ function NavBar() {
               collection(db, "Profiles", userID?.id, "Mailbox"),
               where("read", "==", false)
             ),
-            (dc) => setCount(dc.docs.length)
+            (dc) => setCount(dc?.docs.length)
           );
           break;
         case "Notifications":
@@ -89,13 +89,13 @@ function NavBar() {
               collection(db, "Profiles", userID?.id, "Notifications"),
               where("read", "==", false)
             ),
-            (dc) => setCount(dc.docs.length)
+            (dc) => setCount(dc?.docs.length)
           );
           break;
         case "Dashboard":
           onSnapshot(
             query(collection(db, "Posts"), where("user", "==", userID?.id)),
-            (dc) => setCount(dc.docs.length)
+            (dc) => setCount(dc?.docs.length)
           );
           break;
         default:
@@ -104,6 +104,7 @@ function NavBar() {
 
     return (
       <div
+        key={`not.${key}`}
         className={
           "absolute items-center justify-center text-white bottom-3 left-6 bg-red-500 rounded-full text-xs w-5 h-5 " +
           (count > 0 ? " flex" : " hidden")
@@ -127,7 +128,7 @@ function NavBar() {
       >
         {items.map((item, index) => (
           <Link
-            key={`navbar.item${index}`}
+            key={`navbar.item.${index}`}
             to={item.link}
             hidden={
               (item.link === "/AdminPanel" && role !== "admin" && " true") ||
@@ -139,7 +140,9 @@ function NavBar() {
                 "relative flex flex-row group items-center justify-start mx-4 transition-all cursor-pointer "
               }
             >
-              {userID && <ReadCount items={item.title} />}
+              {userID && (
+                <ReadCount key={`read.count.${index}`} items={item?.title} />
+              )}
               <h1
                 className={
                   " transition-all  group-hover:text-white cursor-pointer my-4 " +

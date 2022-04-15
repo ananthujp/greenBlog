@@ -99,7 +99,9 @@ function Write() {
           setTitle(dc?.data()?.title);
         });
   }, []);
-
+  // useEffect(() => {
+  //   console.log(editorState?.split('<img src="')[1]?.split('"')[0]);
+  // }, [editorState]);
   return (
     <>
       {docID === "Create" || load === true ? (
@@ -221,7 +223,7 @@ function Write() {
             </div>
           </div>
           <input
-            value={title}
+            value={title ? title : " "}
             onChange={(e) => setTitle(e.target.value)}
             type="text"
             placeholder="Title of the blog"

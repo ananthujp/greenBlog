@@ -52,7 +52,7 @@ function Sidebar({ preview, setOpen }) {
           </h1>
         )}
       </div>
-      <div className="flex flex-col my-8 mx-auto">
+      {/* <div className="flex flex-col my-8 mx-auto">
         <h1 className="font-pop text-lg">Popular Articles</h1>
 
         {[0, 0, 0, 0].map(() => (
@@ -66,10 +66,10 @@ function Sidebar({ preview, setOpen }) {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
       <button
         type="button"
-        className="flex mx-auto px-4 py-1 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
+        className="flex mx-auto px-4 py-1 mt-6 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
         onClick={() => setOpen((o) => !o)}
       >
         Subscribe

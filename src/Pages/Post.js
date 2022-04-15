@@ -15,6 +15,14 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  WhatsappShareButton,
+  WhatsappIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  FacebookShareButton,
+  FacebookIcon,
+} from "react-share";
 import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
 import Clap from "../images/clap.svg";
 import Read from "../images/read.svg";
@@ -28,6 +36,8 @@ function Post() {
   const { userID, setLogin } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
+  const [url, setUrl] = useState(null);
+  const [titleMsg, setTitleMsg] = useState(null);
   const [time, setTime] = useState(null);
   const [clap, setClap] = useState({ clap: 0, flag: false });
   const [read, setRead] = useState(0);
@@ -103,6 +113,8 @@ function Post() {
           )
       );
       setTitle(dc?.data()?.title);
+      setTitleMsg(dc?.data()?.title);
+      setUrl(docID);
       setClap(
         dc?.data().clap
           ? { clap: dc?.data().clap, flag: false }
@@ -161,26 +173,48 @@ function Post() {
         </div>
       ) : (
         <div className="flex  bg-white px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
-          <div className="flex flex-row items-center mb-8">
-            <div className="mr-1">
-              <img
-                src={author?.data.img}
-                alt=""
-                className="w-8 h-8 rounded-full"
-              />
+          <div className="flex flex-row items-center mb-8 w-full justify-between">
+            <div className="flex flex-row items-center">
+              <div className="mr-1">
+                <img
+                  src={author?.data.img}
+                  alt=""
+                  className="w-8 h-8 rounded-full"
+                />
+              </div>
+              <div className="flex flex-col ml-1">
+                <h1 className="font-poplg text-md my-auto">
+                  {author?.data.name}
+                </h1>
+                <h1 className=" font-popxs text-xs my-auto">
+                  {time} . 6 min read
+                </h1>
+              </div>
             </div>
-            <div className="flex flex-col ml-1">
-              <h1 className="font-poplg text-md my-auto">
-                {author?.data.name}
-              </h1>
-              <h1 className=" font-popxs text-xs my-auto">
-                {time} . 6 min read
-              </h1>
+            <div className="flex flex-row justify-between w-32">
+              <WhatsappShareButton title={titleMsg} url={url} separator="">
+                <WhatsappIcon round size={32} />
+              </WhatsappShareButton>
+              <FacebookShareButton
+                url={url}
+                quote={titleMsg}
+                hashtag={"#iitgn"}
+                description={"fbDesc"}
+              >
+                <FacebookIcon round size={32} />
+              </FacebookShareButton>
+              <TwitterShareButton
+                title={titleMsg}
+                url={url}
+                hashtags={["iitgn", "greenclub"]}
+              >
+                <TwitterIcon round size={32} />
+              </TwitterShareButton>
             </div>
           </div>
           <h1 className="font-pop text-4xl">{title}</h1>
           <div
-            className="ql-viewer -mt-8"
+            className="ql-viewer"
             dangerouslySetInnerHTML={{
               __html: editorState,
             }}
