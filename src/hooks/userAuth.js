@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   //const [user,setUser]=useState(null);
   const [user, setUser] = useState("null");
   const [role, setRole] = useState("user");
+  const [author, setPostAuthor] = useState("user");
   const [login, setLogin] = useState(false);
   const [userID, setUserID] = useState(
     localStorage.getItem("user")
@@ -84,8 +85,10 @@ export const AuthProvider = ({ children }) => {
       switChId,
       setLogin,
       login,
+      author,
+      setPostAuthor,
     }),
-    [user, userID, role, login]
+    [user, userID, role, login, author]
   );
   return (
     <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>

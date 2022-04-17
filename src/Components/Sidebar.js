@@ -1,26 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/userAuth";
 
 import SwitchAdmin from "../Components/SwitchAdmin";
-import { PlusIcon } from "@heroicons/react/outline";
+import { ChatIcon, EyeIcon, PlusIcon } from "@heroicons/react/outline";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 function Sidebar({ preview, setOpen }) {
   const route = useLocation();
-  const { userID, setUserID, role, setLogin } = useAuth();
+  const { userID, setUserID, role, setLogin, author } = useAuth();
   const navigate = useNavigate();
+  const BlogAuthor = ({ id }) => {
+    const [auth, setAuth] = useState();
+    getDoc(doc(db, "Profiles", id)).then((dic) =>
+      setAuth({ id: dic.id, data: dic.data() })
+    );
+    return (
+      <div className="flex flex-col border-y py-6 border-gray-200">
+        <h1 className="font-pop text-gray-600 mb-2">Blog Author</h1>
+        <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
+          <img src={auth?.data?.img} className="h-16 w-16" alt="" />
+        </div>
+        <h1 className=" font-poplg my-1 text-gray-500">{auth?.data?.name}</h1>
+        <h1 className="text-xs font-pop  text-gray-300">{auth?.data?.Bio}</h1>
+        <div className="flex flex-row mt-2">
+          <div
+            onClick={() => navigate("/Author/" + id)}
+            className="cursor-pointer py-0.5 text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-blue-400 to-blue-500 hover:to-blue-600"
+          >
+            <EyeIcon className="w-5 mr-1" />
+            Visit
+          </div>
+          <div
+            onClick={() => navigate("/MailBox/to$" + id)}
+            className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-green-400 to-green-500 hover:to-green-600"
+          >
+            <ChatIcon className="w-5 mr-1" />
+            Chat
+          </div>
+        </div>
+      </div>
+    );
+  };
   return (
-    <div className="hidden fixed shadow-md md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-4 md:pt-4 md:w-56">
+    <div className="hidden fixed md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-8 md:pt-4 md:w-auto">
       <div>
-        {userID ? (
+        {route.pathname.split("/")[1] !== "Posts" ? (
           <>
             <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
               <img src={userID?.img} className="h-16 w-16" alt="" />
             </div>
             <h1 className=" font-poplg my-1 text-gray-500">{userID?.name}</h1>
-
             <h1 className="text-xs font-pop  text-gray-300">{userID?.Bio}</h1>
-
             <div className="flex flex-row mt-2">
               <div
                 onClick={() => {
@@ -44,6 +76,9 @@ function Sidebar({ preview, setOpen }) {
             </div>
           </>
         ) : (
+          <BlogAuthor id={author} />
+        )}
+        {!userID && (
           <h1
             onClick={() => setLogin(true)}
             className="flex justify-center w-20 cursor-pointer bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white font-pop text-center from-gray-50 to-gray-100 hover:from-indigo-400 hover:to-indigo-600 p-0.5 rounded-md"

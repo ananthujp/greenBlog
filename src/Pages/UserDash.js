@@ -34,13 +34,14 @@ function UserDash() {
   const PostRef = collection(db, "Posts");
   useEffect(() => {
     switChId(0);
-    onSnapshot(
+    getDocs(
       query(
         PostRef,
         where("user", "==", userID?.back),
         orderBy("timestamp", "desc")
-      ),
-      (dc) => setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
+      )
+    ).then((dc) =>
+      setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
     );
   }, []);
   const item = " rounded-md border border-gray-200 shadow-sm";

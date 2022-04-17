@@ -33,7 +33,7 @@ import { TrashIcon } from "@heroicons/react/outline";
 function Post() {
   const route = useLocation();
   const ref = useRef([]);
-  const { userID, setLogin } = useAuth();
+  const { userID, setLogin, setPostAuthor } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
   const [url, setUrl] = useState(null);
@@ -105,6 +105,7 @@ function Post() {
         getDoc(doc(db, "Profiles", dc.data().user)).then((dic) =>
           setAuthor({ id: dic.id, data: dic.data() })
         );
+        setPostAuthor(dc.data().user);
         setTime(
           dc
             .data()
@@ -177,7 +178,10 @@ function Post() {
       ) : (
         <div className="flex  bg-white px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
           <div className="flex flex-row items-center mb-8 w-full justify-between">
-            <div className="flex flex-row items-center">
+            <div
+              onClick={() => navigate("/Author/" + author?.id)}
+              className="flex flex-row items-center cursor-pointer"
+            >
               <div className="mr-1">
                 <img
                   src={author?.data.img}
@@ -246,8 +250,6 @@ function Post() {
               </div>
               <div
                 onClick={() => navigate("/MailBox/to$" + author.id)}
-                ref={(el) => (ref.current[`id.${1}`] = el)}
-                key={`id.${1}`}
                 className={
                   "flex ml-4 flex-row px-2 cursor-pointer items-center rounded-lg group shadow-sm hover:bg-indigo-600 bg-indigo-50 " +
                   (clap.flag && " bg-indigo-100")
@@ -357,8 +359,11 @@ function Post() {
                 </div>
               )}
             </div>
-            {comments?.map((dc) => (
-              <div className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 my-2">
+            {comments?.map((dc, ind) => (
+              <div
+                key={`comments.post.${ind}`}
+                className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 my-2"
+              >
                 <div className="flex flex-row items-center w-full justify-between">
                   <div className="flex flex-row items-center mb-1">
                     <img

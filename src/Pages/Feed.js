@@ -23,7 +23,25 @@ function Feed() {
         // ,
         // orderBy("desc", "read")
       ),
-      (dc) => setPosts(dc.docs.map((dic) => ({ data: dic.data(), id: dic.id })))
+      (dc) =>
+        setPosts(
+          dc.docs.map((dic) => ({
+            data: dic.data(),
+            user: dic.data().user,
+            title: dic.data().title,
+            img: dic.data().data?.split('<img src="')[1]?.split('"')[0],
+            txt: getText(dic.data().data?.split("<p>")[1]?.split("</p>")[0]),
+            time:
+              dic
+                .data()
+                .timestamp.toDate()
+                .toLocaleDateString(
+                  {},
+                  { timeZone: "UTC", month: "long", day: "2-digit" }
+                ) + " ",
+            id: dic.id,
+          }))
+        )
     );
   }, []);
   // <img
@@ -38,7 +56,11 @@ function Feed() {
     const [auth, setAuth] = useState(null);
     getDoc(doc(db, "Profiles", id)).then((dc) => setAuth(dc.data()));
     return (
-      <div key={`auth.id.${key}`} className="flex flex-row">
+      <div
+        onClick={() => navigate(`/Author/${id}`)}
+        key={`auth.id.${key}`}
+        className="flex flex-row cursor-pointer"
+      >
         <img alt="" src={auth?.img} className="mr-2 h-4 w-4 rounded-full" />
         <h1 className="font-poplg text-xs my-auto">{auth?.name}</h1>
       </div>
@@ -59,22 +81,16 @@ function Feed() {
               </h1>
               <div className="flex flex-col flex-start">
                 <div className="flex flex-row items-center mr-1">
-                  <Author key={`key.author${i}`} id={dc.data.user} />
+                  <Author key={`key.author${i}`} id={dc.user} />
                 </div>
                 <h1
                   onClick={() => navigate(`/Posts/${dc.id}`)}
                   className="font-popxl  text-md w-56 my-2 cursor-pointer"
                 >
-                  {dc.data.title}
+                  {dc.title}
                 </h1>
                 <div className="flex flex-row mt-1 font-popxs text-xs">
-                  {dc.data.timestamp
-                    .toDate()
-                    .toLocaleDateString(
-                      {},
-                      { timeZone: "UTC", month: "long", day: "2-digit" }
-                    ) + " "}
-                  . 3 min read
+                  {dc.time}. 3 min read
                 </div>
               </div>
             </div>
@@ -87,37 +103,27 @@ function Feed() {
             <div className="flex flex-row w-full justify-between mx-4 my-6">
               <div className="flex flex-col flex-start ">
                 <div className="flex flex-row items-center mr-1">
-                  <Author key={`key.author${i}`} id={dc.data.user} />
+                  <Author key={`key.author${i}`} id={dc.user} />
                 </div>
 
                 <h1
                   onClick={() => navigate(`/Posts/${dc.id}`)}
                   className="font-popxl  text-xl mt-2 cursor-pointer"
                 >
-                  {dc.data.title}
+                  {dc.title}
                 </h1>
                 <h1
                   onClick={() => navigate(`/Posts/${dc.id}`)}
                   className="font-pop  text-md mb-2 text-gray-400 cursor-pointer"
                 >
-                  {getText(dc?.data.data?.split("<p>")[1]?.split("</p>")[0])}
+                  {dc?.txt + "..."}
                 </h1>
 
                 <div className="flex flex-row mt-1 font-popxs text-xs">
-                  {dc.data.timestamp
-                    .toDate()
-                    .toLocaleDateString(
-                      {},
-                      { timeZone: "UTC", month: "long", day: "2-digit" }
-                    ) + " "}
-                  . 3 min read
+                  {dc.time}. 3 min read
                 </div>
               </div>
-              <img
-                className="w-56 "
-                src={dc?.data.data?.split('<img src="')[1]?.split('"')[0]}
-                alt=""
-              />
+              <img className="w-56 " src={dc?.img} alt="" />
             </div>
           ))}
         </div>

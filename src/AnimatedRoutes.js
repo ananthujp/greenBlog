@@ -18,6 +18,7 @@ import Popup from "reactjs-popup";
 import SubLogo from "./images/subscribe.svg";
 import { XIcon } from "@heroicons/react/outline";
 import TempLogin from "./Components/TempLogin";
+import Author from "./Pages/Author";
 const AnimatedRoutes = () => {
   const location = useLocation();
   const { user, login, userID } = useAuth();
@@ -72,12 +73,13 @@ const AnimatedRoutes = () => {
                   <Route path="/Notifications" element={<Notifications />} />
                   <Route path="/MailBox" element={<MailBox />} />
                   <Route path="/MailBox/:id" element={<MailBox />} />
+                  <Route path="/Author/:id" element={<Author />} />
                 </>
               )}
               <Route path="/Feed" element={<Feed />} />
             </Routes>
           </div>
-          <div className="md:h-screen md:w-60">
+          <div className="md:h-screen md:w-64">
             <Sidebar setOpen={setOpen} />
           </div>
         </div>

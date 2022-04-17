@@ -70,7 +70,7 @@ function NavBar() {
       title: "Write",
     },
   ];
-  const ReadCount = ({ key, items }) => {
+  const ReadCount = ({ items }) => {
     const [count, setCount] = useState(0);
     useEffect(() => {
       switch (items) {
@@ -104,7 +104,6 @@ function NavBar() {
 
     return (
       <div
-        key={`not.${key}`}
         className={
           "absolute items-center justify-center text-white bottom-3 left-6 bg-red-500 rounded-full text-xs w-5 h-5 " +
           (count > 0 ? " flex" : " hidden")

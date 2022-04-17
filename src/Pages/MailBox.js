@@ -17,10 +17,11 @@ import {
   doc,
   serverTimestamp,
   deleteDoc,
+  getDocs,
 } from "firebase/firestore";
 import { motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import Sidebar from "../Components/Sidebar";
 import SwitchAdmin from "../Components/SwitchAdmin";
@@ -28,6 +29,7 @@ import { db } from "../firebase";
 import useAuth from "../hooks/userAuth";
 
 function MailBox() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState();
   const [result, setResult] = useState();
   const [mob, changeScreen] = useState(false);
@@ -364,7 +366,9 @@ function MailBox() {
                 >
                   <div className="flex flex-row justify-between m-2">
                     <div
-                      onClick={() => reply && handleView(reply)}
+                      onClick={() =>
+                        navigate(`/Author/${fromUser ? fromUser : ""}`)
+                      }
                       className="flex flex-row items-center whitespace-nowrap cursor-pointer bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400"
                     >
                       <MailIcon className="w-4" />
