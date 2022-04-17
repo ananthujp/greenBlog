@@ -28,9 +28,6 @@ function TempLogin({ show }) {
   const [email, setEmail] = useState(null);
   const UserRef = collection(db, "Profiles");
   const checkUser = (value) => {
-    // getDocs(query(UserRef, where("username", "!=", value))).then((doc) =>
-    //   doc.docs.length === 2 ? setUsrCheck(false) : setUsrCheck(true)
-    // );
     setUsrCheck(false);
     getDocs(
       query(collection(db, "Profiles"), where("username", "==", value))
@@ -99,7 +96,10 @@ function TempLogin({ show }) {
   }, [userID]);
 
   return (
-    <div className="absolute bg-white/60  z-50 w-screen h-screen flex items-center justify-center ">
+    <div
+      // key={`login.comp.${Math.random()}`}
+      className="absolute bg-white/60  z-50 w-screen h-screen flex items-center justify-center "
+    >
       <div className="flex flex-col md:flex-row px-2 py-4 md:w-3/5 w-4/5 md:h-auto rounded-xl  shadow-lg bg-white/40 backdrop-blur-lg border-white border ">
         <XIcon
           onClick={() => setLogin(false)}

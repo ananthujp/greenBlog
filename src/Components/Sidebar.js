@@ -47,41 +47,43 @@ function Sidebar({ preview, setOpen }) {
     <div className="hidden fixed md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-8 md:pt-4 md:w-auto">
       <div>
         {route.pathname.split("/")[1] !== "Posts" ? (
-          <>
-            <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
-              <img src={userID?.img} className="h-16 w-16" alt="" />
-            </div>
-            <h1 className=" font-poplg my-1 text-gray-500">{userID?.name}</h1>
-            <h1 className="text-xs font-pop  text-gray-300">{userID?.Bio}</h1>
-            <div className="flex flex-row mt-2">
-              <div
-                onClick={() => {
-                  route.pathname.split("/")[1] !== "Posts" && navigate("/");
-                  localStorage.removeItem("user");
-                  setUserID(null);
-                }}
-                className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
-              >
-                Logout
+          userID && (
+            <>
+              <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
+                <img src={userID?.img} className="h-16 w-16" alt="" />
               </div>
-              <div
-                onClick={() => preview(false)}
-                className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1"
-              >
-                <PlusIcon className="w-4 mt-1 flex text-white mx-auto my-auto" />
+              <h1 className=" font-poplg my-1 text-gray-500">{userID?.name}</h1>
+              <h1 className="text-xs font-pop  text-gray-300">{userID?.Bio}</h1>
+              <div className="flex flex-row mt-2">
+                <div
+                  onClick={() => {
+                    route.pathname.split("/")[1] !== "Posts" && navigate("/");
+                    localStorage.removeItem("user");
+                    setUserID(null);
+                  }}
+                  className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
+                >
+                  Logout
+                </div>
+                <div
+                  onClick={() => preview(false)}
+                  className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1"
+                >
+                  <PlusIcon className="w-4 mt-1 flex text-white mx-auto my-auto" />
+                </div>
               </div>
-            </div>
-            <div className="w-32 mt-4 text-indigo-400">
-              {userID && role === "admin" && <SwitchAdmin />}
-            </div>
-          </>
+              <div className="w-32 mt-4 text-indigo-400">
+                {userID && role === "admin" && <SwitchAdmin />}
+              </div>
+            </>
+          )
         ) : (
           <BlogAuthor id={author} />
         )}
         {!userID && (
           <h1
             onClick={() => setLogin(true)}
-            className="flex justify-center w-20 cursor-pointer bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white font-pop text-center from-gray-50 to-gray-100 hover:from-indigo-400 hover:to-indigo-600 p-0.5 rounded-md"
+            className="mx-auto px-4 cursor-pointer py-1 mt-6 font-pop shadow-md bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white text-center from-gray-50 to-gray-100 hover:from-indigo-400 hover:to-indigo-600 rounded-md"
           >
             Login
           </h1>

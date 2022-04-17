@@ -52,14 +52,13 @@ function Feed() {
   const getText = (txt) => {
     return txt.length > 64 ? txt.slice(0, 63) : txt;
   };
-  const Author = ({ key, id }) => {
+  const Author = ({ id }) => {
     const [auth, setAuth] = useState(null);
     getDoc(doc(db, "Profiles", id)).then((dc) => setAuth(dc.data()));
     return (
       <div
         onClick={() => navigate(`/Author/${id}`)}
-        key={`auth.id.${key}`}
-        className="flex flex-row cursor-pointer"
+        className="flex flex-row cursor-pointer p-1 rounded-md hover:bg-white"
       >
         <img alt="" src={auth?.img} className="mr-2 h-4 w-4 rounded-full" />
         <h1 className="font-poplg text-xs my-auto">{auth?.name}</h1>
@@ -68,7 +67,7 @@ function Feed() {
   };
   return (
     <div className="w-full flex flex-col px-4">
-      <div className="border-y border-gray-400">
+      <div className="mt-4">
         <h1 className="mx-8">Popular posts</h1>
         <div className="flex flex-wrap -mt-4 flex-row">
           {posts?.map((dc, i) => (
@@ -97,10 +96,13 @@ function Feed() {
           ))}
         </div>
       </div>
-      <div className="border-b mt-6 flex w-full border-gray-400">
-        <div className="flex flex-col -mt-4 w-full">
+      <div className="border-y mt-6 flex w-full border-purple-300">
+        <div className="flex flex-col w-full">
           {posts?.map((dc, i) => (
-            <div className="flex flex-row w-full justify-between mx-4 my-6">
+            <div
+              key={`feed.2.${i}`}
+              className="flex flex-row hover:bg-indigo-50 rounded-md py-2 w-full justify-between px-4 my-4"
+            >
               <div className="flex flex-col flex-start ">
                 <div className="flex flex-row items-center mr-1">
                   <Author key={`key.author${i}`} id={dc.user} />
@@ -123,7 +125,7 @@ function Feed() {
                   {dc.time}. 3 min read
                 </div>
               </div>
-              <img className="w-56 " src={dc?.img} alt="" />
+              <img className="w-32 h-32 object-cover" src={dc?.img} alt="" />
             </div>
           ))}
         </div>

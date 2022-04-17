@@ -13,6 +13,7 @@ import {
 import { useState } from "react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase";
+import Feed from "./Feed";
 const Item = [
   {
     icon: (
@@ -94,7 +95,7 @@ function Home() {
     );
   };
   return (
-    <div className="w-full bg-gradient-to-br from-indigo-100 to-purple-100">
+    <div className="w-full flex flex-col ">
       {/* <div className="relative md:h-screen">
         <NavBar />
       </div> */}
@@ -102,10 +103,10 @@ function Home() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className=" flex flex-col overflow-y-auto"
+        className=" flex flex-col border-b border-purple-300 overflow-y-auto bg-gradient-to-br from-indigo-100 to-purple-100"
       >
-        <div className="relative flex flex-col h-screen w-full justify-between">
-          <div className="flex  md:flex-row flex-col w-full justify-between px-8 py-12 my-auto h-auto md:h-full">
+        <div className="relative flex flex-col md:my-16 my-2  w-full justify-between">
+          <div className="flex  md:flex-row flex-col w-full justify-between px-8 md:py-12 py-4 my-auto h-auto md:h-full">
             <div className="flex md:my-auto">
               <img
                 src={HomeLogo}
@@ -166,6 +167,7 @@ function Home() {
           </div>
         </div>
       </motion.div>
+      <Feed />
     </div>
   );
 }

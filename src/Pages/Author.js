@@ -102,6 +102,13 @@ function Author() {
               </th>
             </tr>
           ))}
+          {post?.length < 1 && (
+            <tr className="cursor-default border-y border-gray-200 py-3 h-12 font-pop transition-all rounded-lg text-gray-700 hover:bg-indigo-100">
+              <th className="pr-3 whitespace-nowrap italic text-gray-400">
+                No articles
+              </th>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
