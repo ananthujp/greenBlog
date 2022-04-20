@@ -68,7 +68,9 @@ function Author() {
       <div className="w-3/4 mt-1">
         <div class="mb-2 flex flex-row justify-center">
           <div class="-mt-2 text-5xl text-left text-gray-600">“</div>
-          <p class="px-2 text-sm text-center text-gray-600">{auth?.bio}</p>
+          <p class="px-2 text-sm text-center text-gray-600">
+            {auth?.bio ? auth.bio : "No Bio"}
+          </p>
           <div class="mb-1 text-3xl text-right text-gray-600">”</div>
         </div>
       </div>

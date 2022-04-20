@@ -65,7 +65,7 @@ function Write() {
     setTimeout(
       () =>
         updateDoc(docRef, {
-          user: userID.id !== "HyAS9bQrGoNbH6yekzzK" ? userID.id : author.id,
+          user: author.id,
           title: title,
           timestamp: serverTimestamp(),
           status: flag

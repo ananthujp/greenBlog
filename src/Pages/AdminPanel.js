@@ -36,11 +36,25 @@ function AdminPanel() {
     onSnapshot(
       query(PostRef, where("status", "==", "Waiting for Review")),
       (dc) => {
-        setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })));
+        setPost(
+          dc.docs.map((doc) => ({
+            title: doc.data().title,
+            user: doc.data().user,
+            status: doc.data().status,
+            id: doc.id,
+          }))
+        );
       }
     );
     onSnapshot(query(PostRef, where("status", "==", "Approved")), (dc) => {
-      setapprovedPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })));
+      setapprovedPost(
+        dc.docs.map((doc) => ({
+          title: doc.data().title,
+          user: doc.data().user,
+          status: doc.data().status,
+          id: doc.id,
+        }))
+      );
     });
   }, []);
   const HandleAuthor = ({ user }) => {
@@ -141,17 +155,17 @@ function AdminPanel() {
                 >
                   <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                   <th className="pr-3 whitespace-nowrap text-left">
-                    {dc.data.title}
+                    {dc.title}
                   </th>
                   <th className="pr-3 whitespace-nowrap text-left">
-                    <HandleAuthor user={dc.data.user} />
+                    <HandleAuthor user={dc.user} />
                   </th>
                   <th className=" whitespace-nowrap ">#</th>
                   <th className="pr-3 text-left pl-3 whitespace-nowrap text-gray-300">
-                    {dc.data.status}
+                    {dc.status}
                   </th>
                   <th className="pr-3 text-left whitespace-nowrap flex flex-row">
-                    {dc.data.status !== "Approved" ? (
+                    {dc.status !== "Approved" ? (
                       <div
                         onClick={() => navigate(`/Write/${dc.id}`)}
                         className="hover:bg-gray-200 rounded-full p-1"
@@ -161,15 +175,15 @@ function AdminPanel() {
                     ) : (
                       <></>
                     )}
-                    {dc.data.status !== "Approved" || role === "admin" ? (
+                    {dc.status !== "Approved" || role === "admin" ? (
                       <div
                         onClick={() => {
                           deleteDoc(doc(db, "Posts", dc.id));
                           setNotification(
-                            dc.data.user,
+                            dc.user,
                             "Your article is  removed",
                             "Your article titled " +
-                              dc.data.title +
+                              dc.title +
                               " has been removed.",
                             3
                           );
@@ -208,19 +222,19 @@ function AdminPanel() {
                 >
                   <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                   <th className="pr-3 whitespace-nowrap text-left">
-                    {dc.data.title}
+                    {dc.title}
                   </th>
                   <th className="pr-3 whitespace-nowrap text-left">
                     <button>
-                      <HandleAuthor user={dc.data.user} />
+                      <HandleAuthor user={dc.user} />
                     </button>
                   </th>
                   <th className=" whitespace-nowrap ">#</th>
                   <th className="pr-3 text-left pl-3 whitespace-nowrap text-gray-300">
-                    {dc.data.status}
+                    {dc.status}
                   </th>
                   <th className="pr-3 text-left whitespace-nowrap flex flex-row">
-                    {dc.data.status !== "Approved" || role === "admin" ? (
+                    {dc.status !== "Approved" || role === "admin" ? (
                       <>
                         <div
                           onClick={() => navigate(`/Write/${dc.id}`)}
@@ -238,7 +252,7 @@ function AdminPanel() {
                     ) : (
                       <></>
                     )}
-                    {dc.data.status !== "Approved" || role === "admin" ? (
+                    {dc.status !== "Approved" || role === "admin" ? (
                       <div
                         onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
                         className="hover:bg-gray-200 rounded-full p-1"

@@ -176,7 +176,7 @@ function Post() {
           </h1>
         </div>
       ) : (
-        <div className="flex  bg-white px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
+        <div className="flex  bg-white px-6 md:px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
           <div className="flex flex-row items-center mb-8 w-full justify-between">
             <div
               onClick={() => navigate("/Author/" + author?.id)}
@@ -285,7 +285,10 @@ function Post() {
           </div>
 
           <div className="flex flex-col mt-5 border-t">
-            <div className="flex justify-center mt-4">
+            <div className="flex flex-col justify-center mt-4">
+              <h1 className="flex font-poplg text-lg text-gray-600 mb-4">
+                Comments({comments?.length})
+              </h1>
               {!userID ? (
                 <div
                   onClick={() => setLogin(true)}
@@ -329,7 +332,7 @@ function Post() {
                         onClick={() => AddComment()}
                         className="mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-md font-pop h-6 text-white px-4"
                       >
-                        Post
+                        Comment
                       </div>
                     </div>
                   </div>
@@ -365,7 +368,10 @@ function Post() {
                 className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 my-2"
               >
                 <div className="flex flex-row items-center w-full justify-between">
-                  <div className="flex flex-row items-center mb-1">
+                  <div
+                    onClick={() => navigate("/Author/" + dc?.auth)}
+                    className="flex flex-row items-center mb-1 cursor-pointer hover:bg-white p-1 rounded-md"
+                  >
                     <img
                       className="w-8 h-8 object-cover rounded-full"
                       alt=""

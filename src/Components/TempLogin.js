@@ -2,10 +2,12 @@ import { signInWithPopup } from "firebase/auth";
 import {
   addDoc,
   collection,
+  doc,
   getDoc,
   getDocs,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
@@ -23,9 +25,11 @@ function TempLogin({ show }) {
   const [load, setLoad] = useState(false);
   const [bio, setBio] = useState(null);
   const [screen, Switch] = useState(false); ///ivideyaanu ivideyaanu
+  const [forgot, SwitchF] = useState(false); ///ivideyaanu ivideyaanu
   const [username, setUserName] = useState(null);
   const [pass, setPass] = useState(null);
   const [email, setEmail] = useState(null);
+  const [forgemail, setFEmail] = useState(null);
   const UserRef = collection(db, "Profiles");
   const checkUser = (value) => {
     setUsrCheck(false);
@@ -88,6 +92,38 @@ function TempLogin({ show }) {
       3000
     );
   };
+  const recoverEmailCheck = (email) => {
+    setLoad(true);
+    getDocs(query(collection(db, "Profiles"), where("email", "==", email)))
+      .then((dic) =>
+        dic.docs.length
+          ? dic.docs.map((dc) => {
+              setFEmail(dc.data().email);
+              setUserName({ user: dc.data().username, id: dc.id });
+            })
+          : setFEmail("none")
+      )
+      .then(() => setLoad(false));
+  };
+  const handleRecover = () => {
+    setLoad(true);
+    const randomPassword =
+      Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+
+    updateDoc(
+      doc(db, "Profiles", username.id),
+      {
+        password: pass.toString(),
+      },
+      { merge: true }
+    ).then(() => {
+      setLoad(false);
+      setFEmail(null);
+      setUserName(null);
+      setPass(null);
+      setStatus("Your password has been reset");
+    });
+  };
   useEffect(() => {
     user ? checkEmail(user.email) : <></>;
   }, [user]);
@@ -98,7 +134,10 @@ function TempLogin({ show }) {
   return (
     <div
       // key={`login.comp.${Math.random()}`}
-      className="absolute bg-white/60  z-50 w-screen h-screen flex items-center justify-center "
+      className={
+        " bg-white/60  z-50 w-screen h-screen flex items-center justify-center " +
+        (show ? " fixed" : " hidden")
+      }
     >
       <div className="flex flex-col md:flex-row px-2 py-4 md:w-3/5 w-4/5 md:h-auto rounded-xl  shadow-lg bg-white/40 backdrop-blur-lg border-white border ">
         <XIcon
@@ -107,7 +146,115 @@ function TempLogin({ show }) {
         />
         <img src={logo} alt="logo" className="w-1/2 mx-auto" />
         <div className="flex flex-col items-center justify-center">
-          {screen ? (
+          {forgot ? (
+            <>
+              <h1 className="cursor-pointer font-pop text-center  text-indigo-600  text-xl">
+                Forgot Username/Password
+              </h1>
+              <div className="grid grid-cols-2 px-4 gap-2 grid-flow-row items-center ">
+                <h1 className="font-pop cursor-pointer text-gray-600 mr-12">
+                  Verify
+                </h1>
+                <div
+                  onClick={() =>
+                    signInWithPopup(auth, provider).then((dc) =>
+                      recoverEmailCheck(dc.user.email)
+                    )
+                  }
+                  className="flex px-2 cursor-pointer flex-row items-center justify-center bg-gradient-to-b from-indigo-100 to-indigo-300 hover:to-indigo-200 rounded-md"
+                >
+                  {forgemail ? (
+                    forgemail !== "none" ? (
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/512px-Flat_tick_icon.svg.png?20170316053531"
+                        className="w-4 h-4"
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Cross_red_circle.svg/512px-Cross_red_circle.svg.png"
+                        className="w-4 h-4"
+                        alt=""
+                      />
+                    )
+                  ) : !load ? (
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png"
+                      className="w-4 h-4"
+                      alt=""
+                    />
+                  ) : (
+                    <Spin
+                      color="#ffffff"
+                      width="15px"
+                      height="15px"
+                      duration="2s"
+                    />
+                  )}
+                  <h1 className="font-pop text-white ml-1 pt-1">Verify</h1>
+                </div>
+
+                <h1
+                  className={
+                    "font-pop text-gray-600 my-auto mr-2" +
+                    (username ? " flex" : " hidden")
+                  }
+                >
+                  Username
+                </h1>
+                <input
+                  type="text"
+                  disabled
+                  value={username?.user}
+                  className={
+                    "  border-white border rounded-lg w-full bg-indigo-50 outline-none p-1 " +
+                    (username ? " flex" : " hidden")
+                  }
+                />
+
+                <h1
+                  className={
+                    "font-pop text-gray-600 my-auto mr-2" +
+                    (forgemail ? " flex" : " hidden")
+                  }
+                >
+                  New Password
+                </h1>
+                <input
+                  type="password"
+                  onChange={(e) =>
+                    setPass(CryptoJS.AES.encrypt(e.target.value, "ae!@qws"))
+                  }
+                  className={
+                    "  border-white border rounded-lg w-full bg-indigo-50 outline-none p-1 " +
+                    (forgemail ? " flex" : " hidden")
+                  }
+                />
+              </div>
+              <h1 className={"font-pop text-gray-600 text-center mt-2"}>
+                {status}
+              </h1>
+              <button
+                onClick={() =>
+                  status !== "Your password has been reset"
+                    ? handleRecover()
+                    : SwitchF(false)
+                }
+                type="button"
+                className="flex flex-row justify-around items-center mx-auto mt-6 w-32 text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-full text-sm px-5 py-1.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
+              >
+                {load && (
+                  <Spin
+                    color="#ffffff"
+                    width="15px"
+                    height="15px"
+                    duration="2s"
+                  />
+                )}
+                {status !== "Your password has been reset" ? "Reset" : "Login"}
+              </button>
+            </>
+          ) : screen ? (
             <>
               <div className="flex flex-row justify-between items-center">
                 <div></div>
@@ -117,7 +264,7 @@ function TempLogin({ show }) {
                   </h1>
                   <h1
                     onClick={() => Switch(false)}
-                    className="cursor-pointer font-poplg text-center text-gray-200 text-xl"
+                    className="cursor-pointer font-poplg text-center text-gray-400 text-xl"
                   >
                     &nbsp;/ Sign In
                   </h1>
@@ -165,7 +312,7 @@ function TempLogin({ show }) {
                       })
                     )
                   }
-                  className="flex px-2  flex-row items-center justify-center bg-gradient-to-b from-indigo-100 to-indigo-300 hover:to-indigo-200 rounded-md"
+                  className="flex px-2 cursor-pointer flex-row items-center justify-center bg-gradient-to-b from-indigo-100 to-indigo-300 hover:to-indigo-200 rounded-md"
                 >
                   {user && !email ? (
                     <img
@@ -247,7 +394,7 @@ function TempLogin({ show }) {
               <div className="flex flex-row justify-center">
                 <h1
                   onClick={() => Switch(true)}
-                  className="cursor-pointer font-poplg text-center  text-gray-200  text-xl"
+                  className="cursor-pointer font-poplg text-center  text-gray-400  text-xl"
                 >
                   Sign Up
                 </h1>
@@ -301,6 +448,15 @@ function TempLogin({ show }) {
               </button>
             </div>
           )}
+          <h1
+            onClick={() => SwitchF(true)}
+            className={
+              "font-pop cursor-pointer text-blue-400 " +
+              (forgot ? " hidden" : "flex")
+            }
+          >
+            Forgot Username/Password?
+          </h1>
         </div>
       </div>
     </div>

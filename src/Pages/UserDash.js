@@ -41,7 +41,13 @@ function UserDash() {
         orderBy("timestamp", "desc")
       )
     ).then((dc) =>
-      setPost(dc.docs.map((doc) => ({ data: doc.data(), id: doc.id })))
+      setPost(
+        dc.docs.map((doc) => ({
+          title: doc.data().title,
+          status: doc.data().status,
+          id: doc.id,
+        }))
+      )
     );
   }, []);
   const item = " rounded-md border border-gray-200 shadow-sm";
@@ -142,14 +148,14 @@ function UserDash() {
                 >
                   <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                   <th className="pr-3 whitespace-nowrap text-left">
-                    {dc.data.title}
+                    {dc.title}
                   </th>
                   <th className=" whitespace-nowrap ">#</th>
                   <th className=" pr-3 text-left pl-3 whitespace-nowrap text-gray-400">
-                    {dc.data.status}
+                    {dc.status}
                   </th>
                   <th className="pr-3 text-left h-12 text-gray-400 whitespace-nowrap flex flex-row">
-                    {dc.data.status !== "Approved" ? (
+                    {dc.status !== "Approved" ? (
                       <>
                         <div
                           onClick={() => navigate(`/Write/${dc.id}`)}
@@ -164,7 +170,7 @@ function UserDash() {
                               userID?.id,
                               "Your article is  removed",
                               "Your article titled " +
-                                dc.data.title +
+                                dc.title +
                                 " has been removed.",
                               3
                             );
