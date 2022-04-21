@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/userAuth";
@@ -9,7 +9,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 function Sidebar({ preview, setOpen }) {
   const route = useLocation();
+  const [dark, setDispMode] = useState(false);
   const { userID, setUserID, role, setLogin, author } = useAuth();
+  useEffect(() => {
+    dark
+      ? document.documentElement.classList.add("dark")
+      : document.documentElement.classList.remove("dark");
+  }, [dark]);
   const navigate = useNavigate();
   const BlogAuthor = ({ id }) => {
     const [auth, setAuth] = useState();
@@ -108,28 +114,41 @@ function Sidebar({ preview, setOpen }) {
       </div> */}
       <button
         type="button"
-        className="flex mx-auto px-4 py-1 mt-6 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800"
+        className="flex mx-auto px-8 py-1 mt-6 font-pop shadow-md hover:shadow-lg text-white rounded-full bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800"
         onClick={() => setOpen((o) => !o)}
       >
         Subscribe
       </button>
-      <label>
-        <input className="toggle-checkbox" type="checkbox"></input>
-        <div className="toggle-slot">
+      <label className="mt-4 ">
+        <input
+          onChange={(e) => setDispMode(e.target.checked)}
+          className="toggle-checkbox group"
+          type="checkbox"
+        ></input>
+        <div
+          className={
+            "toggle-slot border " +
+            (dark ? "border-indigo-500" : "border-yellow-500")
+          }
+        >
           <div className="sun-icon-wrapper">
             <div
-              className="iconify sun-icon"
+              className="iconify sun-icon -mt-0.5"
               data-icon="feather-sun"
               data-inline="false"
-            ></div>
+            >
+              Light Mode
+            </div>
           </div>
           <div className="toggle-button"></div>
           <div className="moon-icon-wrapper">
             <div
-              className="iconify moon-icon"
+              className="iconify moon-icon -mt-0.5"
               data-icon="feather-moon"
               data-inline="false"
-            ></div>
+            >
+              Dark Mode
+            </div>
           </div>
         </div>
       </label>

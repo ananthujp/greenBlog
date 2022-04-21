@@ -24,10 +24,7 @@ const AnimatedRoutes = () => {
   const [sub, setSub] = useState(false);
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
-  useEffect(() => {
-    localStorage.theme = "dark";
-    document.documentElement.classList.add("dark");
-  }, []);
+
   return (
     <AnimatePresence exitBeforeEnter>
       <TempLogin show={login} />

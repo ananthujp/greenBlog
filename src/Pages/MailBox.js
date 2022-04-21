@@ -269,7 +269,7 @@ function MailBox() {
                   settextCont("");
                   setTo({ id: "HyAS9bQrGoNbH6yekzzK", name: "Admin" });
                 }}
-                className="mx-2 mb-4 flex lex-row justify-center text-indigo-400 dark:text-white hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-800 bg-indigo-50 dark:bg-slate-500 cursor-pointer shadow-md rounded-full items-center h-12"
+                className="mx-2 mb-4 flex flex-row justify-center text-indigo-400 dark:text-white hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-800 bg-indigo-50 dark:bg-slate-500 cursor-pointer shadow-md rounded-full items-center h-12"
               >
                 <PlusCircleIcon className="w-6 mr-2" />
                 New Mail
@@ -279,7 +279,7 @@ function MailBox() {
               {mailview ? (
                 <div className=" flex flex-col h-full w-full">
                   <div className="flex flex-row justify-between m-2">
-                    <div className="relative flex flex-row cursor-pointer items-center whitespace-nowrap bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400">
+                    <div className="relative flex flex-row cursor-pointer items-center whitespace-nowrap dark:bg-slate-600 bg-gray-50 border border-r-gray-200 dark:border-slate-800 px-4 py-1 rounded-full text-gray-400">
                       <MailIcon
                         onClick={() => setSender(true)}
                         className="w-4"
@@ -339,22 +339,22 @@ function MailBox() {
                     </div>
                   </div>
 
-                  <div className=" flex flex-row items-end rounded-full border border-indigo-200 mx-2">
-                    <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto">
+                  <div className=" flex flex-row items-end rounded-full  dark:bg-slate-600 overflow-hidden border dark:border-slate-800 border-indigo-200 mx-2">
+                    <h1 className="font-pop text-indigo-500 rounded-full dark:bg-slate-600  bg-gray-50 p-1 ml-2 mt-0 my-auto">
                       Subject :
                     </h1>
                     <input
                       onChange={(e) => settitle(e.target.value)}
                       value={title ? title : ""}
                       type="text"
-                      className="outline-none p-1 flex items-start"
+                      className="outline-none p-1 flex dark:bg-slate-600 items-start"
                     />
                   </div>
-                  <div className="flex flex-col h-full border border-indigo-200 m-2">
+                  <div className="flex flex-col h-full border dark:border-slate-800 border-indigo-200 m-2">
                     <textarea
                       onChange={(e) => settextCont(e.target.value)}
                       value={textCont}
-                      className="h-full outline-none bg-transparent p-4 flex items-start"
+                      className="h-full dark:bg-slate-600 dark:text-white outline-none bg-transparent p-4 flex items-start"
                     />
                     {reply && (
                       <div className="flex flex-col p-4">
@@ -527,7 +527,7 @@ function MailBox() {
               {mob && mailview ? (
                 <div className=" flex flex-col h-full w-full">
                   <div className="flex flex-row justify-between m-2">
-                    <div className="relative flex flex-row cursor-pointer items-center whitespace-nowrap bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400">
+                    <div className="relative flex flex-row dark:bg-slate-600 cursor-pointer items-center whitespace-nowrap bg-gray-50 border dark:border-slate-800 border-r-gray-200 px-4 py-1 rounded-full text-gray-400">
                       <MailIcon
                         onClick={() => setSender(true)}
                         className="w-4"
@@ -587,22 +587,22 @@ function MailBox() {
                     </div>
                   </div>
 
-                  <div className=" flex flex-row items-end rounded-full border border-indigo-200 mx-2">
-                    <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto">
+                  <div className=" flex flex-row items-end rounded-full border dark:border-slate-700 dark:bg-slate-600 border-indigo-200 mx-2">
+                    <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto">
                       Subject :
                     </h1>
                     <input
                       onChange={(e) => settitle(e.target.value)}
                       value={title ? title : ""}
                       type="text"
-                      className="outline-none p-1 flex items-start"
+                      className="outline-none p-1 dark:bg-slate-600 dark:text-gray-100 flex items-start"
                     />
                   </div>
-                  <div className="flex flex-col h-full border border-indigo-200 m-2">
+                  <div className="flex flex-col h-full border border-indigo-200 dark:border-slate-800 m-2">
                     <textarea
                       onChange={(e) => settextCont(e.target.value)}
                       value={textCont}
-                      className="h-full outline-none bg-transparent p-4 flex items-start"
+                      className="h-full outline-none bg-transparent dark:bg-slate-600 dark:text-gray-100 p-4 flex items-start"
                     />
                     {reply && (
                       <div className="flex flex-col p-4">
@@ -646,7 +646,7 @@ function MailBox() {
                       </div>
                     </div>
 
-                    <div className=" flex flex-row items-end dark:bg-slate-600 rounded-full bg-gray-50 border-indigo-200 mx-2">
+                    <div className=" flex flex-row items-end  overflow-hidden dark:bg-slate-600 rounded-full bg-gray-50 border-indigo-200 mx-2">
                       <h1 className="font-pop dark:bg-slate-600 text-indigo-500 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto">
                         Subject :
                       </h1>

@@ -22,7 +22,7 @@ import UserMenu from "./UserMenu";
 function NavBar() {
   const scr = window.matchMedia("(min-width: 768px)");
   const { role, userID } = useAuth();
-
+  const [dark, setDispMode] = useState(false);
   const route = useLocation();
   const [hover, setHover] = useState(false);
   const [showMenu, setshowMenu] = useState(false);
@@ -116,7 +116,13 @@ function NavBar() {
 
   return (
     <>
-      {showMenu && <UserMenu setshowMenu={setshowMenu} />}
+      {showMenu && (
+        <UserMenu
+          setshowMenu={setshowMenu}
+          dark={dark}
+          setDispMode={setDispMode}
+        />
+      )}
       <div
         onMouseEnter={() => window.innerWidth > 640 && setHover(true)}
         onMouseLeave={() => window.innerWidth > 640 && setHover(false)}
