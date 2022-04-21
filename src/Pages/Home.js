@@ -17,7 +17,7 @@ import Feed from "./Feed";
 const Item = [
   {
     icon: (
-      <PencilAltIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
+      <PencilAltIcon className="text-gray-600 dark:text-gray-200 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Write",
     link: "/Write",
@@ -25,7 +25,7 @@ const Item = [
   },
   {
     icon: (
-      <BellIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
+      <BellIcon className="text-gray-600 dark:text-gray-200 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Notifications",
     link: "/Notifications",
@@ -33,7 +33,7 @@ const Item = [
   },
   {
     icon: (
-      <UserIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
+      <UserIcon className="text-gray-600 dark:text-gray-200 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Dashboard",
     link: "/UserDash",
@@ -41,7 +41,7 @@ const Item = [
   },
   {
     icon: (
-      <MailIcon className="text-gray-600 group-hover:text-white w-12 md:w-20" />
+      <MailIcon className="text-gray-600 dark:text-gray-200 group-hover:text-white w-12 md:w-20" />
     ),
     name: "Mailbox",
     link: "/MailBox",
@@ -103,7 +103,7 @@ function Home() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className=" flex flex-col border-b border-purple-300 overflow-y-auto bg-gradient-to-br from-indigo-100 to-purple-100"
+        className=" flex flex-col border-b border-purple-300 overflow-y-auto bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-slate-600 dark:to-gray-600"
       >
         <div className="relative flex flex-col md:my-16 my-2  w-full justify-between">
           <div className="flex  md:flex-row flex-col w-full justify-between px-8 md:py-12 py-4 my-auto h-auto md:h-full">
@@ -114,14 +114,14 @@ function Home() {
                 alt=""
               />
             </div>
-            <div className="md:w-full w-4/5 my-auto md:mx-0 mx-auto  rounded-lg border-white border bg-white/40 backdrop-blur-md px-6 py-4">
-              <h1 className="font-pop text-indigo-500 text-4xl md:text-5xl">
+            <div className="md:w-full w-4/5 my-auto md:mx-0 mx-auto  rounded-lg border-white dark:border-slate-500 border bg-white/40 dark:bg-slate-800/60 backdrop-blur-md px-6 py-4">
+              <h1 className="font-pop text-indigo-500 dark:text-indigo-600 text-4xl md:text-5xl">
                 Write Your
               </h1>
-              <h1 className="font-popxl md:-mt-7 text-indigo-500 text-5xl md:text-6xl">
+              <h1 className="font-popxl md:-mt-7 dark:text-indigo-600 text-indigo-500 text-5xl md:text-6xl">
                 FIRST BLOG
               </h1>
-              <h1 className="font-pop text-gray-500">
+              <h1 className="font-pop text-gray-500 dark:text-gray-300">
                 We want to hear your stories, your experiences, your
                 contribution, your message to make this world a better place.
                 Come pen down your thoughts and create a unique and beautiful
@@ -137,8 +137,8 @@ function Home() {
                       className={
                         "  cursor-pointer transition-all hover:bg-white shadow-md md:mt-6 mt-2 px-6 py-2 rounded-3xl text-center text-white" +
                         (userID
-                          ? " bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 shadow-md"
-                          : " bg-gradient-to-br from-orange-400 to-orange-500 hover:to-orange-600 shadow-md")
+                          ? " bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 shadow-md dark:from-indigo-600 dark:to-indigo-800  dark:hover:to-indigo-900"
+                          : " bg-gradient-to-br from-orange-400 to-orange-500 hover:to-orange-600 shadow-md dark:from-orange-600 dark:to-orange-800 dark:hover:to-orange-900")
                       }
                     >
                       {userID ? "Write" : "Login/Register"}
@@ -148,14 +148,14 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="flex mx-auto w-4/5 flex-row justify-around md:mt-0 mt-6 pb-12">
+          <div className="flex mx-auto flex-row justify-around md:mt-0 mt-6 pb-12">
             {userID &&
               Item.map((doc) => (
                 <Link to={doc.link}>
-                  <div className="relative border-white hover:border-indigo-400 border w-24 md:w-36 lg:w-44 flex flex-col group hover:shadow-md shadow-sm overflow-hidden md:p-6 p-4 md:mx-4 mx-2 rounded-xl bg-gradient-to-br from-white/60 to-white/30 backdrop-blur-md transition-all hover:from-indigo-400 hover:to-indigo-500">
+                  <div className="relative border-white   dark:border-slate-600 hover:border-indigo-400 border w-24 md:w-36 lg:w-44 flex flex-col group hover:shadow-md shadow-sm overflow-hidden md:p-6 p-4 md:mx-4 mx-2 rounded-xl bg-gradient-to-br from-white/60 to-white/30  dark:from-slate-800/60 dark:to-slate-800/30 backdrop-blur-md transition-all hover:from-indigo-400 hover:to-indigo-500 dark:hover:from-indigo-600 dark:hover:to-indigo-800">
                     {doc.icon}
                     <ReadCount items={doc.name} />
-                    <h1 className="font-popxl mt-2 sm:text-sm text-xs md:text-xl text-gray-600 group-hover:text-white my-auto">
+                    <h1 className="font-popxl mt-2 sm:text-sm text-xs md:text-xl text-gray-600 dark:text-gray-200 group-hover:text-white my-auto">
                       {doc.name}
                     </h1>
                     <div className="font-pop hidden md:flex text-xs group-hover:text-white text-gray-400">

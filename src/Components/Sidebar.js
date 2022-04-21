@@ -17,7 +17,7 @@ function Sidebar({ preview, setOpen }) {
       setAuth({ id: dic.id, data: dic.data() })
     );
     return (
-      <div className="flex flex-col border-y py-6 border-gray-200">
+      <div className="flex flex-col border-y py-6 dark:bg-slate-600 border-gray-200">
         <h1 className="font-pop text-gray-600 mb-2">Blog Author</h1>
         <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
           <img src={auth?.data?.img} className="h-16 w-16" alt="" />
@@ -44,7 +44,7 @@ function Sidebar({ preview, setOpen }) {
     );
   };
   return (
-    <div className="hidden fixed md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 px-8 md:pt-4 md:w-auto">
+    <div className="hidden fixed md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 dark:border-slate-900 px-8 md:pt-4 md:w-auto">
       <div>
         {route.pathname.split("/")[1] !== "Posts" ? (
           userID && (
@@ -52,7 +52,9 @@ function Sidebar({ preview, setOpen }) {
               <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
                 <img src={userID?.img} className="h-16 w-16" alt="" />
               </div>
-              <h1 className=" font-poplg my-1 text-gray-500">{userID?.name}</h1>
+              <h1 className=" font-poplg my-1 text-gray-500 dark:text-white">
+                {userID?.name}
+              </h1>
               <h1 className="text-xs font-pop  text-gray-300">{userID?.Bio}</h1>
               <div className="flex flex-row mt-2">
                 <div
@@ -61,18 +63,18 @@ function Sidebar({ preview, setOpen }) {
                     localStorage.removeItem("user");
                     setUserID(null);
                   }}
-                  className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
+                  className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800 hover:to-indigo-600"
                 >
                   Logout
                 </div>
                 <div
                   onClick={() => preview(false)}
-                  className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1"
+                  className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800"
                 >
                   <PlusIcon className="w-4 mt-1 flex text-white mx-auto my-auto" />
                 </div>
               </div>
-              <div className="w-32 mt-4 text-indigo-400">
+              <div className="w-32 mt-4 text-indigo-400 dark:text-white">
                 {userID && role === "admin" && <SwitchAdmin />}
               </div>
             </>
@@ -106,11 +108,31 @@ function Sidebar({ preview, setOpen }) {
       </div> */}
       <button
         type="button"
-        className="flex mx-auto px-4 py-1 mt-6 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600"
+        className="flex mx-auto px-4 py-1 mt-6 font-pop shadow-md hover:shadow-lg text-white rounded-md bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800"
         onClick={() => setOpen((o) => !o)}
       >
         Subscribe
       </button>
+      <label>
+        <input className="toggle-checkbox" type="checkbox"></input>
+        <div className="toggle-slot">
+          <div className="sun-icon-wrapper">
+            <div
+              className="iconify sun-icon"
+              data-icon="feather-sun"
+              data-inline="false"
+            ></div>
+          </div>
+          <div className="toggle-button"></div>
+          <div className="moon-icon-wrapper">
+            <div
+              className="iconify moon-icon"
+              data-icon="feather-moon"
+              data-inline="false"
+            ></div>
+          </div>
+        </div>
+      </label>
     </div>
   );
 }

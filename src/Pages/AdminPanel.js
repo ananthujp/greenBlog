@@ -30,7 +30,8 @@ function AdminPanel() {
   const [post, setPost] = useState();
   const [approvedpost, setapprovedPost] = useState();
   const PostRef = collection(db, "Posts");
-  const item = " rounded-md border border-gray-200 shadow-sm";
+  const item =
+    " rounded-md border border-gray-200 shadow-sm dark:border-slate-500 dark:bg-slate-700";
   useEffect(() => {
     switChId(1);
     onSnapshot(
@@ -75,15 +76,17 @@ function AdminPanel() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex flex-col w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50"
+        className="flex flex-col w-full px-8 md:px-16 dark:bg-slate-600 pt-2 md:pt-12 bg-gray-50"
       >
-        <h1 className="font-poplg text-2xl text-left text-indigo-900">
+        <h1 className="font-poplg text-2xl text-left text-indigo-900 dark:text-indigo-500">
           {"Hi " + userID?.name.split(" ")[0] + ", Welcome back!"}
         </h1>
         <h1 className="font-popxs text-md text-indigo-300">Admin Panel</h1>
         <div className="flex flex-row w-full">
           <div className={"flex flex-col w-1/2 bg-white p-4 " + item}>
-            <h1 className="font-pop text-md text-indigo-900">Articles</h1>
+            <h1 className="font-pop text-md text-indigo-900 dark:text-indigo-500">
+              Articles
+            </h1>
             <div className="flex flex-row mx-auto">
               <div className="flex flex-row">
                 <div className="w-3 h-3 my-1 mr-1 rounded-full bg-indigo-700"></div>
@@ -111,7 +114,7 @@ function AdminPanel() {
                 "flex flex-row bg-white pl-4 pr-16 items-center " + item
               }
             >
-              <div className="p-2 bg-gray-100 rounded-full">
+              <div className="p-2 bg-gray-100 dark:bg-slate-500 rounded-full">
                 <DocumentTextIcon className="w-6 text-indigo-600" />
               </div>
               <div className="flex flex-col justify-center ml-4 mt-2">
@@ -124,7 +127,7 @@ function AdminPanel() {
                 "flex flex-row bg-white mt-4 pl-4 pr-16 items-center" + item
               }
             >
-              <div className="p-2 bg-gray-100 rounded-full">
+              <div className="p-2 bg-gray-100 dark:bg-slate-500 rounded-full">
                 <AnnotationIcon className="w-6 text-sky-400" />
               </div>
               <div className="flex flex-col justify-center ml-4 mt-2">
@@ -140,7 +143,7 @@ function AdminPanel() {
         <div className={"flex px-3 py-2 flex-row bg-white w-full " + item}>
           <table className=" w-full">
             <tbody>
-              <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900">
+              <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900 dark:text-indigo-500">
                 <th className="whitespace-nowrap pr-3">No</th>
                 <th className="whitespace-nowrap w-1/5">Title</th>
                 <th className="whitespace-nowrap w-1/5 ">Author</th>
@@ -151,7 +154,7 @@ function AdminPanel() {
               {post?.map((dc, i) => (
                 <tr
                   key={`data.jkey${i}`}
-                  className="cursor-default py-3 font-pop text-gray-400 hover:text-gray-600"
+                  className="cursor-default py-3 font-pop text-gray-400 hover:text-gray-600 dark:hover:text-slate-200"
                 >
                   <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                   <th className="pr-3 whitespace-nowrap text-left">
@@ -168,9 +171,9 @@ function AdminPanel() {
                     {dc.status !== "Approved" ? (
                       <div
                         onClick={() => navigate(`/Write/${dc.id}`)}
-                        className="hover:bg-gray-200 rounded-full p-1"
+                        className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                       >
-                        <PencilAltIcon className="w-5 hover:text-indigo-600" />
+                        <PencilAltIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
                       </div>
                     ) : (
                       <></>
@@ -188,9 +191,9 @@ function AdminPanel() {
                             3
                           );
                         }}
-                        className="hover:bg-gray-200 rounded-full p-1"
+                        className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                       >
-                        <TrashIcon className="w-5 hover:text-indigo-600" />
+                        <TrashIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
                       </div>
                     ) : (
                       <></>
@@ -207,7 +210,7 @@ function AdminPanel() {
         <div className={"flex px-3 py-2 flex-row bg-white w-full " + item}>
           <table className=" w-full">
             <tbody>
-              <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900">
+              <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900 dark:text-indigo-500">
                 <th className="whitespace-nowrap pr-3">No</th>
                 <th className="whitespace-nowrap w-1/5">Title</th>
                 <th className="whitespace-nowrap w-1/5 ">Author</th>
@@ -218,7 +221,7 @@ function AdminPanel() {
               {approvedpost?.map((dc, i) => (
                 <tr
                   key={`data.jkey${i}`}
-                  className="cursor-default py-3 font-pop text-gray-400 hover:text-gray-600"
+                  className="cursor-default py-3 font-pop text-gray-400 hover:text-gray-600 dark:hover:text-slate-200"
                 >
                   <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                   <th className="pr-3 whitespace-nowrap text-left">
@@ -238,15 +241,15 @@ function AdminPanel() {
                       <>
                         <div
                           onClick={() => navigate(`/Write/${dc.id}`)}
-                          className="hover:bg-gray-200 rounded-full p-1"
+                          className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                         >
-                          <PencilAltIcon className="w-5 hover:text-indigo-600" />
+                          <PencilAltIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
                         </div>
                         <div
                           onClick={() => navigate(`/Posts/${dc.id}`)}
-                          className="hover:bg-gray-200 rounded-full p-1"
+                          className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                         >
-                          <EyeIcon className="w-5 hover:text-indigo-600" />
+                          <EyeIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
                         </div>
                       </>
                     ) : (
@@ -255,9 +258,9 @@ function AdminPanel() {
                     {dc.status !== "Approved" || role === "admin" ? (
                       <div
                         onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
-                        className="hover:bg-gray-200 rounded-full p-1"
+                        className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                       >
-                        <TrashIcon className="w-5 hover:text-indigo-600" />
+                        <TrashIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
                       </div>
                     ) : (
                       <></>

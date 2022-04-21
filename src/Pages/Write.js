@@ -126,10 +126,12 @@ function Write() {
           </h1>
         </div>
       ) : preview ? (
-        <div className="flex  bg-white px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
+        <div className="flex  dark:bg-slate-600 bg-white px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
           <div className="flex flex-row items-center justify-between">
-            <h1 className="font-poplg text-2xl ">Preview </h1>
-            <div className="flex mr-2 flex-col mb-4 bg-indigo-50 px-0 py-1 rounded-full border-b border-gray-100">
+            <h1 className="font-poplg text-2xl dark:text-gray-100 ">
+              Preview{" "}
+            </h1>
+            <div className="flex mr-2 flex-col mb-4 bg-indigo-50 dark:bg-slate-700 px-0 py-1 rounded-full border-b border-gray-100 dark:border-slate-700">
               <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
                 <button
                   onClick={() => setPreview(!preview)}
@@ -170,28 +172,30 @@ function Write() {
               />
             </div>
             <div className="flex flex-col ml-1">
-              <h1 className="font-poplg text-md my-auto">
+              <h1 className="font-poplg text-md my-auto dark:text-gray-100">
                 {author?.data.name}
               </h1>
-              <h1 className=" font-popxs text-xs my-auto">
+              <h1 className=" font-popxs text-xs my-auto dark:text-gray-300">
                 {Date().slice(4, 9)} . 6 min read
               </h1>
             </div>
           </div>
-          <h1 className="font-pop text-4xl">{title}</h1>
+          <h1 className="font-pop text-4xl dark:text-gray-100">{title}</h1>
           <div
-            className="ql-editor"
+            className="ql-editor dark:text-gray-100"
             dangerouslySetInnerHTML={{
               __html: editorState,
             }}
           ></div>
         </div>
       ) : (
-        <div className="flex flex-col mt-4 w-full">
+        <div className="flex flex-col pt-4 w-full  dark:bg-slate-600">
           <div className="flex flex-row items-center justify-between">
-            <h1 className="font-poplg text-3xl pl-6">Edit Post</h1>
+            <h1 className="font-poplg text-3xl pl-6 dark:text-white">
+              Edit Post
+            </h1>
 
-            <div className="flex mr-2 flex-col mb-4 bg-indigo-50 px-2 py-1 rounded-full border-b border-gray-100">
+            <div className="flex mr-2 flex-col mb-4 dark:bg-slate-700 bg-indigo-50 px-2 py-1 rounded-full border-b border-slate-700">
               <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
                 <button
                   onClick={() => setPreview(!preview)}
@@ -227,9 +231,9 @@ function Write() {
             onChange={(e) => setTitle(e.target.value)}
             type="text"
             placeholder="Title of the blog"
-            className="mx-auto bg-white shadow-sm outline-none placeholder:font-pop  w-[95%] py-1 px-2 text-xl font-semibold  flex border"
+            className="mx-auto bg-white dark:bg-slate-700 dark:text-gray-100 shadow-sm outline-none placeholder:font-pop  w-[95%] py-1 px-2 text-xl font-semibold  flex border"
           />
-          <div className="flex bg-white pt-4 flex-row w-full justify-center  my-auto min-h-screen pb-16">
+          <div className="flex bg-white dark:bg-slate-600 pt-4 flex-row w-full justify-center  my-auto min-h-screen pb-16">
             <ReactQuill
               modules={{
                 toolbar: [
@@ -262,7 +266,7 @@ function Write() {
                 "image",
               ]}
               theme="snow"
-              className="w-[95%]"
+              className="w-[95%] dark:text-gray-100 dark:border-slate-600"
               value={editorState}
               onChange={setEditorState}
             />

@@ -29,42 +29,42 @@ function NavBar() {
   const items = [
     {
       name: (
-        <HomeIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
+        <HomeIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
       ),
       link: "/",
       title: "Home",
     },
     {
       name: (
-        <BellIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
+        <BellIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
       ),
       link: "/Notifications",
       title: "Notifications",
     },
     {
       name: (
-        <MailIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
+        <MailIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
       ),
       link: "/MailBox",
       title: "Mailbox",
     },
     {
       name: (
-        <UserIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
+        <UserIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
       ),
       link: "/UserDash",
       title: "Dashboard",
     },
     {
       name: (
-        <LibraryIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 " />
+        <LibraryIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800 " />
       ),
       link: "/AdminPanel",
       title: "Admin Panel",
     },
     {
       name: (
-        <PencilAltIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600" />
+        <PencilAltIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
       ),
       link: "/Write",
       title: "Write",
@@ -121,7 +121,7 @@ function NavBar() {
         onMouseEnter={() => window.innerWidth > 640 && setHover(true)}
         onMouseLeave={() => window.innerWidth > 640 && setHover(false)}
         className={
-          "flex z-50 bg-white/30 backdrop-blur-md md:fixed flex-row md:flex-col shadow-md h-16 md:w-16  transition-all w-full md:h-full items-start md:justify-center justify-around md:border-r border-b border-gray-300" +
+          "flex z-50 bg-white/30 dark:bg-slate-800 backdrop-blur-md md:fixed flex-row md:flex-col shadow-md h-16 md:w-16  transition-all w-full md:h-full items-start md:justify-center justify-around md:border-r border-b border-gray-300 dark:border-slate-900 " +
           (hover && " md:w-52")
         }
       >
@@ -151,8 +151,8 @@ function NavBar() {
                     index === items.length - 1 &&
                     " ml-1 pl-4  border-l ") +
                   (route.pathname === item.link
-                    ? "  text-indigo-400"
-                    : "  text-gray-400")
+                    ? "  text-indigo-400 dark:text-indigo-600"
+                    : "  text-gray-400 dark:text-white")
                 }
               >
                 {item.name}
@@ -161,7 +161,7 @@ function NavBar() {
                 className={
                   "my-auto ml-4 group transition-all  group-hover:text-indigo-600" +
                   (route.pathname === item.link
-                    ? "  text-indigo-400"
+                    ? "  text-indigo-400 dark:text-indigo-600"
                     : "  text-gray-400") +
                   (hover ? " hidden md:flex" : " hidden")
                 }

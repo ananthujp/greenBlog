@@ -27,7 +27,7 @@ import Sidebar from "../Components/Sidebar";
 import SwitchAdmin from "../Components/SwitchAdmin";
 import { db } from "../firebase";
 import useAuth from "../hooks/userAuth";
-
+import mail from "../images/mail.png";
 function MailBox() {
   const navigate = useNavigate();
   const [search, setSearch] = useState();
@@ -70,10 +70,10 @@ function MailBox() {
       { merge: true }
     );
     getDoc(doc(db, "Profiles", userID?.id, "Mailbox", id)).then((dc) => {
-      settitle(dc.data().title);
-      settextCont(dc.data().text);
-      setReply(dc.data().reply);
-      setfromUser(dc.data().from);
+      settitle(dc?.data().title);
+      settextCont(dc?.data().text);
+      setReply(dc?.data().reply);
+      setfromUser(dc?.data().from);
     });
     setView(false);
   };
@@ -142,8 +142,8 @@ function MailBox() {
         id
       )
     ).then((dc) => {
-      setTitle(dc.data().title);
-      setCont(dc.data().text);
+      setTitle(dc?.data().title);
+      setCont(dc?.data().text);
     });
 
     return (
@@ -192,30 +192,38 @@ function MailBox() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex flex-col w-full h-screen mb-0 px-8 pt-2 md:pt-12 bg-gray-50"
+        className="flex flex-col bg-gradient-to-br  dark:from-slate-600 dark:to-gray-600 from-indigo-100 to-purple-100 md:flex-row w-full h-screen mb-0 px-8 pt-2 md:pt-12"
       >
-        <h1 className="font-poplg text-2xl text-left text-indigo-900">
-          Mailbox
-        </h1>
-        <div className="flex flex-row justify-between">
-          <h1 className="font-popxs text-md text-indigo-300">
-            Green blog mailbox
+        <div className="flex flex-col items-left w-2/5">
+          <img className="lg:pr-8 mb-4 w-64 hidden md:flex" src={mail} alt="" />
+          <h1 className="font-poplg text-2xl text-left text-indigo-900">
+            Mailbox
           </h1>
-          {role === "admin" && <SwitchAdmin />}
+          <div className="flex flex-col justify-between">
+            <h1 className="font-popxs text-md text-indigo-300">
+              Green blog mailbox
+            </h1>
+            <div className="w-32 mt-4 text-indigo-400 dark:text-white">
+              {role === "admin" && <SwitchAdmin />}
+            </div>
+          </div>
         </div>
-
         {x.matches ? (
-          <div className="flex flex-row border rounded-lg h-2/3 md:h-[80%] md:mb-8 border-gray-200 w-full bg-white">
-            <div className=" h-full w-2/5 flex flex-col justify-between border-r border-gray-200">
+          <div className="flex flex-row border rounded-lg h-2/3 md:h-[80%] md:mb-8 border-gray-200 w-full bg-white dark:border-slate-800 dark:bg-slate-700 shadow-md">
+            <div className=" h-full w-2/5 flex flex-col justify-between border-r border-gray-200 dark:border-slate-800">
               <div className="flex flex-col h-full overflow-y-auto">
                 {mails?.map((dic, i) => (
                   <div
                     key={`mail.side${i}`}
                     onClick={() => handleView(dic.id)}
                     className={
-                      "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100" +
-                      (thread === dic.id ? " bg-indigo-50" : "") +
-                      (!dic.data.read ? " bg-yellow-100" : " ")
+                      "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100 dark:hover:bg-slate-600" +
+                      (thread === dic.id
+                        ? " bg-indigo-50 dark:bg-slate-600"
+                        : "") +
+                      (!dic.data.read
+                        ? " bg-yellow-100 dark:bg-slate-500"
+                        : " ")
                     }
                   >
                     <div className="flex flex-row items-center">
@@ -224,7 +232,7 @@ function MailBox() {
                       <div className="flex flex-col ml-2">
                         <h1
                           className={
-                            " my-auto" +
+                            " my-auto dark:text-white" +
                             (!dic.data.read ? " font-poplg" : " font-pop")
                           }
                         >
@@ -232,7 +240,7 @@ function MailBox() {
                         </h1>
                         <h1
                           className={
-                            "font-pop text-xs" +
+                            "font-pop text-xs dark:text-gray-200" +
                             (!dic.data.read ? " font-poplg" : " font-pop")
                           }
                         >
@@ -261,7 +269,7 @@ function MailBox() {
                   settextCont("");
                   setTo({ id: "HyAS9bQrGoNbH6yekzzK", name: "Admin" });
                 }}
-                className="mx-2 mb-4 flex lex-row justify-center text-indigo-400 hover:text-white hover:bg-indigo-600 bg-indigo-50 cursor-pointer shadow-md rounded-full items-center h-12"
+                className="mx-2 mb-4 flex lex-row justify-center text-indigo-400 dark:text-white hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-800 bg-indigo-50 dark:bg-slate-500 cursor-pointer shadow-md rounded-full items-center h-12"
               >
                 <PlusCircleIcon className="w-6 mr-2" />
                 New Mail
@@ -369,7 +377,7 @@ function MailBox() {
                       onClick={() =>
                         navigate(`/Author/${fromUser ? fromUser : ""}`)
                       }
-                      className="flex flex-row items-center whitespace-nowrap cursor-pointer bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400"
+                      className="flex flex-row items-center whitespace-nowrap cursor-pointer dark:bg-slate-600 dark:border-gray-500 bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400"
                     >
                       <MailIcon className="w-4" />
                       from :<GetUser id={fromUser ? fromUser : ""} />
@@ -384,15 +392,15 @@ function MailBox() {
                           setTo({ id: fromUser, name: dc.data().name });
                         });
                       }}
-                      className="flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 text-white"
+                      className="flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 dark:bg-indigo-700 dark:hover:text-white dark:hover:bg-indigo-800 text-white"
                     >
                       <PaperAirplaneIcon className="w-4" />
                       &nbsp;Reply
                     </div>
                   </div>
 
-                  <div className=" flex flex-row items-end rounded-full bg-gray-50 border-indigo-200 mx-2">
-                    <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto">
+                  <div className=" flex flex-row items-end rounded-full bg-gray-50 dark:bg-slate-600 border-indigo-200 mx-2">
+                    <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto">
                       Subject :
                     </h1>
                     <input
@@ -400,15 +408,15 @@ function MailBox() {
                       disabled
                       value={title ? title : "Loading.."}
                       type="text"
-                      className="outline-none p-1 flex items-start"
+                      className="outline-none p-1 flex items-start dark:bg-slate-600 dark:text-white"
                     />
                   </div>
-                  <div className="flex flex-col h-full bg-gray-50 rounded-lg border-indigo-200 m-2">
+                  <div className="flex flex-col h-full bg-gray-50 dark:bg-slate-600 rounded-lg border-indigo-200 m-2">
                     <textarea
                       onChange={(e) => settextCont(e.target.value)}
                       disabled
                       value={textCont}
-                      className="h-full outline-none bg-transparent p-4 flex items-start"
+                      className="h-full outline-none bg-transparent dark:text-white p-4 flex items-start"
                     />
                     {reply && (
                       <div className="flex flex-col p-4">
@@ -424,10 +432,10 @@ function MailBox() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-row border rounded-lg h-2/3 md:h-[80%] md:mb-8 border-gray-200 w-full bg-white">
+          <div className="flex flex-row border rounded-lg h-2/3 md:h-[80%] md:mb-8 border-gray-200 dark:border-slate-800 w-full bg-white dark:bg-slate-700">
             <div
               className={
-                " h-full flex flex-col justify-between border-r border-gray-200" +
+                " h-full flex flex-col justify-between border-r border-gray-200 dark:border-slate-800" +
                 (!mob ? "  w-4/5" : " w-1/5")
               }
             >
@@ -439,9 +447,13 @@ function MailBox() {
                         key={`mails${i}`}
                         onClick={() => handleView(dic.id)}
                         className={
-                          "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100" +
-                          (thread === dic.id ? " bg-indigo-50" : "") +
-                          (!dic.data.read ? " bg-yellow-100" : " ")
+                          "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100  dark:hover:bg-slate-600" +
+                          (thread === dic.id
+                            ? " bg-indigo-50 dark:bg-slate-600"
+                            : "") +
+                          (!dic.data.read
+                            ? " bg-yellow-100 dark:bg-slate-500"
+                            : " ")
                         }
                       >
                         <div className="flex flex-row items-center">
@@ -450,7 +462,7 @@ function MailBox() {
                           <div className="flex flex-col ml-2">
                             <h1
                               className={
-                                " my-auto" +
+                                " my-auto dark:text-white" +
                                 (!dic.data.read ? " font-poplg" : " font-pop")
                               }
                             >
@@ -458,7 +470,7 @@ function MailBox() {
                             </h1>
                             <h1
                               className={
-                                "font-pop text-xs" +
+                                "font-pop text-xs dark:text-white" +
                                 (!dic.data.read ? " font-poplg" : " font-pop")
                               }
                             >
@@ -494,7 +506,7 @@ function MailBox() {
                       changeScreen(true);
                       setTo({ id: "HyAS9bQrGoNbH6yekzzK", name: "Admin" });
                     }}
-                    className="mx-2 mb-4 flex lex-row justify-center text-indigo-400 hover:text-white hover:bg-indigo-600 bg-indigo-50 cursor-pointer shadow-md rounded-full items-center h-12"
+                    className="mx-2 mb-4 flex dark:text-white dark:hover:bg-indigo-800 dark:bg-slate-500 flex-row justify-center text-indigo-400 hover:text-white hover:bg-indigo-600 bg-indigo-50 cursor-pointer shadow-md rounded-full items-center h-12"
                   >
                     <PlusCircleIcon className="w-6 mr-2" />
                     New Mail
@@ -505,7 +517,7 @@ function MailBox() {
                   onClick={() => changeScreen(false)}
                   className="flex flex-col h-screen overflow-y-auto"
                 >
-                  <div className="flex p-1 rounded-tl-lg flex-row bg-indigo-200 hover:text-white hover:bg-indigo-600 cursor-pointer font-pop items-center">
+                  <div className="flex p-1 rounded-tl-lg flex-row bg-indigo-200 dark:bg-slate-600 dark:text-gray-200 hover:text-white hover:bg-indigo-600 cursor-pointer font-pop items-center">
                     <BackspaceIcon className="w-4" /> Back
                   </div>
                 </div>
@@ -612,7 +624,7 @@ function MailBox() {
                     <div className="flex flex-row justify-between m-2">
                       <div
                         onClick={() => reply && handleView(reply)}
-                        className="flex flex-row items-center whitespace-nowrap cursor-pointer bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400"
+                        className="flex flex-row dark:bg-slate-600 dark:border-gray-500 items-center whitespace-nowrap cursor-pointer bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400"
                       >
                         <MailIcon className="w-4" />
                         from :<GetUser id={fromUser ? fromUser : ""} />
@@ -627,15 +639,15 @@ function MailBox() {
                             setTo({ id: fromUser, name: dc.data().name });
                           });
                         }}
-                        className="flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 text-white"
+                        className="flex flex-row dark:bg-indigo-700 dark:hover:text-white dark:hover:bg-indigo-800  items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 text-white"
                       >
                         <PaperAirplaneIcon className="w-4" />
                         &nbsp;Reply
                       </div>
                     </div>
 
-                    <div className=" flex flex-row items-end rounded-full bg-gray-50 border-indigo-200 mx-2">
-                      <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto">
+                    <div className=" flex flex-row items-end dark:bg-slate-600 rounded-full bg-gray-50 border-indigo-200 mx-2">
+                      <h1 className="font-pop dark:bg-slate-600 text-indigo-500 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto">
                         Subject :
                       </h1>
                       <input
@@ -643,15 +655,15 @@ function MailBox() {
                         disabled
                         value={title ? title : "Loading.."}
                         type="text"
-                        className="outline-none p-1 flex items-start"
+                        className="outline-none dark:bg-slate-600 dark:text-white p-1 flex items-start"
                       />
                     </div>
-                    <div className="flex flex-col h-full bg-gray-50 rounded-lg border-indigo-200 m-2">
+                    <div className="flex flex-col h-full bg-gray-50 rounded-lg dark:bg-slate-600 border-indigo-200 m-2">
                       <textarea
                         onChange={(e) => settextCont(e.target.value)}
                         disabled
                         value={textCont}
-                        className="h-full outline-none bg-transparent p-4 flex items-start"
+                        className="h-full outline-none bg-transparent p-4 flex dark:text-white items-start"
                       />
                       {reply && (
                         <div className="flex flex-col p-4">

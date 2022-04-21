@@ -24,12 +24,15 @@ const AnimatedRoutes = () => {
   const [sub, setSub] = useState(false);
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
-
+  useEffect(() => {
+    localStorage.theme = "dark";
+    document.documentElement.classList.add("dark");
+  }, []);
   return (
     <AnimatePresence exitBeforeEnter>
       <TempLogin show={login} />
       <Subscribe state={sub} change={setSub} />
-      <div className="flex flex-col md:flex-row h-full bg-white">
+      <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-white">
         <div className="flex flex-col md:flex-row md:w-full">
           <div className="relative md:w-16 md:h-screen">
             <NavBar />
