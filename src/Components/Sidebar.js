@@ -7,15 +7,9 @@ import SwitchAdmin from "../Components/SwitchAdmin";
 import { ChatIcon, EyeIcon, PlusIcon } from "@heroicons/react/outline";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
-function Sidebar({ preview, setOpen }) {
+function Sidebar({ preview, setOpen, dark, setDispMode }) {
   const route = useLocation();
-  const [dark, setDispMode] = useState(false);
   const { userID, setUserID, role, setLogin, author } = useAuth();
-  useEffect(() => {
-    dark
-      ? document.documentElement.classList.add("dark")
-      : document.documentElement.classList.remove("dark");
-  }, [dark]);
   const navigate = useNavigate();
   const BlogAuthor = ({ id }) => {
     const [auth, setAuth] = useState();
@@ -23,12 +17,16 @@ function Sidebar({ preview, setOpen }) {
       setAuth({ id: dic.id, data: dic.data() })
     );
     return (
-      <div className="flex flex-col border-y py-6 dark:bg-slate-600 border-gray-200">
-        <h1 className="font-pop text-gray-600 mb-2">Blog Author</h1>
+      <div className="flex flex-col border-y py-6 dark:bg-slate-800 border-gray-200">
+        <h1 className="font-pop text-gray-600 dark:text-slate-50 mb-2">
+          Blog Author
+        </h1>
         <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
           <img src={auth?.data?.img} className="h-16 w-16" alt="" />
         </div>
-        <h1 className=" font-poplg my-1 text-gray-500">{auth?.data?.name}</h1>
+        <h1 className=" font-poplg my-1 text-gray-500 dark:text-slate-200">
+          {auth?.data?.name}
+        </h1>
         <h1 className="text-xs font-pop  text-gray-300">{auth?.data?.Bio}</h1>
         <div className="flex flex-row mt-2">
           <div
@@ -91,7 +89,7 @@ function Sidebar({ preview, setOpen }) {
         {!userID && (
           <h1
             onClick={() => setLogin(true)}
-            className="mx-auto px-4 cursor-pointer py-1 mt-6 font-pop shadow-md bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white text-center from-gray-50 to-gray-100 hover:from-indigo-400 hover:to-indigo-600 rounded-md"
+            className="mx-auto px-4 cursor-pointer py-1 mt-6 font-pop shadow-md bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white text-center from-gray-50 to-gray-100 hover:from-indigo-400 hover:to-indigo-600 rounded-full"
           >
             Login
           </h1>

@@ -176,7 +176,7 @@ function Post() {
           </h1>
         </div>
       ) : (
-        <div className="flex  bg-white px-6 md:px-16 flex-col mt-4 md:mt-16 w-full h-full justify-start">
+        <div className="flex  bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
           <div className="flex flex-row items-center mb-8 w-full justify-between">
             <div
               onClick={() => navigate("/Author/" + author?.id)}
@@ -190,10 +190,10 @@ function Post() {
                 />
               </div>
               <div className="flex flex-col ml-1">
-                <h1 className="font-poplg text-md my-auto">
+                <h1 className="font-poplg text-md my-auto dark:text-slate-100">
                   {author?.data.name}
                 </h1>
-                <h1 className=" font-popxs text-xs my-auto">
+                <h1 className=" font-popxs text-xs my-auto dark:text-slate-200">
                   {time} . 6 min read
                 </h1>
               </div>
@@ -219,9 +219,9 @@ function Post() {
               </TwitterShareButton>
             </div>
           </div>
-          <h1 className="font-pop text-4xl">{title}</h1>
+          <h1 className="font-pop text-4xl dark:text-slate-100">{title}</h1>
           <div
-            className="ql-viewer"
+            className="ql-viewer dark:text-slate-200"
             dangerouslySetInnerHTML={{
               __html: editorState,
             }}
@@ -300,9 +300,9 @@ function Post() {
                 <div
                   ref={(el) => (ref.current[`idcom.${1}`] = el)}
                   key={`idcom.${1}`}
-                  className="flex flex-col w-full rounded-md bg-indigo-100 border border-indigo-200 mb-4"
+                  className="flex flex-col w-full rounded-md bg-indigo-100 dark:bg-slate-600 border border-indigo-200 dark:border-slate-800 mb-4"
                 >
-                  <div className="flex flex-row border-b border-indigo-200 pb-2 w-full items-center justify-between">
+                  <div className="flex flex-row border-b border-indigo-200 dark:border-slate-800 pb-2 w-full items-center justify-between">
                     <div className="mt-2 ml-2 flex flex-row items-center">
                       <img
                         className="w-8 h-8 object-cover rounded-full"
@@ -310,10 +310,12 @@ function Post() {
                         src={userID?.img}
                       />
                       <div className="flex flex-col">
-                        <h1 className="ml-2 font-poplg my-auto">
+                        <h1 className="ml-2 font-poplg dark:text-slate-100 my-auto">
                           {userID?.name}
                         </h1>
-                        <h1 className="ml-2 text-xs font-popxs my-auto">Now</h1>
+                        <h1 className="ml-2 text-xs font-popxs my-auto dark:text-slate-300">
+                          Now
+                        </h1>
                       </div>
                     </div>
                     <div className="flex flex-row">
@@ -322,15 +324,15 @@ function Post() {
                         className={
                           "mr-2 cursor-pointer hover:shadow-md rounded-md font-pop h-6 text-white px-4" +
                           (gif
-                            ? " bg-gradient-to-br from-orange-400 to-orange-600"
-                            : " bg-gradient-to-br from-orange-200 to-orange-400")
+                            ? " bg-gradient-to-br from-orange-400 to-orange-600 dark:from-orange-600 dark:to-orange-800"
+                            : " bg-gradient-to-br from-orange-200 to-orange-400 dark:from-orange-400 dark:to-orange-600")
                         }
                       >
                         Gif
                       </div>
                       <div
                         onClick={() => AddComment()}
-                        className="mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-md font-pop h-6 text-white px-4"
+                        className="mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br from-indigo-400 to-indigo-600  dark:from-indigo-400 dark:to-indigo-600 rounded-md font-pop h-6 text-white px-4"
                       >
                         Comment
                       </div>
@@ -365,12 +367,12 @@ function Post() {
             {comments?.map((dc, ind) => (
               <div
                 key={`comments.post.${ind}`}
-                className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 my-2"
+                className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 hover:dark:bg-slate-600 my-2"
               >
                 <div className="flex flex-row items-center w-full justify-between">
                   <div
                     onClick={() => navigate("/Author/" + dc?.auth)}
-                    className="flex flex-row items-center mb-1 cursor-pointer hover:bg-white p-1 rounded-md"
+                    className="flex flex-row items-center mb-1 cursor-pointer hover:bg-white hover:dark:bg-slate-800 p-1 rounded-md"
                   >
                     <img
                       className="w-8 h-8 object-cover rounded-full"
@@ -378,8 +380,10 @@ function Post() {
                       src={dc.img}
                     />
                     <div className="flex flex-col">
-                      <h1 className="ml-2 font-poplg my-auto">{dc.name}</h1>
-                      <h1 className="ml-2 text-xs font-pop italic text-gray-400 my-auto">
+                      <h1 className="ml-2 font-poplg my-auto dark:text-slate-100">
+                        {dc.name}
+                      </h1>
+                      <h1 className="ml-2 text-xs font-pop italic text-gray-400 dark:text-slate-300 my-auto">
                         {dc.time}
                       </h1>
                     </div>

@@ -60,7 +60,7 @@ function Notifications() {
     >
       <div className="flex flex-col w-1/2">
         <img className="pr-8 lg:pr-16 mb-4 hidden md:flex" src={bell} alt="" />
-        <h1 className="font-poplg text-2xl text-left text-indigo-900">
+        <h1 className="font-poplg text-2xl text-left dark:text-indigo-500 text-indigo-900">
           Notifications
         </h1>
         <h1
@@ -79,7 +79,7 @@ function Notifications() {
       <div className="flex px-3  h-screen overflow-y-auto py-2 flex-row bg-white  dark:bg-slate-800/60 w-full rounded-md border shadow-sm border-gray-200 dark:border-slate-500">
         <table className=" w-full">
           <tbody>
-            <tr className="border-b text-left w-full border-gray-300 dark:border-slate-700 font-popxl text-indigo-900">
+            <tr className="border-b text-left w-full border-gray-300 dark:text-indigo-500 dark:border-slate-700 font-popxl text-indigo-900">
               <th className="whitespace-nowrap w-16 mx-auto hidden md:table-cell">
                 Type
               </th>

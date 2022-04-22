@@ -19,10 +19,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import UserMenu from "./UserMenu";
-function NavBar() {
+function NavBar({ setDispMode, dark }) {
   const scr = window.matchMedia("(min-width: 768px)");
   const { role, userID } = useAuth();
-  const [dark, setDispMode] = useState(false);
   const route = useLocation();
   const [hover, setHover] = useState(false);
   const [showMenu, setshowMenu] = useState(false);

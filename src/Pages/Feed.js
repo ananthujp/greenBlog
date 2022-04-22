@@ -58,17 +58,19 @@ function Feed() {
     return (
       <div
         onClick={() => navigate(`/Author/${id}`)}
-        className="flex flex-row cursor-pointer p-1 rounded-md hover:bg-white"
+        className="flex flex-row cursor-pointer p-1 rounded-md hover:bg-white dark:hover:bg-slate-900"
       >
         <img alt="" src={auth?.img} className="mr-2 h-4 w-4 rounded-full" />
-        <h1 className="font-poplg text-xs my-auto">{auth?.name}</h1>
+        <h1 className="font-poplg text-xs my-auto dark:text-slate-200">
+          {auth?.name}
+        </h1>
       </div>
     );
   };
   return (
     <div className="w-full flex flex-col px-4">
       <div className="mt-4">
-        <h1 className="mx-8">Popular posts</h1>
+        <h1 className="mx-8 dark:text-white">Popular posts</h1>
         <div className="flex flex-wrap -mt-4 flex-row">
           {posts?.map((dc, i) => (
             <div
@@ -84,11 +86,11 @@ function Feed() {
                 </div>
                 <h1
                   onClick={() => navigate(`/Posts/${dc.id}`)}
-                  className="font-popxl  text-md w-56 my-2 cursor-pointer"
+                  className="font-popxl  text-md w-56 my-2 dark:text-slate-100 cursor-pointer"
                 >
                   {dc.title}
                 </h1>
-                <div className="flex flex-row mt-1 font-popxs text-xs">
+                <div className="flex flex-row mt-1 dark:text-slate-300 font-popxs text-xs">
                   {dc.time}. 3 min read
                 </div>
               </div>
@@ -101,7 +103,7 @@ function Feed() {
           {posts?.map((dc, i) => (
             <div
               key={`feed.2.${i}`}
-              className="flex flex-row hover:bg-indigo-50 rounded-md py-2 w-full justify-between px-4 my-4"
+              className="flex flex-row hover:bg-indigo-50 dark:hover:bg-slate-700 rounded-md py-2 w-full justify-between px-4 my-4"
             >
               <div className="flex flex-col flex-start ">
                 <div className="flex flex-row items-center mr-1">
@@ -110,18 +112,18 @@ function Feed() {
 
                 <h1
                   onClick={() => navigate(`/Posts/${dc.id}`)}
-                  className="font-popxl  text-xl mt-2 cursor-pointer"
+                  className="font-popxl  text-xl mt-2 cursor-pointer dark:text-slate-100"
                 >
                   {dc.title}
                 </h1>
                 <h1
                   onClick={() => navigate(`/Posts/${dc.id}`)}
-                  className="font-pop  text-md mb-2 text-gray-400 cursor-pointer"
+                  className="font-pop  text-md mb-2 text-gray-400 cursor-pointer dark:text-slate-300"
                 >
                   {dc?.txt + "..."}
                 </h1>
 
-                <div className="flex flex-row mt-1 font-popxs text-xs">
+                <div className="flex flex-row mt-1 font-popxs text-xs dark:text-slate-400">
                   {dc.time}. 3 min read
                 </div>
               </div>

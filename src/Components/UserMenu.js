@@ -6,11 +6,6 @@ import onClickOutside from "react-onclickoutside";
 function UserMenu({ setshowMenu, dark, setDispMode }) {
   const { role, userID, setUserID } = useAuth();
 
-  useEffect(() => {
-    dark
-      ? document.documentElement.classList.add("dark")
-      : document.documentElement.classList.remove("dark");
-  }, [dark]);
   const navigate = useNavigate();
   UserMenu.handleClickOutside = () => {
     setshowMenu(false);

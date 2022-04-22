@@ -24,7 +24,12 @@ const AnimatedRoutes = () => {
   const [sub, setSub] = useState(false);
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
-
+  const [dark, setDispMode] = useState(false);
+  useEffect(() => {
+    dark
+      ? document.documentElement.classList.add("dark")
+      : document.documentElement.classList.remove("dark");
+  }, [dark]);
   return (
     <AnimatePresence exitBeforeEnter>
       <TempLogin show={login} />
@@ -32,7 +37,7 @@ const AnimatedRoutes = () => {
       <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-white">
         <div className="flex flex-col md:flex-row md:w-full">
           <div className="relative md:w-16 md:h-screen">
-            <NavBar />
+            <NavBar dark={dark} setDispMode={setDispMode} />
           </div>
           <Routes location={location} key={location.pathname}>
             <Route exact path="/" element={<Home />} />
@@ -54,7 +59,7 @@ const AnimatedRoutes = () => {
           </Routes>
         </div>
         <div className="md:h-screen md:w-64">
-          <Sidebar setOpen={setSub} />
+          <Sidebar setOpen={setSub} dark={dark} setDispMode={setDispMode} />
         </div>
       </div>
     </AnimatePresence>

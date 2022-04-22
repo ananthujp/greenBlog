@@ -196,7 +196,7 @@ function MailBox() {
       >
         <div className="flex flex-col items-left w-2/5">
           <img className="lg:pr-8 mb-4 w-64 hidden md:flex" src={mail} alt="" />
-          <h1 className="font-poplg text-2xl text-left text-indigo-900">
+          <h1 className="font-poplg text-2xl text-left dark:text-indigo-500 text-indigo-900">
             Mailbox
           </h1>
           <div className="flex flex-col justify-between">
