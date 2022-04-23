@@ -1,4 +1,5 @@
 import {} from "@heroicons/react/outline";
+import { Pages, ColorID } from "../Components/Colors";
 import {
   AnnotationIcon,
   DocumentTextIcon,
@@ -11,15 +12,12 @@ import user from "../images/user.png";
 import useAuth from "../hooks/userAuth";
 import Sidebar from "../Components/Sidebar";
 import {
-  updateDoc,
   doc,
-  getDoc,
   deleteDoc,
   query,
   where,
   collection,
   getDocs,
-  onSnapshot,
   orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -59,7 +57,10 @@ function UserDash() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className=" flex flex-col h-screen dark:from-slate-600 dark:to-gray-600 bg-gradient-to-br from-indigo-100 to-purple-100 md:flex-row w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50"
+        className={
+          " flex flex-col h-screen dark:from-slate-600 dark:to-gray-600 bg-gradient-to-br md:flex-row w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50" +
+          Pages[ColorID].pageBg
+        }
       >
         <div className="flex flex-col items-left w-1/2">
           <img
@@ -68,10 +69,12 @@ function UserDash() {
             alt=""
           />
 
-          <h1 className="font-poplg text-2xl text-left text-indigo-900 dark:text-indigo-500">
+          <h1
+            className={"font-poplg text-2xl text-left " + Pages[ColorID].head}
+          >
             {"Hi " + userID?.name.split(" ")[0] + ", Welcome back!"}
           </h1>
-          <h1 className="font-popxs text-md text-indigo-300">
+          <h1 className={"font-popxs text-md " + Pages[ColorID].sub}>
             Green blog dashboard
           </h1>
         </div>
@@ -84,7 +87,9 @@ function UserDash() {
                   localStorage.removeItem("user");
                   setUserID(null);
                 }}
-                className="font-pop cursor-pointer text-md text-indigo-300"
+                className={
+                  "font-pop cursor-pointer text-md " + Pages[ColorID].sub
+                }
               >
                 (Logout)
               </h1>
@@ -97,7 +102,7 @@ function UserDash() {
                 "flex flex-col w-1/2 bg-white dark:bg-slate-700 p-4" + item
               }
             >
-              <h1 className="font-pop text-md text-indigo-900 dark:text-indigo-500">
+              <h1 className={"font-pop text-md " + Pages[ColorID].head}>
                 Articles
               </h1>
               <div className="flex md:flex-row w-full items-center md:justify-around flex-col mx-auto">
@@ -159,7 +164,12 @@ function UserDash() {
           >
             <table className=" w-full">
               <tbody>
-                <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900 dark:text-indigo-500">
+                <tr
+                  className={
+                    "border-b text-left w-full border-gray-300 font-popxl " +
+                    Pages[ColorID].head
+                  }
+                >
                   <th className="whitespace-nowrap pr-3">No</th>
                   <th className="whitespace-nowrap w-3/5">Title</th>
                   <th className="whitespace-nowrap hidden md:block">Tags</th>
@@ -169,7 +179,10 @@ function UserDash() {
                 {post?.map((dc, i) => (
                   <tr
                     key={`data.jkey${i}`}
-                    className="cursor-default py-3 h-12 font-pop transition-all rounded-md text-gray-700 dark:text-slate-400 hover:bg-indigo-100 dark:hover:bg-slate-600"
+                    className={
+                      "cursor-default py-3 h-12 font-pop transition-all rounded-md text-gray-700 dark:text-slate-400 dark:hover:bg-slate-600 " +
+                      Pages[ColorID].hover2
+                    }
                   >
                     <th className="pr-3 whitespace-nowrap">{i + 1}</th>
                     <th className="pr-3 whitespace-nowrap text-left">
@@ -186,7 +199,10 @@ function UserDash() {
                         <>
                           <div
                             onClick={() => navigate(`/Write/${dc.id}`)}
-                            className="hover:bg-indigo-400 dark:hover:bg-indigo-600 my-auto group rounded-full p-1"
+                            className={
+                              " my-auto group rounded-full p-1" +
+                              Pages[ColorID].icoHover
+                            }
                           >
                             <PencilAltIcon className="w-5 flex group-hover:text-white" />
                           </div>
@@ -202,7 +218,10 @@ function UserDash() {
                                 3
                               );
                             }}
-                            className="hover:bg-indigo-400 dark:hover:bg-indigo-600 my-auto group rounded-full p-1"
+                            className={
+                              " my-auto group rounded-full p-1" +
+                              Pages[ColorID].icoHover
+                            }
                           >
                             <TrashIcon className="w-5 group-hover:text-white" />
                           </div>

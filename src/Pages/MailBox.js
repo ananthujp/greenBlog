@@ -19,6 +19,7 @@ import {
   deleteDoc,
   getDocs,
 } from "firebase/firestore";
+import { Pages, ColorID, SideBar } from "../Components/Colors";
 import { motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -192,18 +193,25 @@ function MailBox() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex flex-col bg-gradient-to-br  dark:from-slate-600 dark:to-gray-600 from-indigo-100 to-purple-100 md:flex-row w-full h-screen mb-0 px-8 pt-2 md:pt-12"
+        className={
+          "flex flex-col bg-gradient-to-br  dark:from-slate-600 dark:to-gray-600 md:flex-row w-full h-screen mb-0 px-8 pt-2 md:pt-12 " +
+          Pages[ColorID].pageBg
+        }
       >
         <div className="flex flex-col items-left w-2/5">
           <img className="lg:pr-8 mb-4 w-64 hidden md:flex" src={mail} alt="" />
-          <h1 className="font-poplg text-2xl text-left dark:text-indigo-500 text-indigo-900">
+          <h1
+            className={"font-poplg text-2xl text-left " + Pages[ColorID].head}
+          >
             Mailbox
           </h1>
           <div className="flex flex-col justify-between">
-            <h1 className="font-popxs text-md text-indigo-300">
+            <h1 className={"font-popxs text-md " + Pages[ColorID].sub}>
               Green blog mailbox
             </h1>
-            <div className="w-32 mt-4 text-indigo-400 dark:text-white">
+            <div
+              className={"w-32 mt-4 dark:text-white" + SideBar[ColorID].text}
+            >
               {role === "admin" && <SwitchAdmin />}
             </div>
           </div>
@@ -217,9 +225,10 @@ function MailBox() {
                     key={`mail.side${i}`}
                     onClick={() => handleView(dic.id)}
                     className={
-                      "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100 dark:hover:bg-slate-600" +
+                      "flex flex-row justify-between cursor-pointer  items-center p-2 dark:hover:bg-slate-600" +
+                      Pages[ColorID].hover2 +
                       (thread === dic.id
-                        ? " bg-indigo-50 dark:bg-slate-600"
+                        ? " dark:bg-slate-600" + Pages[ColorID].active
                         : "") +
                       (!dic.data.read
                         ? " bg-yellow-100 dark:bg-slate-500"
@@ -255,7 +264,10 @@ function MailBox() {
                             doc(db, "Profiles", userID?.id, "Mailbox", dic.id)
                           )
                         }
-                        className="w-8 p-2 text-gray-500 hover:text-white hover:bg-indigo-400 rounded-full"
+                        className={
+                          "w-8 p-2 text-gray-500 hover:text-white rounded-full" +
+                          Pages[ColorID].icoHover
+                        }
                       />
                     </div>
                   </div>
@@ -269,7 +281,10 @@ function MailBox() {
                   settextCont("");
                   setTo({ id: "HyAS9bQrGoNbH6yekzzK", name: "Admin" });
                 }}
-                className="mx-2 mb-4 flex flex-row justify-center text-indigo-400 dark:text-white hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-800 bg-indigo-50 dark:bg-slate-500 cursor-pointer shadow-md rounded-full items-center h-12"
+                className={
+                  "mx-2 mb-4 flex flex-row justify-center dark:text-white hover:text-white dark:bg-slate-500 cursor-pointer shadow-md rounded-full items-center h-12 " +
+                  Pages[ColorID].hover3
+                }
               >
                 <PlusCircleIcon className="w-6 mr-2" />
                 New Mail
@@ -305,7 +320,8 @@ function MailBox() {
                                       setTo({ id: dc.id, name: dc.name });
                                     }}
                                     className={
-                                      "flex flex-row py-2 pl-2 pr-12 border-b text-gray-500 border-gray-300 hover:bg-indigo-200 bg-indigo-100" +
+                                      "flex flex-row py-2 pl-2 pr-12 border-b text-gray-500 border-gray-300 bg-gray-50" +
+                                      Pages[ColorID].hover2 +
                                       (dxc.length === j + 1
                                         ? " rounded-b-lg overflow-hidden"
                                         : "")
@@ -327,20 +343,36 @@ function MailBox() {
                       )}
                       <XIcon
                         onClick={() => setSender(true)}
-                        className="w-4 hover:bg-indigo-400 hover:text-white rounded-full p-0.5 ml-2"
+                        className={
+                          "w-4 hover:text-white rounded-full p-0.5 ml-2" +
+                          Pages[ColorID].hover3
+                        }
                       />
                     </div>
                     <div
                       onClick={() => submitThread()}
-                      className="flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 text-white"
+                      className={
+                        "flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md px-4 py-1 rounded-full text-white" +
+                        Pages[ColorID].button
+                      }
                     >
                       <PaperAirplaneIcon className="w-4" />
                       &nbsp;Send
                     </div>
                   </div>
 
-                  <div className=" flex flex-row items-end rounded-full  dark:bg-slate-600 overflow-hidden border dark:border-slate-800 border-indigo-200 mx-2">
-                    <h1 className="font-pop text-indigo-500 rounded-full dark:bg-slate-600  bg-gray-50 p-1 ml-2 mt-0 my-auto">
+                  <div
+                    className={
+                      " flex flex-row items-end rounded-full  dark:bg-slate-600 overflow-hidden border dark:border-slate-800 mx-2" +
+                      Pages[ColorID].border
+                    }
+                  >
+                    <h1
+                      className={
+                        "font-pop rounded-full dark:bg-slate-600  bg-gray-50 p-1 ml-2 mt-0 my-auto" +
+                        Pages[ColorID].title
+                      }
+                    >
                       Subject :
                     </h1>
                     <input
@@ -350,7 +382,12 @@ function MailBox() {
                       className="outline-none p-1 flex dark:bg-slate-600 items-start"
                     />
                   </div>
-                  <div className="flex flex-col h-full border dark:border-slate-800 border-indigo-200 m-2">
+                  <div
+                    className={
+                      "flex flex-col h-full border dark:border-slate-800 m-2" +
+                      Pages[ColorID].border
+                    }
+                  >
                     <textarea
                       onChange={(e) => settextCont(e.target.value)}
                       value={textCont}
@@ -392,15 +429,28 @@ function MailBox() {
                           setTo({ id: fromUser, name: dc.data().name });
                         });
                       }}
-                      className="flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 dark:bg-indigo-700 dark:hover:text-white dark:hover:bg-indigo-800 text-white"
+                      className={
+                        "flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md px-4 py-1 rounded-full dark:hover:text-white text-white" +
+                        Pages[ColorID].button
+                      }
                     >
                       <PaperAirplaneIcon className="w-4" />
                       &nbsp;Reply
                     </div>
                   </div>
 
-                  <div className=" flex flex-row items-end rounded-full bg-gray-50 dark:bg-slate-600 border-indigo-200 mx-2">
-                    <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto">
+                  <div
+                    className={
+                      " flex flex-row items-end rounded-full bg-gray-50 dark:bg-slate-600 mx-2" +
+                      Pages[ColorID].border
+                    }
+                  >
+                    <h1
+                      className={
+                        "font-pop rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto" +
+                        Pages[ColorID].title
+                      }
+                    >
                       Subject :
                     </h1>
                     <input
@@ -411,7 +461,12 @@ function MailBox() {
                       className="outline-none p-1 flex items-start dark:bg-slate-600 dark:text-white"
                     />
                   </div>
-                  <div className="flex flex-col h-full bg-gray-50 dark:bg-slate-600 rounded-lg border-indigo-200 m-2">
+                  <div
+                    className={
+                      "flex flex-col h-full bg-gray-50 dark:bg-slate-600 rounded-lg m-2" +
+                      Pages[ColorID].border
+                    }
+                  >
                     <textarea
                       onChange={(e) => settextCont(e.target.value)}
                       disabled
@@ -447,9 +502,10 @@ function MailBox() {
                         key={`mails${i}`}
                         onClick={() => handleView(dic.id)}
                         className={
-                          "flex flex-row justify-between cursor-pointer  items-center p-2 hover:bg-indigo-100  dark:hover:bg-slate-600" +
+                          "flex flex-row justify-between cursor-pointer  items-center p-2 dark:hover:bg-slate-600" +
+                          Pages[ColorID].hover +
                           (thread === dic.id
-                            ? " bg-indigo-50 dark:bg-slate-600"
+                            ? Pages[ColorID].active + " dark:bg-slate-600"
                             : "") +
                           (!dic.data.read
                             ? " bg-yellow-100 dark:bg-slate-500"
@@ -491,7 +547,10 @@ function MailBox() {
                                 )
                               )
                             }
-                            className="w-8 p-2 text-gray-500 hover:text-white hover:bg-indigo-400 rounded-full"
+                            className={
+                              "w-8 p-2 text-gray-500 hover:text-white rounded-full " +
+                              Pages[ColorID].icoHover
+                            }
                           />
                         </div>
                       </div>
@@ -506,7 +565,10 @@ function MailBox() {
                       changeScreen(true);
                       setTo({ id: "HyAS9bQrGoNbH6yekzzK", name: "Admin" });
                     }}
-                    className="mx-2 mb-4 flex dark:text-white dark:hover:bg-indigo-800 dark:bg-slate-500 flex-row justify-center text-indigo-400 hover:text-white hover:bg-indigo-600 bg-indigo-50 cursor-pointer shadow-md rounded-full items-center h-12"
+                    className={
+                      "mx-2 mb-4 flex dark:text-white dark:bg-slate-500 flex-row justify-center hover:text-white cursor-pointer shadow-md rounded-full items-center h-12" +
+                      Pages[ColorID].hover3
+                    }
                   >
                     <PlusCircleIcon className="w-6 mr-2" />
                     New Mail
@@ -517,7 +579,12 @@ function MailBox() {
                   onClick={() => changeScreen(false)}
                   className="flex flex-col h-screen overflow-y-auto"
                 >
-                  <div className="flex p-1 rounded-tl-lg flex-row bg-indigo-200 dark:bg-slate-600 dark:text-gray-200 hover:text-white hover:bg-indigo-600 cursor-pointer font-pop items-center">
+                  <div
+                    className={
+                      "flex p-1 rounded-tl-lg flex-row bg-gradient-to-br dark:bg-slate-600 dark:text-gray-200 hover:text-white cursor-pointer font-pop items-center " +
+                      Pages[ColorID].button
+                    }
+                  >
                     <BackspaceIcon className="w-4" /> Back
                   </div>
                 </div>
@@ -553,7 +620,8 @@ function MailBox() {
                                       setTo({ id: dc.id, name: dc.name });
                                     }}
                                     className={
-                                      "flex flex-row py-2 pl-2 pr-12 border-b text-gray-500 border-gray-300 hover:bg-indigo-200 bg-indigo-100" +
+                                      "flex flex-row py-2 pl-2 pr-12 border-b text-gray-500 border-gray-300 bg-gray-50 " +
+                                      Pages[ColorID].hover2 +
                                       (dxc.length === j + 1
                                         ? " rounded-b-lg overflow-hidden"
                                         : "")
@@ -575,20 +643,36 @@ function MailBox() {
                       )}
                       <XIcon
                         onClick={() => setSender(true)}
-                        className="w-4 hover:bg-indigo-400 hover:text-white rounded-full p-0.5 ml-2"
+                        className={
+                          "w-4 hover:text-white rounded-full p-0.5 ml-2" +
+                          Pages[ColorID].hover3
+                        }
                       />
                     </div>
                     <div
                       onClick={() => submitThread()}
-                      className="flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 text-white"
+                      className={
+                        "flex flex-row items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md px-4 py-1 rounded-full text-white" +
+                        Pages[ColorID].button
+                      }
                     >
                       <PaperAirplaneIcon className="w-4" />
                       &nbsp;Send
                     </div>
                   </div>
 
-                  <div className=" flex flex-row items-end rounded-full border dark:border-slate-700 dark:bg-slate-600 border-indigo-200 mx-2">
-                    <h1 className="font-pop text-indigo-500 rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto">
+                  <div
+                    className={
+                      " flex flex-row items-end rounded-full border dark:border-slate-700 dark:bg-slate-600 mx-2" +
+                      Pages[ColorID].border
+                    }
+                  >
+                    <h1
+                      className={
+                        "font-pop rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto" +
+                        Pages[ColorID].title
+                      }
+                    >
                       Subject :
                     </h1>
                     <input
@@ -598,7 +682,12 @@ function MailBox() {
                       className="outline-none p-1 dark:bg-slate-600 dark:text-gray-100 flex items-start"
                     />
                   </div>
-                  <div className="flex flex-col h-full border border-indigo-200 dark:border-slate-800 m-2">
+                  <div
+                    className={
+                      "flex flex-col h-full border dark:border-slate-800 m-2" +
+                      Pages[ColorID].border
+                    }
+                  >
                     <textarea
                       onChange={(e) => settextCont(e.target.value)}
                       value={textCont}
@@ -639,15 +728,28 @@ function MailBox() {
                             setTo({ id: fromUser, name: dc.data().name });
                           });
                         }}
-                        className="flex flex-row dark:bg-indigo-700 dark:hover:text-white dark:hover:bg-indigo-800  items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md hover:text-indigo-600  px-4 py-1 rounded-full bg-indigo-600 text-white"
+                        className={
+                          "flex flex-row dark:hover:text-white items-center whitespace-nowrap cursor-pointer hover:bg-gray-50 shadow-md px-4 py-1 rounded-full text-white " +
+                          Pages[ColorID].button
+                        }
                       >
                         <PaperAirplaneIcon className="w-4" />
                         &nbsp;Reply
                       </div>
                     </div>
 
-                    <div className=" flex flex-row items-end  overflow-hidden dark:bg-slate-600 rounded-full bg-gray-50 border-indigo-200 mx-2">
-                      <h1 className="font-pop dark:bg-slate-600 text-indigo-500 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto">
+                    <div
+                      className={
+                        " flex flex-row items-end  overflow-hidden dark:bg-slate-600 rounded-full bg-gray-50 mx-2" +
+                        Pages[ColorID].border
+                      }
+                    >
+                      <h1
+                        className={
+                          "font-pop dark:bg-slate-600 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto " +
+                          Pages[ColorID].title
+                        }
+                      >
                         Subject :
                       </h1>
                       <input
@@ -658,7 +760,12 @@ function MailBox() {
                         className="outline-none dark:bg-slate-600 dark:text-white p-1 flex items-start"
                       />
                     </div>
-                    <div className="flex flex-col h-full bg-gray-50 rounded-lg dark:bg-slate-600 border-indigo-200 m-2">
+                    <div
+                      className={
+                        "flex flex-col h-full bg-gray-50 rounded-lg dark:bg-slate-600 m-2" +
+                        Pages[ColorID].border
+                      }
+                    >
                       <textarea
                         onChange={(e) => settextCont(e.target.value)}
                         disabled

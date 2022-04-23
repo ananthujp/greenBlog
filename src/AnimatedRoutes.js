@@ -24,7 +24,13 @@ const AnimatedRoutes = () => {
   const [sub, setSub] = useState(false);
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
-  const [dark, setDispMode] = useState(false);
+  const [dark, setDispMode] = useState(
+    localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ? true
+      : false
+  );
   useEffect(() => {
     dark
       ? document.documentElement.classList.add("dark")

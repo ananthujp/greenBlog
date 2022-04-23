@@ -24,6 +24,7 @@ function UserMenu({ setshowMenu, dark, setDispMode }) {
       </h1>
       <label className="mt-4 transform scale-90">
         <input
+          checked={dark}
           onChange={(e) => setDispMode(e.target.checked)}
           className="toggle-checkbox group"
           type="checkbox"

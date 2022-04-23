@@ -5,6 +5,7 @@ import {
   TrashIcon,
   EyeIcon,
 } from "@heroicons/react/outline";
+import { Pages, ColorID } from "../Components/Colors";
 import { motion } from "framer-motion";
 
 import {
@@ -76,15 +77,20 @@ function AdminPanel() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex flex-col w-full px-8 md:px-16 dark:bg-slate-600 pt-2 md:pt-12 bg-gray-50"
+        className={
+          "flex  dark:from-slate-600 dark:to-gray-600 flex-col w-full px-8 md:px-16  pt-2 md:pt-12 bg-gradient-to-br " +
+          Pages[ColorID].pageBg
+        }
       >
-        <h1 className="font-poplg text-2xl text-left text-indigo-900 dark:text-indigo-500">
+        <h1 className={"font-poplg text-2xl text-left " + Pages[ColorID].head}>
           {"Hi " + userID?.name.split(" ")[0] + ", Welcome back!"}
         </h1>
-        <h1 className="font-popxs text-md text-indigo-300">Admin Panel</h1>
+        <h1 className={"font-popxs text-md " + Pages[ColorID].sub}>
+          Admin Panel
+        </h1>
         <div className="flex flex-row w-full">
           <div className={"flex flex-col w-1/2 bg-white p-4 " + item}>
-            <h1 className="font-pop text-md text-indigo-900 dark:text-indigo-500">
+            <h1 className={"font-pop text-md " + Pages[ColorID].head}>
               Articles
             </h1>
             <div className="flex flex-row mx-auto">
@@ -137,13 +143,18 @@ function AdminPanel() {
             </div>
           </div>
         </div>
-        <h1 className="font-poplg text-lg text-indigo-800 text mt-4">
+        <h1 className={"font-poplg text-lg text mt-4 " + Pages[ColorID].head}>
           Waiting for approval
         </h1>
         <div className={"flex px-3 py-2 flex-row bg-white w-full " + item}>
           <table className=" w-full">
             <tbody>
-              <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900 dark:text-indigo-500">
+              <tr
+                className={
+                  "border-b text-left w-full border-gray-300 font-popxl " +
+                  Pages[ColorID].head
+                }
+              >
                 <th className="whitespace-nowrap pr-3">No</th>
                 <th className="whitespace-nowrap w-1/5">Title</th>
                 <th className="whitespace-nowrap w-1/5 ">Author</th>
@@ -173,7 +184,12 @@ function AdminPanel() {
                         onClick={() => navigate(`/Write/${dc.id}`)}
                         className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                       >
-                        <PencilAltIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
+                        <PencilAltIcon
+                          className={
+                            "w-5 dark:hover:text-white" +
+                            Pages[ColorID].hoverTxt
+                          }
+                        />
                       </div>
                     ) : (
                       <></>
@@ -193,7 +209,12 @@ function AdminPanel() {
                         }}
                         className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                       >
-                        <TrashIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
+                        <TrashIcon
+                          className={
+                            "w-5 dark:hover:text-white" +
+                            Pages[ColorID].hoverTxt
+                          }
+                        />
                       </div>
                     ) : (
                       <></>
@@ -204,13 +225,18 @@ function AdminPanel() {
             </tbody>
           </table>
         </div>
-        <h1 className="font-poplg text-lg text-indigo-800 text mt-4">
+        <h1 className={"font-poplg text-lg  text mt-4" + Pages[ColorID].head}>
           Approved Articles
         </h1>
         <div className={"flex px-3 py-2 flex-row bg-white w-full " + item}>
           <table className=" w-full">
             <tbody>
-              <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900 dark:text-indigo-500">
+              <tr
+                className={
+                  "border-b text-left w-full border-gray-300 font-popxl " +
+                  Pages[ColorID].head
+                }
+              >
                 <th className="whitespace-nowrap pr-3">No</th>
                 <th className="whitespace-nowrap w-1/5">Title</th>
                 <th className="whitespace-nowrap w-1/5 ">Author</th>
@@ -249,7 +275,12 @@ function AdminPanel() {
                           onClick={() => navigate(`/Posts/${dc.id}`)}
                           className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                         >
-                          <EyeIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
+                          <EyeIcon
+                            className={
+                              "w-5 dark:hover:text-white " +
+                              Pages[ColorID].hoverTxt
+                            }
+                          />
                         </div>
                       </>
                     ) : (
@@ -260,7 +291,12 @@ function AdminPanel() {
                         onClick={() => deleteDoc(doc(db, "Posts", dc.id))}
                         className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                       >
-                        <TrashIcon className="w-5 hover:text-indigo-600 dark:hover:text-white" />
+                        <TrashIcon
+                          className={
+                            "w-5 dark:hover:text-white" +
+                            Pages[ColorID].hoverTxt
+                          }
+                        />
                       </div>
                     ) : (
                       <></>

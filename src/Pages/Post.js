@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Pages, ColorID } from "../Components/Colors";
 import { db } from "../firebase";
 import moment from "moment";
 import ReactGiphySearchbox from "react-giphy-searchbox";
@@ -234,16 +235,28 @@ function Post() {
                 ref={(el) => (ref.current[`id.${1}`] = el)}
                 key={`id.${1}`}
                 className={
-                  "flex flex-row px-2 group cursor-pointer items-center rounded-lg  shadow-sm hover:bg-indigo-600 bg-indigo-50 " +
-                  (clap.flag && " bg-indigo-100")
+                  "flex flex-row px-2 group cursor-pointer items-center rounded-lg  shadow-sm  " +
+                  Pages[ColorID].active +
+                  Pages[ColorID].postButtonHover +
+                  (clap.flag && Pages[ColorID].active2)
                 }
               >
                 <img className="w-12 p-2" src={Clap} alt="" />
                 <div className="flex flex-col items-center justify-center">
-                  <h1 className=" font-pop group-hover:text-white text-indigo-600 my-auto text-xxs">
+                  <h1
+                    className={
+                      " font-pop group-hover:text-white my-auto text-xxs" +
+                      Pages[ColorID].postText
+                    }
+                  >
                     Claps
                   </h1>
-                  <h1 className="font-popxl group-hover:text-white text-indigo-600  my-auto">
+                  <h1
+                    className={
+                      "font-popxl group-hover:text-white  my-auto" +
+                      Pages[ColorID].postText
+                    }
+                  >
                     {clap.clap}
                   </h1>
                 </div>
@@ -251,16 +264,28 @@ function Post() {
               <div
                 onClick={() => navigate("/MailBox/to$" + author.id)}
                 className={
-                  "flex ml-4 flex-row px-2 cursor-pointer items-center rounded-lg group shadow-sm hover:bg-indigo-600 bg-indigo-50 " +
-                  (clap.flag && " bg-indigo-100")
+                  "flex ml-4 flex-row px-2 cursor-pointer items-center rounded-lg group shadow-sm " +
+                  Pages[ColorID].active +
+                  Pages[ColorID].postButtonHover +
+                  (clap.flag && Pages[ColorID].active2)
                 }
               >
                 <img className="w-12 h-12 p-2" src={Write} alt="" />
                 <div className="flex flex-col items-center justify-center">
-                  <h1 className=" font-pop group-hover:text-white text-indigo-600 text-xxs my-auto">
+                  <h1
+                    className={
+                      " font-pop group-hover:text-white text-xxs my-auto" +
+                      Pages[ColorID].postText
+                    }
+                  >
                     Write to
                   </h1>
-                  <h1 className="font-popxl group-hover:text-white text-indigo-600 text-xs my-auto">
+                  <h1
+                    className={
+                      "font-popxl group-hover:text-white text-xs my-auto" +
+                      Pages[ColorID].postText
+                    }
+                  >
                     Author
                   </h1>{" "}
                 </div>
@@ -270,14 +295,28 @@ function Post() {
               onClick={() => confetti(`id.${2}`)}
               ref={(el) => (ref.current[`id.${2}`] = el)}
               key={`id.${2}`}
-              className="flex cursor-pointer flex-row px-2 items-center rounded-lg group shadow-sm hover:bg-indigo-600 bg-indigo-50 "
+              className={
+                "flex cursor-pointer flex-row px-2 items-center rounded-lg group shadow-sm  " +
+                Pages[ColorID].postButtonHover +
+                Pages[ColorID].active
+              }
             >
               <img className="w-12 h-12 p-2" src={Read} alt="" />
               <div className="flex flex-col items-center justify-center">
-                <h1 className=" font-pop group-hover:text-white text-indigo-600 text-xxs my-auto">
+                <h1
+                  className={
+                    " font-pop group-hover:text-white text-xxs my-auto" +
+                    Pages[ColorID].postText
+                  }
+                >
                   Reads
                 </h1>
-                <h1 className="font-popxl group-hover:text-white text-indigo-600 my-auto">
+                <h1
+                  className={
+                    "font-popxl group-hover:text-white my-auto" +
+                    Pages[ColorID].postText
+                  }
+                >
                   {read}
                 </h1>
               </div>
@@ -300,9 +339,18 @@ function Post() {
                 <div
                   ref={(el) => (ref.current[`idcom.${1}`] = el)}
                   key={`idcom.${1}`}
-                  className="flex flex-col w-full rounded-md bg-indigo-100 dark:bg-slate-600 border border-indigo-200 dark:border-slate-800 mb-4"
+                  className={
+                    "flex flex-col w-full rounded-md dark:bg-slate-600 border dark:border-slate-800 mb-4 " +
+                    Pages[ColorID].border +
+                    Pages[ColorID].active2
+                  }
                 >
-                  <div className="flex flex-row border-b border-indigo-200 dark:border-slate-800 pb-2 w-full items-center justify-between">
+                  <div
+                    className={
+                      "flex flex-row border-b dark:border-slate-800 pb-2 w-full items-center justify-between " +
+                      Pages[ColorID].border
+                    }
+                  >
                     <div className="mt-2 ml-2 flex flex-row items-center">
                       <img
                         className="w-8 h-8 object-cover rounded-full"
@@ -332,7 +380,11 @@ function Post() {
                       </div>
                       <div
                         onClick={() => AddComment()}
-                        className="mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br from-indigo-400 to-indigo-600  dark:from-indigo-400 dark:to-indigo-600 rounded-md font-pop h-6 text-white px-4"
+                        className={
+                          "mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br rounded-md font-pop h-6 text-white px-4" +
+                          Pages[ColorID].border +
+                          Pages[ColorID].commentButton
+                        }
                       >
                         Comment
                       </div>
@@ -367,7 +419,10 @@ function Post() {
             {comments?.map((dc, ind) => (
               <div
                 key={`comments.post.${ind}`}
-                className="flex flex-col p-1 rounded-lg hover:bg-indigo-50 hover:dark:bg-slate-600 my-2"
+                className={
+                  "flex flex-col p-1 rounded-lg hover:dark:bg-slate-600 my-2" +
+                  Pages[ColorID].hover
+                }
               >
                 <div className="flex flex-row items-center w-full justify-between">
                   <div
@@ -390,7 +445,8 @@ function Post() {
                   </div>
                   <h1
                     className={
-                      "hover:bg-indigo-600 p-1 hover:text-white rounded-full" +
+                      " p-1 hover:text-white rounded-full " +
+                      Pages[ColorID].postButtonHover +
                       (dc.auth === userID?.id ? " flex" : " hidden")
                     }
                     onClick={() => deleteComment(dc.id)}

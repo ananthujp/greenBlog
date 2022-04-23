@@ -18,7 +18,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 function Subscribe({ change, state }) {
-  const [email, setEmail] = useState(null);
+  const [email, setEmail] = useState("");
   const [status, setStatus] = useState();
   const handleSubscribe = () => {
     email &&

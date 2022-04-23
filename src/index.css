@@ -1004,7 +1004,7 @@ blockquote {
 }
 
 .toggle-button {
-  transform: translate(7.9em, 0.04em);
+  transform: translate(8em, 0.07em);
   position: absolute;
   height: 1.8em;
   width: 1.8em;

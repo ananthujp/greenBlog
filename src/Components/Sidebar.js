@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { SideBar, ColorID } from "./Colors";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/userAuth";
 
@@ -67,18 +67,26 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
                     localStorage.removeItem("user");
                     setUserID(null);
                   }}
-                  className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800 hover:to-indigo-600"
+                  className={
+                    "cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full  bg-gradient-to-br" +
+                    SideBar[ColorID].button
+                  }
                 >
                   Logout
                 </div>
                 <div
                   onClick={() => preview(false)}
-                  className="w-6 h-6 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 ml-1 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800"
+                  className={
+                    "w-6 h-6 rounded-full  bg-gradient-to-br " +
+                    SideBar[ColorID].button
+                  }
                 >
                   <PlusIcon className="w-4 mt-1 flex text-white mx-auto my-auto" />
                 </div>
               </div>
-              <div className="w-32 mt-4 text-indigo-400 dark:text-white">
+              <div
+                className={"w-32 mt-4 dark:text-white " + SideBar[ColorID].text}
+              >
                 {userID && role === "admin" && <SwitchAdmin />}
               </div>
             </>
@@ -89,7 +97,10 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
         {!userID && (
           <h1
             onClick={() => setLogin(true)}
-            className="mx-auto px-4 cursor-pointer py-1 mt-6 font-pop shadow-md bg-gradient-to-br hover:shadow-md text-indigo-600 hover:text-white text-center from-gray-50 to-gray-100 hover:from-indigo-400 hover:to-indigo-600 rounded-full"
+            className={
+              "mx-auto px-4 cursor-pointer py-1 mt-6 font-pop shadow-md bg-gradient-to-br hover:shadow-md text-center rounded-full " +
+              SideBar[ColorID].login
+            }
           >
             Login
           </h1>
@@ -112,13 +123,17 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
       </div> */}
       <button
         type="button"
-        className="flex mx-auto px-8 py-1 mt-6 font-pop shadow-md hover:shadow-lg text-white rounded-full bg-gradient-to-br from-indigo-400 to-indigo-500 hover:to-indigo-600 dark:from-indigo-600 dark:to-indigo-700 dark:hover:to-indigo-800"
+        className={
+          "flex mx-auto px-8 py-1 mt-6 font-pop shadow-md hover:shadow-lg text-white rounded-full bg-gradient-to-br " +
+          SideBar[ColorID].button
+        }
         onClick={() => setOpen((o) => !o)}
       >
         Subscribe
       </button>
       <label className="mt-4 ">
         <input
+          checked={dark}
           onChange={(e) => setDispMode(e.target.checked)}
           className="toggle-checkbox group"
           type="checkbox"
@@ -131,7 +146,7 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
         >
           <div className="sun-icon-wrapper">
             <div
-              className="iconify sun-icon -mt-0.5"
+              className="iconify sun-icon -mt-['-0.0325']"
               data-icon="feather-sun"
               data-inline="false"
             >
@@ -141,7 +156,7 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
           <div className="toggle-button"></div>
           <div className="moon-icon-wrapper">
             <div
-              className="iconify moon-icon -mt-0.5"
+              className="iconify moon-icon -mt-['-0.0325']"
               data-icon="feather-moon"
               data-inline="false"
             >

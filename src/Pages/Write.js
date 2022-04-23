@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import NavBar from "../Components/NavBar";
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import Sidebar from "../Components/Sidebar";
+
 import ReactQuill from "react-quill";
-import { db, storage } from "../firebase";
+import { Pages, ColorID } from "../Components/Colors";
+import { db } from "../firebase";
 import {
   updateDoc,
   doc,
   addDoc,
   collection,
   getDoc,
-  getDocs,
   serverTimestamp,
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
@@ -22,7 +18,6 @@ import { FillingBottle, Messaging } from "react-cssfx-loading/lib";
 import useAuth from "../hooks/userAuth";
 import { useNavigate } from "react-router-dom";
 import { setNotification } from "../Actions/setNotification";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import "react-quill/dist/quill.snow.css";
 
 function Write() {
@@ -131,7 +126,12 @@ function Write() {
             <h1 className="font-poplg text-2xl dark:text-gray-100 ">
               Preview{" "}
             </h1>
-            <div className="flex mr-2 flex-col mb-4 bg-indigo-50 dark:bg-slate-700 px-0 py-1 rounded-full border-b border-gray-100 dark:border-slate-700">
+            <div
+              className={
+                "flex mr-2 flex-col mb-4 dark:bg-slate-700 px-0 py-1 rounded-full border-b border-gray-100 dark:border-slate-700" +
+                Pages[ColorID].active
+              }
+            >
               <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
                 <button
                   onClick={() => setPreview(!preview)}
@@ -195,7 +195,12 @@ function Write() {
               Edit Post
             </h1>
 
-            <div className="flex mr-2 flex-col mb-4 dark:bg-slate-700 bg-indigo-50 px-2 py-1 rounded-full border-b border-slate-700">
+            <div
+              className={
+                "flex mr-2 flex-col mb-4 dark:bg-slate-700 px-2 py-1 rounded-full border-b dark:border-slate-700" +
+                Pages[ColorID].active
+              }
+            >
               <div className="flex flex-row flex-wrap mb-1 justify-around items-center">
                 <button
                   onClick={() => setPreview(!preview)}

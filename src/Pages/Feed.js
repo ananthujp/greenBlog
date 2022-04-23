@@ -14,41 +14,63 @@ import { db } from "../firebase";
 
 function Feed() {
   const [posts, setPosts] = useState();
+  const [popposts, setPopPosts] = useState();
   const navigate = useNavigate();
   useEffect(() => {
-    onSnapshot(
+    getDocs(
       query(
         collection(db, "Posts"),
+        orderBy("read", "desc"),
         where("status", "==", "Approved")
-        // ,
-        // orderBy("desc", "read")
-      ),
-      (dc) =>
-        setPosts(
-          dc.docs.map((dic) => ({
-            data: dic.data(),
-            user: dic.data().user,
-            title: dic.data().title,
-            img: dic.data().data?.split('<img src="')[1]?.split('"')[0],
-            txt: getText(dic.data().data?.split("<p>")[1]?.split("</p>")[0]),
-            time:
-              dic
-                .data()
-                .timestamp.toDate()
-                .toLocaleDateString(
-                  {},
-                  { timeZone: "UTC", month: "long", day: "2-digit" }
-                ) + " ",
-            id: dic.id,
-          }))
-        )
+      )
+    ).then((dc) =>
+      setPopPosts(
+        dc.docs.map((dic) => ({
+          data: dic.data(),
+          user: dic.data().user,
+          title: dic.data().title,
+          img: dic.data().data?.split('<img src="')[1]?.split('"')[0],
+          txt: getText(dic.data().data?.split("<p>")[1]?.split("</p>")[0]),
+          time:
+            dic
+              .data()
+              .timestamp.toDate()
+              .toLocaleDateString(
+                {},
+                { timeZone: "UTC", month: "long", day: "2-digit" }
+              ) + " ",
+          id: dic.id,
+        }))
+      )
+    );
+    getDocs(
+      query(
+        collection(db, "Posts"),
+        orderBy("timestamp", "desc"),
+        where("status", "==", "Approved")
+      )
+    ).then((dc) =>
+      setPosts(
+        dc.docs.map((dic) => ({
+          data: dic.data(),
+          user: dic.data().user,
+          title: dic.data().title,
+          img: dic.data().data?.split('<img src="')[1]?.split('"')[0],
+          txt: getText(dic.data().data?.split("<p>")[1]?.split("</p>")[0]),
+          time:
+            dic
+              .data()
+              .timestamp.toDate()
+              .toLocaleDateString(
+                {},
+                { timeZone: "UTC", month: "long", day: "2-digit" }
+              ) + " ",
+          id: dic.id,
+        }))
+      )
     );
   }, []);
-  // <img
-  //               className="w-36 "
-  //               src={dc?.data.data?.split('<img src="')[1]?.split('"')[0]}
-  //               alt=""
-  //             />
+
   const getText = (txt) => {
     return txt.length > 64 ? txt.slice(0, 63) : txt;
   };
@@ -68,11 +90,11 @@ function Feed() {
     );
   };
   return (
-    <div className="w-full flex flex-col px-4">
+    <div className="w-full flex flex-col px-4 dark:bg-slate-700">
       <div className="mt-4">
         <h1 className="mx-8 dark:text-white">Popular posts</h1>
         <div className="flex flex-wrap -mt-4 flex-row">
-          {posts?.map((dc, i) => (
+          {popposts?.map((dc, i) => (
             <div
               key={`pop.posts.${i}`}
               className="flex flex-row flex-start mx-4 my-2 px-4 py-4"
@@ -98,12 +120,12 @@ function Feed() {
           ))}
         </div>
       </div>
-      <div className="border-y mt-6 flex w-full border-purple-300">
+      <div className="border-y mt-6 flex w-full border-purple-300 dark:border-slate-800">
         <div className="flex flex-col w-full">
           {posts?.map((dc, i) => (
             <div
               key={`feed.2.${i}`}
-              className="flex flex-row hover:bg-indigo-50 dark:hover:bg-slate-700 rounded-md py-2 w-full justify-between px-4 my-4"
+              className="flex flex-row hover:bg-indigo-50 dark:hover:bg-slate-600 rounded-md py-2 w-full justify-between px-4 my-4"
             >
               <div className="flex flex-col flex-start ">
                 <div className="flex flex-row items-center mr-1">

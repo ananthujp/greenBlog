@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { NavBarItem, ColorID } from "./Colors";
 import {
   BellIcon,
   HomeIcon,
@@ -28,42 +29,72 @@ function NavBar({ setDispMode, dark }) {
   const items = [
     {
       name: (
-        <HomeIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
+        <HomeIcon
+          className={
+            "w-8 rounded-full p-1 bg-gradient-to-br " +
+            NavBarItem[ColorID].gpHover
+          }
+        />
       ),
       link: "/",
       title: "Home",
     },
     {
       name: (
-        <BellIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
+        <BellIcon
+          className={
+            "w-8 rounded-full p-1 bg-gradient-to-br " +
+            NavBarItem[ColorID].gpHover
+          }
+        />
       ),
       link: "/Notifications",
       title: "Notifications",
     },
     {
       name: (
-        <MailIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
+        <MailIcon
+          className={
+            "w-8 rounded-full p-1 bg-gradient-to-br " +
+            NavBarItem[ColorID].gpHover
+          }
+        />
       ),
       link: "/MailBox",
       title: "Mailbox",
     },
     {
       name: (
-        <UserIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
+        <UserIcon
+          className={
+            "w-8 rounded-full p-1 bg-gradient-to-br " +
+            NavBarItem[ColorID].gpHover
+          }
+        />
       ),
       link: "/UserDash",
       title: "Dashboard",
     },
     {
       name: (
-        <LibraryIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800 " />
+        <LibraryIcon
+          className={
+            "w-8 rounded-full p-1 bg-gradient-to-br " +
+            NavBarItem[ColorID].gpHover
+          }
+        />
       ),
       link: "/AdminPanel",
       title: "Admin Panel",
     },
     {
       name: (
-        <PencilAltIcon className="w-8 rounded-full p-1 bg-gradient-to-br group-hover:from-indigo-400 group-hover:to-indigo-600 dark:group-hover:from-indigo-600 dark:group-hover:to-indigo-800" />
+        <PencilAltIcon
+          className={
+            "w-8 rounded-full p-1 bg-gradient-to-br " +
+            NavBarItem[ColorID].gpHover
+          }
+        />
       ),
       link: "/Write",
       title: "Write",
@@ -156,7 +187,7 @@ function NavBar({ setDispMode, dark }) {
                     index === items.length - 1 &&
                     " ml-1 pl-4  border-l ") +
                   (route.pathname === item.link
-                    ? "  text-indigo-400 dark:text-indigo-600"
+                    ? NavBarItem[ColorID].text
                     : "  text-gray-400 dark:text-white")
                 }
               >
@@ -164,9 +195,10 @@ function NavBar({ setDispMode, dark }) {
               </h1>
               <h1
                 className={
-                  "my-auto ml-4 group transition-all  group-hover:text-indigo-600" +
+                  "my-auto ml-4 group transition-all " +
+                  NavBarItem[ColorID].group +
                   (route.pathname === item.link
-                    ? "  text-indigo-400 dark:text-indigo-600"
+                    ? NavBarItem[ColorID].text
                     : "  text-gray-400") +
                   (hover ? " hidden md:flex" : " hidden")
                 }
