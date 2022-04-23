@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import ReactQuill from "react-quill";
-import { Pages, ColorID } from "../Components/Colors";
+import { Pages } from "../Components/Colors";
 import { db } from "../firebase";
 import {
   updateDoc,
@@ -31,7 +31,7 @@ function Write() {
   const docID = route.pathname.split("/")[2]
     ? route.pathname.split("/")[2]
     : "Create";
-  const { userID } = useAuth();
+  const { userID, ColorID } = useAuth();
   const docRef = doc(db, "Posts", docID);
 
   const autoSave = (flag) => {

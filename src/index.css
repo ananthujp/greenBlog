@@ -1030,11 +1030,11 @@ blockquote {
 
 .sun-icon-wrapper {
   position: absolute;
-  height: 3em;
+  /* height: 3em; */
   width: 6em;
   opacity: 1;
   transform: translate(1em, 0.2em) rotate(0deg);
-  transform-origin: 50% 50%;
+
   transition: opacity 150ms, transform 500ms cubic-bezier(0.26, 2, 0.46, 0.71);
 }
 
@@ -1052,11 +1052,11 @@ blockquote {
 
 .moon-icon-wrapper {
   position: absolute;
-  height: 3em;
+  /* height: 3em; */
   width: 6em;
   opacity: 0;
   transform: translate(5em, 1em) rotate(0deg);
-  transform-origin: 50% 50%;
+
   transition: opacity 150ms, transform 500ms cubic-bezier(0.26, 2.5, 0.46, 0.71);
 }
 

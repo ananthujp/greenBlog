@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase";
-import { Gradient, HomeButton, ColorID, Pages } from "../Components/Colors.js";
+import { Gradient, HomeButton, Pages } from "../Components/Colors.js";
 import Feed from "./Feed";
 const Item = [
   {
@@ -62,7 +62,7 @@ const Color = [
   "to-green-400 from-cyan-700",
 ];
 function Home() {
-  const { userID, login, setLogin } = useAuth();
+  const { userID, login, setLogin, ColorID } = useAuth();
   const [show, setShow] = useState(false);
   const [color, setColor] = useState("");
   const defaultTitle =

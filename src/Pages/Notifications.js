@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../Components/NavBar";
-import { Pages, ColorID } from "../Components/Colors";
+import { Pages } from "../Components/Colors";
 import Sidebar from "../Components/Sidebar";
 import bell from "../images/bell.png";
 import { motion } from "framer-motion";
@@ -26,7 +26,7 @@ import { db } from "../firebase";
 import useAuth from "../hooks/userAuth";
 function Notifications() {
   const [notif, setNotif] = useState();
-  const { userID, switChId } = useAuth();
+  const { userID, switChId, ColorID } = useAuth();
   useEffect(() => {
     switChId(0);
     onSnapshot(

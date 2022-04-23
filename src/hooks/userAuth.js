@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   //const [user,setUser]=useState(null);
   const [user, setUser] = useState("null");
   const [role, setRole] = useState("user");
+  const [ColorID, setColorID] = useState(0);
   const [author, setPostAuthor] = useState("user");
   const [login, setLogin] = useState(false);
   const [userID, setUserID] = useState(
@@ -87,8 +88,10 @@ export const AuthProvider = ({ children }) => {
       login,
       author,
       setPostAuthor,
+      ColorID,
+      setColorID,
     }),
-    [user, userID, role, login, author]
+    [user, userID, role, login, author, ColorID]
   );
   return (
     <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>

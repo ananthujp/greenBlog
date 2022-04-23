@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Pages, ColorID } from "../Components/Colors";
+import { Pages } from "../Components/Colors";
 import { db } from "../firebase";
 import moment from "moment";
 import ReactGiphySearchbox from "react-giphy-searchbox";
@@ -34,7 +34,7 @@ import { TrashIcon } from "@heroicons/react/outline";
 function Post() {
   const route = useLocation();
   const ref = useRef([]);
-  const { userID, setLogin, setPostAuthor } = useAuth();
+  const { userID, setLogin, setPostAuthor, ColorID } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
   const [url, setUrl] = useState(null);

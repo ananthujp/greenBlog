@@ -1,5 +1,5 @@
 import {} from "@heroicons/react/outline";
-import { Pages, ColorID } from "../Components/Colors";
+import { Pages } from "../Components/Colors";
 import {
   AnnotationIcon,
   DocumentTextIcon,
@@ -27,7 +27,7 @@ import { setNotification } from "../Actions/setNotification";
 function UserDash() {
   const scr = window.matchMedia("(min-width: 768px)");
   const navigate = useNavigate();
-  const { userID, setUserID, switChId } = useAuth();
+  const { userID, setUserID, switChId, ColorID } = useAuth();
   const [post, setPost] = useState();
   const PostRef = collection(db, "Posts");
   useEffect(() => {

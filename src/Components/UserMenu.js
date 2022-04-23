@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/userAuth";
 import SwitchAdmin from "./SwitchAdmin";
+import { Pages } from "./Colors";
+import { motion } from "framer-motion";
 import onClickOutside from "react-onclickoutside";
 function UserMenu({ setshowMenu, dark, setDispMode }) {
-  const { role, userID, setUserID } = useAuth();
-
+  const { role, userID, setUserID, ColorID, setColorID } = useAuth();
+  const [showCol, setShowCol] = useState(false);
   const navigate = useNavigate();
   UserMenu.handleClickOutside = () => {
     setshowMenu(false);
@@ -32,7 +34,7 @@ function UserMenu({ setshowMenu, dark, setDispMode }) {
         <div
           className={
             "toggle-slot border " +
-            (dark ? "border-indigo-500" : "border-yellow-500")
+            (dark ? Pages[ColorID].border2 : "border-yellow-500")
           }
         >
           <div className="sun-icon-wrapper">
@@ -56,6 +58,46 @@ function UserMenu({ setshowMenu, dark, setDispMode }) {
           </div>
         </div>
       </label>
+      <div
+        className={
+          "w-36 transition-all border flex cursor-pointer flex-col my-3 py-0.5 " +
+          (showCol ? " rounded-lg" : " rounded-full") +
+          Pages[ColorID].border
+        }
+      >
+        <div
+          onClick={() => setShowCol(!showCol)}
+          className="flex flex-row items-center justify-between"
+        >
+          <h1 className="ml-1 text-md my-auto dark:text-white font-pop">
+            Change Color
+          </h1>
+          <div
+            className={"w-6 h-6 rounded-full mr-0.5 " + Pages[ColorID].ico}
+          />
+        </div>
+        {showCol && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 1 } }}
+            className={
+              "flex flex-wrap flex-row mt-1 justify-center items-center"
+            }
+          >
+            {Pages.map((dc, i) => (
+              <div
+                onClick={() => {
+                  setColorID(i);
+                  setShowCol(false);
+                }}
+                className={
+                  "w-6 h-6 mx-1 my-1 rounded-full mr-0.5 " + Pages[i].ico
+                }
+              />
+            ))}
+          </motion.div>
+        )}
+      </div>
       <h1
         className="cursor-pointer mt-2 hover:text-gray-400  dark:text-gray-100"
         onClick={() => handleLogout()}

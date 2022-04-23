@@ -19,7 +19,7 @@ import {
   deleteDoc,
   getDocs,
 } from "firebase/firestore";
-import { Pages, ColorID, SideBar } from "../Components/Colors";
+import { Pages, SideBar } from "../Components/Colors";
 import { motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ function MailBox() {
   const [textCont, settextCont] = useState();
   const [mailview, setView] = useState(false);
   const [mails, setMails] = useState();
-  const { userID, role } = useAuth();
+  const { userID, role, ColorID } = useAuth();
   const route = useLocation();
   const x = window.matchMedia("(min-width: 768px)");
   const formatText = (txt) => {

@@ -5,7 +5,7 @@ import {
   TrashIcon,
   EyeIcon,
 } from "@heroicons/react/outline";
-import { Pages, ColorID } from "../Components/Colors";
+import { Pages } from "../Components/Colors";
 import { motion } from "framer-motion";
 
 import {
@@ -27,7 +27,7 @@ import useAuth from "../hooks/userAuth";
 
 function AdminPanel() {
   const navigate = useNavigate();
-  const { userID, role, switChId } = useAuth();
+  const { userID, role, switChId, ColorID } = useAuth();
   const [post, setPost] = useState();
   const [approvedpost, setapprovedPost] = useState();
   const PostRef = collection(db, "Posts");

@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { NavBarItem, ColorID } from "./Colors";
+import { NavBarItem } from "./Colors";
 import {
   BellIcon,
   HomeIcon,
@@ -22,7 +22,7 @@ import { db } from "../firebase";
 import UserMenu from "./UserMenu";
 function NavBar({ setDispMode, dark }) {
   const scr = window.matchMedia("(min-width: 768px)");
-  const { role, userID } = useAuth();
+  const { role, userID, ColorID } = useAuth();
   const route = useLocation();
   const [hover, setHover] = useState(false);
   const [showMenu, setshowMenu] = useState(false);
