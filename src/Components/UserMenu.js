@@ -5,8 +5,9 @@ import SwitchAdmin from "./SwitchAdmin";
 import { Pages } from "./Colors";
 import { motion } from "framer-motion";
 import onClickOutside from "react-onclickoutside";
-function UserMenu({ setshowMenu, dark, setDispMode }) {
-  const { role, userID, setUserID, ColorID, setColorID } = useAuth();
+function UserMenu({ setshowMenu }) {
+  const { role, userID, setUserID, ColorID, setColorID, dark, setDispMode } =
+    useAuth();
   const [showCol, setShowCol] = useState(false);
   const navigate = useNavigate();
   UserMenu.handleClickOutside = () => {

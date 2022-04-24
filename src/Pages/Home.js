@@ -63,8 +63,7 @@ const Color = [
 ];
 function Home() {
   const { userID, login, setLogin, ColorID } = useAuth();
-  const [show, setShow] = useState(false);
-  const [color, setColor] = useState("");
+
   const defaultTitle =
     " dark:from-white dark:to-white from-slate-800 to-slate-800";
   const ReadCount = ({ items }) => {
@@ -156,7 +155,7 @@ function Home() {
               <h1
                 className={
                   "font-popxl md:-mt-7 bg-gradient-to-br text-transparent bg-clip-text text-5xl md:text-6xl " +
-                  Color[Math.floor(Math.random() * (9 - 0 + 1) + 0)]
+                  Pages[ColorID].homeTxt
                 }
               >
                 BLOG

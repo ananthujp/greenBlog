@@ -20,17 +20,11 @@ import TempLogin from "./Components/TempLogin";
 import Author from "./Pages/Author";
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const { user, login, userID } = useAuth();
+  const { user, login, userID, dark, setDispMode } = useAuth();
   const [sub, setSub] = useState(false);
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
-  const [dark, setDispMode] = useState(
-    localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ? true
-      : false
-  );
+
   useEffect(() => {
     dark
       ? document.documentElement.classList.add("dark")
@@ -38,12 +32,12 @@ const AnimatedRoutes = () => {
   }, [dark]);
   return (
     <AnimatePresence exitBeforeEnter>
-      <TempLogin show={login} />
-      <Subscribe state={sub} change={setSub} />
+      <TempLogin key={`temp.login`} show={login} />
+      <Subscribe key={`sub.diag`} state={sub} change={setSub} />
       <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-white">
         <div className="flex flex-col md:flex-row md:w-full">
           <div className="relative md:w-16 md:h-screen">
-            <NavBar dark={dark} setDispMode={setDispMode} />
+            <NavBar />
           </div>
           <Routes location={location} key={location.pathname}>
             <Route exact path="/" element={<Home />} />

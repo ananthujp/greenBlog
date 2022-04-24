@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Color } from "party-js";
 import React, {
   createContext,
   useContext,
@@ -11,8 +12,19 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   //const [user,setUser]=useState(null);
   const [user, setUser] = useState("null");
+  const [dark, setDispMode] = useState(
+    localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ? true
+      : false
+  );
   const [role, setRole] = useState("user");
-  const [ColorID, setColorID] = useState(0);
+  const [ColorID, setColorID] = useState(
+    localStorage.getItem("Ctheme")
+      ? JSON.parse(localStorage.getItem("Ctheme"))
+      : 0
+  );
   const [author, setPostAuthor] = useState("user");
   const [login, setLogin] = useState(false);
   const [userID, setUserID] = useState(
@@ -23,7 +35,20 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     authUser();
   }, []);
+  useEffect(() => {
+    localStorage.setItem("Ctheme", JSON.stringify(ColorID ? ColorID : 0));
+  }, [ColorID]);
+  useEffect(() => {
+    localStorage.setItem(
+      "theme",
 
+      dark
+        ? "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+    );
+  }, [dark]);
   useEffect(() => {
     userID
       ? localStorage.setItem("user", JSON.stringify(userID))
@@ -90,8 +115,10 @@ export const AuthProvider = ({ children }) => {
       setPostAuthor,
       ColorID,
       setColorID,
+      dark,
+      setDispMode,
     }),
-    [user, userID, role, login, author, ColorID]
+    [user, dark, userID, role, login, author, ColorID]
   );
   return (
     <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>
