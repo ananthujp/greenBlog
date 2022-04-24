@@ -29,6 +29,47 @@ import SwitchAdmin from "../Components/SwitchAdmin";
 import { db } from "../firebase";
 import useAuth from "../hooks/userAuth";
 import mail from "../images/mail.png";
+const GetUser = ({ id, userID }) => {
+  const [names, setName] = useState("");
+  id &&
+    getDoc(doc(db, "Profiles", id)).then((dc) => {
+      setName(dc.data().name);
+    });
+  return <div className="ml-1">{id === userID?.id ? "Me" : names}</div>;
+};
+const GetImage = ({ id }) => {
+  const [img, setImg] = useState("");
+  id &&
+    getDoc(doc(db, "Profiles", id)).then((dc) => {
+      setImg(dc.data().img);
+    });
+  return <img className="w-8 h-8 rounded-full" src={img} alt="" />;
+};
+const MailThread = ({ id, fromUser, userID }) => {
+  const [title, setTitle] = useState("");
+  const [cont, setCont] = useState("");
+  getDoc(
+    doc(
+      db,
+      "Profiles",
+      fromUser === userID?.id ? userID?.id : fromUser,
+      "Mailbox",
+      id
+    )
+  ).then((dc) => {
+    setTitle(dc?.data().title);
+    setCont(dc?.data().text);
+  });
+
+  return (
+    <div className="ml-8">
+      <h1 className=" font-poplg text-xs text-gray-300 whitespace-nowrap">
+        Sub : {title}
+      </h1>
+      <h1 className="font-pop text-xs text-gray-300 whitespace-wrap">{cont}</h1>
+    </div>
+  );
+};
 function MailBox() {
   const navigate = useNavigate();
   const [search, setSearch] = useState();
@@ -114,50 +155,6 @@ function MailBox() {
       });
   };
 
-  const GetUser = ({ id }) => {
-    const [names, setName] = useState("");
-    id &&
-      getDoc(doc(db, "Profiles", id)).then((dc) => {
-        setName(dc.data().name);
-      });
-    return <div className="ml-1">{id === userID?.id ? "Me" : names}</div>;
-  };
-  const GetImage = ({ id }) => {
-    const [img, setImg] = useState("");
-    id &&
-      getDoc(doc(db, "Profiles", id)).then((dc) => {
-        setImg(dc.data().img);
-      });
-    return <img className="w-8 h-8 rounded-full" src={img} alt="" />;
-  };
-
-  const MailThread = ({ id }) => {
-    const [title, setTitle] = useState("");
-    const [cont, setCont] = useState("");
-    getDoc(
-      doc(
-        db,
-        "Profiles",
-        fromUser === userID?.id ? userID?.id : fromUser,
-        "Mailbox",
-        id
-      )
-    ).then((dc) => {
-      setTitle(dc?.data().title);
-      setCont(dc?.data().text);
-    });
-
-    return (
-      <div className="ml-8">
-        <h1 className=" font-poplg text-xs text-gray-300 whitespace-nowrap">
-          Sub : {title}
-        </h1>
-        <h1 className="font-pop text-xs text-gray-300 whitespace-wrap">
-          {cont}
-        </h1>
-      </div>
-    );
-  };
   useEffect(() => {
     route.pathname.split("$")[1] && setView(true);
     route.pathname.split("$")[1] && setReply(false);
@@ -363,13 +360,13 @@ function MailBox() {
 
                   <div
                     className={
-                      " flex flex-row items-end rounded-full  dark:bg-slate-600 overflow-hidden border dark:border-slate-800 mx-2" +
+                      " flex flex-row items-center p-1 rounded-full  dark:bg-slate-600 overflow-hidden border dark:border-slate-800 mx-2" +
                       Pages[ColorID].border
                     }
                   >
                     <h1
                       className={
-                        "font-pop rounded-full dark:bg-slate-600  bg-gray-50 p-1 ml-2 mt-0 my-auto" +
+                        "font-pop rounded-full dark:bg-slate-600   bg-gray-50 ml-2 mt-0 my-auto" +
                         Pages[ColorID].title
                       }
                     >
@@ -379,7 +376,7 @@ function MailBox() {
                       onChange={(e) => settitle(e.target.value)}
                       value={title ? title : ""}
                       type="text"
-                      className="outline-none p-1 flex dark:bg-slate-600 items-start"
+                      className="outline-none flex ml-1 my-auto dark:text-slate-100 dark:bg-slate-600 items-start"
                     />
                   </div>
                   <div
@@ -398,7 +395,11 @@ function MailBox() {
                         <h1 className="text-gray-400 font-popxs">
                           ------ Reply
                         </h1>
-                        <MailThread id={reply} />
+                        <MailThread
+                          id={reply}
+                          fromUser={fromUser}
+                          userID={userID}
+                        />
                       </div>
                     )}
                   </div>
@@ -417,7 +418,8 @@ function MailBox() {
                       className="flex flex-row items-center whitespace-nowrap cursor-pointer dark:bg-slate-600 dark:border-gray-500 bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400"
                     >
                       <MailIcon className="w-4" />
-                      from :<GetUser id={fromUser ? fromUser : ""} />
+                      from :
+                      <GetUser userID={userID} id={fromUser ? fromUser : ""} />
                     </div>
                     <div
                       onClick={() => {
@@ -441,13 +443,13 @@ function MailBox() {
 
                   <div
                     className={
-                      " flex flex-row items-end rounded-full bg-gray-50 dark:bg-slate-600 mx-2" +
+                      " flex flex-row items-center p-1 rounded-full bg-gray-50 dark:bg-slate-600 mx-2" +
                       Pages[ColorID].border
                     }
                   >
                     <h1
                       className={
-                        "font-pop rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto" +
+                        "font-pop rounded-full bg-gray-50 dark:bg-slate-600 ml-2 mt-0.5 my-auto" +
                         Pages[ColorID].title
                       }
                     >
@@ -458,7 +460,7 @@ function MailBox() {
                       disabled
                       value={title ? title : "Loading.."}
                       type="text"
-                      className="outline-none p-1 flex items-start dark:bg-slate-600 dark:text-white"
+                      className="outline-none ml-1 my-auto flex items-start dark:bg-slate-600 dark:text-white"
                     />
                   </div>
                   <div
@@ -478,7 +480,11 @@ function MailBox() {
                         <h1 className="text-gray-400 font-popxs">
                           ------ Reply
                         </h1>
-                        <MailThread id={reply} />
+                        <MailThread
+                          id={reply}
+                          fromUser={fromUser}
+                          userID={userID}
+                        />
                       </div>
                     )}
                   </div>
@@ -663,13 +669,13 @@ function MailBox() {
 
                   <div
                     className={
-                      " flex flex-row items-end rounded-full border dark:border-slate-700 dark:bg-slate-600 mx-2" +
+                      " flex flex-row items-center p-1 rounded-full border dark:border-slate-700 dark:bg-slate-600 mx-2" +
                       Pages[ColorID].border
                     }
                   >
                     <h1
                       className={
-                        "font-pop rounded-full bg-gray-50 dark:bg-slate-600 p-1 ml-2 mt-0.5 my-auto" +
+                        "font-pop rounded-full bg-gray-50 dark:bg-slate-600 ml-2 my-auto" +
                         Pages[ColorID].title
                       }
                     >
@@ -679,7 +685,7 @@ function MailBox() {
                       onChange={(e) => settitle(e.target.value)}
                       value={title ? title : ""}
                       type="text"
-                      className="outline-none p-1 dark:bg-slate-600 dark:text-gray-100 flex items-start"
+                      className="outline-none ml-1 my-auto dark:bg-slate-600 dark:text-gray-100 flex items-start"
                     />
                   </div>
                   <div
@@ -698,7 +704,11 @@ function MailBox() {
                         <h1 className="text-gray-400 font-popxs">
                           ------ Reply
                         </h1>
-                        <MailThread id={reply} />
+                        <MailThread
+                          id={reply}
+                          fromUser={fromUser}
+                          userID={userID}
+                        />
                       </div>
                     )}
                   </div>
@@ -716,7 +726,11 @@ function MailBox() {
                         className="flex flex-row dark:bg-slate-600 dark:border-gray-500 items-center whitespace-nowrap cursor-pointer bg-gray-50 border border-r-gray-200 px-4 py-1 rounded-full text-gray-400"
                       >
                         <MailIcon className="w-4" />
-                        from :<GetUser id={fromUser ? fromUser : ""} />
+                        from :
+                        <GetUser
+                          userID={userID}
+                          id={fromUser ? fromUser : ""}
+                        />
                       </div>
                       <div
                         onClick={() => {
@@ -740,13 +754,13 @@ function MailBox() {
 
                     <div
                       className={
-                        " flex flex-row items-end  overflow-hidden dark:bg-slate-600 rounded-full bg-gray-50 mx-2" +
+                        " flex flex-row items-center p-1  overflow-hidden dark:bg-slate-600 rounded-full bg-gray-50 mx-2" +
                         Pages[ColorID].border
                       }
                     >
                       <h1
                         className={
-                          "font-pop dark:bg-slate-600 rounded-full bg-gray-50 p-1 ml-2 mt-0.5 my-auto " +
+                          "font-pop dark:bg-slate-600 rounded-full bg-gray-50 ml-2 mt-0.5 my-auto " +
                           Pages[ColorID].title
                         }
                       >
@@ -757,7 +771,7 @@ function MailBox() {
                         disabled
                         value={title ? title : "Loading.."}
                         type="text"
-                        className="outline-none dark:bg-slate-600 dark:text-white p-1 flex items-start"
+                        className="outline-none ml-1 my-auto dark:bg-slate-600 dark:text-white flex items-start"
                       />
                     </div>
                     <div
@@ -777,7 +791,11 @@ function MailBox() {
                           <h1 className="text-gray-400 font-popxs">
                             ------ Reply
                           </h1>
-                          <MailThread id={reply} />
+                          <MailThread
+                            id={reply}
+                            fromUser={fromUser}
+                            userID={userID}
+                          />
                         </div>
                       )}
                     </div>

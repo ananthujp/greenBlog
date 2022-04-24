@@ -9,13 +9,31 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import useAuth from "../hooks/userAuth";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-
+import { Pages } from "../Components/Colors";
+const Author = ({ id }) => {
+  const navigate = useNavigate();
+  const [auth, setAuth] = useState(null);
+  getDoc(doc(db, "Profiles", id)).then((dc) => setAuth(dc.data()));
+  return (
+    <div
+      onClick={() => navigate(`/Author/${id}`)}
+      className="flex flex-row cursor-pointer p-1 rounded-md hover:bg-white dark:hover:bg-slate-900"
+    >
+      <img alt="" src={auth?.img} className="mr-2 h-4 w-4 rounded-full" />
+      <h1 className="font-poplg text-xs my-auto dark:text-slate-200">
+        {auth?.name}
+      </h1>
+    </div>
+  );
+};
 function Feed() {
   const [posts, setPosts] = useState();
   const [popposts, setPopPosts] = useState();
   const navigate = useNavigate();
+  const { ColorID } = useAuth();
   useEffect(() => {
     getDocs(
       query(
@@ -74,21 +92,7 @@ function Feed() {
   const getText = (txt) => {
     return txt.length > 64 ? txt.slice(0, 63) : txt;
   };
-  const Author = ({ id }) => {
-    const [auth, setAuth] = useState(null);
-    getDoc(doc(db, "Profiles", id)).then((dc) => setAuth(dc.data()));
-    return (
-      <div
-        onClick={() => navigate(`/Author/${id}`)}
-        className="flex flex-row cursor-pointer p-1 rounded-md hover:bg-white dark:hover:bg-slate-900"
-      >
-        <img alt="" src={auth?.img} className="mr-2 h-4 w-4 rounded-full" />
-        <h1 className="font-poplg text-xs my-auto dark:text-slate-200">
-          {auth?.name}
-        </h1>
-      </div>
-    );
-  };
+
   return (
     <div className="w-full flex flex-col px-4 dark:bg-slate-700">
       <div className="mt-4">
@@ -125,7 +129,10 @@ function Feed() {
           {posts?.map((dc, i) => (
             <div
               key={`feed.2.${i}`}
-              className="flex flex-row hover:bg-indigo-50 dark:hover:bg-slate-600 rounded-md py-2 w-full justify-between px-4 my-4"
+              className={
+                "flex flex-row dark:hover:bg-slate-600 rounded-md py-2 w-full justify-between px-4 my-4 " +
+                Pages[ColorID].hover
+              }
             >
               <div className="flex flex-col flex-start ">
                 <div className="flex flex-row items-center mr-1">

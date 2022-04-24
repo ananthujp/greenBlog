@@ -61,54 +61,55 @@ const Color = [
   "to-orange-400 from-pink-700",
   "to-green-400 from-cyan-700",
 ];
+const ReadCount = ({ items, userID }) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    switch (items) {
+      case "Mailbox":
+        onSnapshot(
+          query(
+            collection(db, "Profiles", userID?.id, "Mailbox"),
+            where("read", "==", false)
+          ),
+          (dc) => setCount(dc.docs.length)
+        );
+        break;
+      case "Notifications":
+        onSnapshot(
+          query(
+            collection(db, "Profiles", userID?.id, "Notifications"),
+            where("read", "==", false)
+          ),
+          (dc) => setCount(dc.docs.length)
+        );
+        break;
+      case "Dashboard":
+        onSnapshot(
+          query(collection(db, "Posts"), where("user", "==", userID?.id)),
+          (dc) => setCount(dc.docs.length)
+        );
+        break;
+      default:
+    }
+  }, []);
+
+  return (
+    <div
+      className={
+        "absolute  items-center justify-center text-white right-4 bg-red-500 rounded-full text-xs w-7 h-7 " +
+        (count > 0 ? " flex" : " hidden")
+      }
+    >
+      {count}
+    </div>
+  );
+};
 function Home() {
   const { userID, login, setLogin, ColorID } = useAuth();
 
   const defaultTitle =
     " dark:from-white dark:to-white from-slate-800 to-slate-800";
-  const ReadCount = ({ items }) => {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-      switch (items) {
-        case "Mailbox":
-          onSnapshot(
-            query(
-              collection(db, "Profiles", userID?.id, "Mailbox"),
-              where("read", "==", false)
-            ),
-            (dc) => setCount(dc.docs.length)
-          );
-          break;
-        case "Notifications":
-          onSnapshot(
-            query(
-              collection(db, "Profiles", userID?.id, "Notifications"),
-              where("read", "==", false)
-            ),
-            (dc) => setCount(dc.docs.length)
-          );
-          break;
-        case "Dashboard":
-          onSnapshot(
-            query(collection(db, "Posts"), where("user", "==", userID?.id)),
-            (dc) => setCount(dc.docs.length)
-          );
-          break;
-        default:
-      }
-    }, []);
 
-    return (
-      <div
-        className={
-          "absolute  items-center justify-center text-white right-4 bg-red-500 rounded-full text-xs w-7 h-7 " +
-          (count > 0 ? " flex" : " hidden")
-        }
-      >
-        {count}
-      </div>
-    );
-  };
   return (
     <div className="w-full flex flex-col ">
       {/* <div className="relative md:h-screen">
@@ -198,7 +199,7 @@ function Home() {
                     }
                   >
                     {doc.icon}
-                    <ReadCount items={doc.name} />
+                    <ReadCount items={doc.name} userID={userID} />
                     <h1 className="font-popxl mt-2 sm:text-sm text-xs md:text-xl text-gray-600 dark:text-gray-200 group-hover:text-white my-auto">
                       {doc.name}
                     </h1>

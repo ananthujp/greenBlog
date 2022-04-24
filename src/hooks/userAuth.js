@@ -12,7 +12,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   //const [user,setUser]=useState(null);
   const [user, setUser] = useState("null");
-  const [dark, setDispMode] = useState(
+  const [dark, setDispModes] = useState(
     localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&
         window.matchMedia("(prefers-color-scheme: dark)").matches)
@@ -38,17 +38,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("Ctheme", JSON.stringify(ColorID ? ColorID : 0));
   }, [ColorID]);
-  useEffect(() => {
-    localStorage.setItem(
-      "theme",
+  const setDispMode = (value) => {
+    setDispModes(value);
+    localStorage.setItem("theme", value ? "dark" : "light");
+  };
 
-      dark
-        ? "dark"
-        : window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-    );
-  }, [dark]);
   useEffect(() => {
     userID
       ? localStorage.setItem("user", JSON.stringify(userID))

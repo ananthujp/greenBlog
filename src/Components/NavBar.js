@@ -20,6 +20,49 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import UserMenu from "./UserMenu";
+const ReadCount = ({ items, userID }) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    switch (items) {
+      case "Mailbox":
+        onSnapshot(
+          query(
+            collection(db, "Profiles", userID?.id, "Mailbox"),
+            where("read", "==", false)
+          ),
+          (dc) => setCount(dc?.docs.length)
+        );
+        break;
+      case "Notifications":
+        onSnapshot(
+          query(
+            collection(db, "Profiles", userID?.id, "Notifications"),
+            where("read", "==", false)
+          ),
+          (dc) => setCount(dc?.docs.length)
+        );
+        break;
+      case "Dashboard":
+        onSnapshot(
+          query(collection(db, "Posts"), where("user", "==", userID?.id)),
+          (dc) => setCount(dc?.docs.length)
+        );
+        break;
+      default:
+    }
+  }, []);
+
+  return (
+    <div
+      className={
+        "absolute items-center justify-center text-white bottom-3 left-6 bg-red-500 rounded-full text-xs w-5 h-5 " +
+        (count > 0 ? " flex" : " hidden")
+      }
+    >
+      {count}
+    </div>
+  );
+};
 function NavBar() {
   const scr = window.matchMedia("(min-width: 768px)");
   const { role, userID, ColorID, dark, setDispMode } = useAuth();
@@ -100,49 +143,6 @@ function NavBar() {
       title: "Write",
     },
   ];
-  const ReadCount = ({ items }) => {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-      switch (items) {
-        case "Mailbox":
-          onSnapshot(
-            query(
-              collection(db, "Profiles", userID?.id, "Mailbox"),
-              where("read", "==", false)
-            ),
-            (dc) => setCount(dc?.docs.length)
-          );
-          break;
-        case "Notifications":
-          onSnapshot(
-            query(
-              collection(db, "Profiles", userID?.id, "Notifications"),
-              where("read", "==", false)
-            ),
-            (dc) => setCount(dc?.docs.length)
-          );
-          break;
-        case "Dashboard":
-          onSnapshot(
-            query(collection(db, "Posts"), where("user", "==", userID?.id)),
-            (dc) => setCount(dc?.docs.length)
-          );
-          break;
-        default:
-      }
-    }, []);
-
-    return (
-      <div
-        className={
-          "absolute items-center justify-center text-white bottom-3 left-6 bg-red-500 rounded-full text-xs w-5 h-5 " +
-          (count > 0 ? " flex" : " hidden")
-        }
-      >
-        {count}
-      </div>
-    );
-  };
 
   return (
     <>
@@ -176,7 +176,11 @@ function NavBar() {
               }
             >
               {userID && (
-                <ReadCount key={`read.count.${index}`} items={item?.title} />
+                <ReadCount
+                  userID={userID}
+                  key={`read.count.${index}`}
+                  items={item?.title}
+                />
               )}
               <h1
                 className={

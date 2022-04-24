@@ -1,4 +1,3 @@
-import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import {
   collection,
   doc,

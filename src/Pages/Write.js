@@ -100,7 +100,7 @@ function Write() {
   return (
     <>
       {docID === "Create" || load === true ? (
-        <div className="w-full h-full   bg-white flex flex-col items-center justify-center">
+        <div className="w-full h-full  dark:bg-slate-700  bg-white flex flex-col items-center justify-center">
           {load ? (
             <Messaging
               color="#818cf8"

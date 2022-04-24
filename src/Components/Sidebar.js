@@ -12,6 +12,43 @@ import {
 } from "@heroicons/react/outline";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+const BlogAuthor = ({ id }) => {
+  const navigate = useNavigate();
+  const [auth, setAuth] = useState();
+  getDoc(doc(db, "Profiles", id)).then((dic) =>
+    setAuth({ id: dic.id, data: dic.data() })
+  );
+  return (
+    <div className="flex flex-col border-y py-6 dark:bg-slate-800 border-gray-200">
+      <h1 className="font-pop text-gray-600 dark:text-slate-50 mb-2">
+        Blog Author
+      </h1>
+      <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
+        <img src={auth?.data?.img} className="h-16 w-16" alt="" />
+      </div>
+      <h1 className=" font-poplg my-1 text-gray-500 dark:text-slate-200">
+        {auth?.data?.name}
+      </h1>
+      <h1 className="text-xs font-pop  text-gray-300">{auth?.data?.Bio}</h1>
+      <div className="flex flex-row mt-2">
+        <div
+          onClick={() => navigate("/Author/" + id)}
+          className="cursor-pointer py-0.5 text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-blue-400 to-blue-500 hover:to-blue-600"
+        >
+          <EyeIcon className="w-5 mr-1" />
+          Visit
+        </div>
+        <div
+          onClick={() => navigate("/MailBox/to$" + id)}
+          className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-green-400 to-green-500 hover:to-green-600"
+        >
+          <ChatIcon className="w-5 mr-1" />
+          Chat
+        </div>
+      </div>
+    </div>
+  );
+};
 function Sidebar({ preview, setOpen, dark, setDispMode }) {
   const route = useLocation();
   const [showCol, setShowCol] = useState(false);
@@ -19,42 +56,7 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
   const { userID, setUserID, role, setLogin, author, ColorID, setColorID } =
     useAuth();
   const navigate = useNavigate();
-  const BlogAuthor = ({ id }) => {
-    const [auth, setAuth] = useState();
-    getDoc(doc(db, "Profiles", id)).then((dic) =>
-      setAuth({ id: dic.id, data: dic.data() })
-    );
-    return (
-      <div className="flex flex-col border-y py-6 dark:bg-slate-800 border-gray-200">
-        <h1 className="font-pop text-gray-600 dark:text-slate-50 mb-2">
-          Blog Author
-        </h1>
-        <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
-          <img src={auth?.data?.img} className="h-16 w-16" alt="" />
-        </div>
-        <h1 className=" font-poplg my-1 text-gray-500 dark:text-slate-200">
-          {auth?.data?.name}
-        </h1>
-        <h1 className="text-xs font-pop  text-gray-300">{auth?.data?.Bio}</h1>
-        <div className="flex flex-row mt-2">
-          <div
-            onClick={() => navigate("/Author/" + id)}
-            className="cursor-pointer py-0.5 text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-blue-400 to-blue-500 hover:to-blue-600"
-          >
-            <EyeIcon className="w-5 mr-1" />
-            Visit
-          </div>
-          <div
-            onClick={() => navigate("/MailBox/to$" + id)}
-            className="cursor-pointer text-white font-pop text-xs items-center flex px-2 mr-2 rounded-full hover:bg-indigo-300  bg-gradient-to-br from-green-400 to-green-500 hover:to-green-600"
-          >
-            <ChatIcon className="w-5 mr-1" />
-            Chat
-          </div>
-        </div>
-      </div>
-    );
-  };
+
   return (
     <div className="hidden fixed md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 dark:border-slate-900 px-8 md:pt-4 md:w-auto">
       <div>
@@ -200,6 +202,8 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
               </div>
             </motion.label>
             <motion.div
+              onMouseEnter={() => setShowCol(true)}
+              onMouseLeave={() => setShowCol(false)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 1 } }}
               className={
@@ -209,7 +213,7 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
               }
             >
               <div
-                onClick={() => setShowCol(!showCol)}
+                //onClick={() => setShowCol(!showCol)}
                 className="flex flex-row items-center justify-between"
               >
                 <h1 className="ml-1 text-md my-auto dark:text-white font-pop">
