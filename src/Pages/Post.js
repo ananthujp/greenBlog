@@ -156,7 +156,7 @@ function Post() {
   return (
     <>
       {load === true ? (
-        <div className="w-full h-full dark:bg-slate-700  bg-white flex flex-col items-center justify-center">
+        <div className="w-full h-screen md:h-full dark:bg-slate-700  bg-white flex flex-col items-center justify-center">
           {load ? (
             <Messaging
               color="#818cf8"
@@ -235,7 +235,7 @@ function Post() {
                 ref={(el) => (ref.current[`id.${1}`] = el)}
                 key={`id.${1}`}
                 className={
-                  "flex flex-row px-2 group cursor-pointer items-center rounded-lg  shadow-sm  " +
+                  "flex flex-row px-2 group dark:bg-slate-500 cursor-pointer items-center rounded-lg  shadow-sm  " +
                   Pages[ColorID].active +
                   Pages[ColorID].postButtonHover +
                   (clap.flag && Pages[ColorID].active2)

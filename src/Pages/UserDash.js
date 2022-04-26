@@ -19,6 +19,7 @@ import {
   collection,
   getDocs,
   orderBy,
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -32,20 +33,20 @@ function UserDash() {
   const PostRef = collection(db, "Posts");
   useEffect(() => {
     switChId(0);
-    getDocs(
+    onSnapshot(
       query(
         PostRef,
         where("user", "==", userID?.back),
         orderBy("timestamp", "desc")
-      )
-    ).then((dc) =>
-      setPost(
-        dc.docs.map((doc) => ({
-          title: doc.data().title,
-          status: doc.data().status,
-          id: doc.id,
-        }))
-      )
+      ),
+      (dc) =>
+        setPost(
+          dc.docs.map((doc) => ({
+            title: doc.data().title,
+            status: doc.data().status,
+            id: doc.id,
+          }))
+        )
     );
   }, []);
   const item =

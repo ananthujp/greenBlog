@@ -109,7 +109,7 @@ function Notifications() {
                 }
                 key={`data.jkey.${dc.id}`}
                 className={
-                  "cursor-default py-3 border-b border-gray-200 dark:border-slate-700 h-12 md:h-4 font-pop text-gray-400 dark:text-gray-200 rounded-lg dark:hover:bg-slate-600" +
+                  "cursor-default my-3 border-b border-gray-200 dark:border-slate-700 h-12 md:h-4 font-pop text-gray-400 dark:text-gray-200 rounded-lg dark:hover:bg-slate-600" +
                   Pages[ColorID].hover +
                   (dc.data.read ? " " : " bg-yellow-100 dark:bg-gray-600")
                 }
