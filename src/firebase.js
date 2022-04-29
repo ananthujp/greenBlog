@@ -4,13 +4,13 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
 const firebaseApp = initializeApp({
-  apiKey: "AIzaSyDijiq3x9v4x9kLEnJnUlfsPN_ObCCHsco",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "greenclubblog-465f4.firebaseapp.com",
   projectId: "greenclubblog-465f4",
   storageBucket: "greenclubblog-465f4.appspot.com",
-  messagingSenderId: "591521601587",
-  appId: "1:591521601587:web:8698113786a238533eeb46",
-  measurementId: "G-TS5PZKM079",
+  messagingSenderId: process.env.REACT_APP_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 });
 
 // Initialize Firebase

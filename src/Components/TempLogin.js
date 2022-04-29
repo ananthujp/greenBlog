@@ -65,12 +65,14 @@ function TempLogin({ show }) {
     setStatus("");
     onSnapshot(query(UserRef, where("username", "==", username)), (dc) =>
       dc.docs.map((dc) =>
-        CryptoJS.AES.decrypt(dc.data().password.toString(), "ae!@qws").toString(
-          CryptoJS.enc.Utf8
-        ) ===
-        CryptoJS.AES.decrypt(pass.toString(), "ae!@qws").toString(
-          CryptoJS.enc.Utf8
-        )
+        CryptoJS.AES.decrypt(
+          dc.data().password.toString(),
+          process.env.REACT_APP_PASS_KEY
+        ).toString(CryptoJS.enc.Utf8) ===
+        CryptoJS.AES.decrypt(
+          pass.toString(),
+          process.env.REACT_APP_PASS_KEY
+        ).toString(CryptoJS.enc.Utf8)
           ? setUserID({
               id: dc.id,
               back: dc.id,
@@ -223,7 +225,12 @@ function TempLogin({ show }) {
                 <input
                   type="password"
                   onChange={(e) =>
-                    setPass(CryptoJS.AES.encrypt(e.target.value, "ae!@qws"))
+                    setPass(
+                      CryptoJS.AES.encrypt(
+                        e.target.value,
+                        process.env.REACT_APP_PASS_KEY
+                      )
+                    )
                   }
                   className={
                     "  border-white border rounded-lg w-full bg-indigo-50 outline-none p-1 " +
@@ -294,7 +301,12 @@ function TempLogin({ show }) {
                 <h1 className="font-pop text-gray-600">Password</h1>
                 <input
                   onChange={(e) =>
-                    setPass(CryptoJS.AES.encrypt(e.target.value, "ae!@qws"))
+                    setPass(
+                      CryptoJS.AES.encrypt(
+                        e.target.value,
+                        process.env.REACT_APP_PASS_KEY
+                      )
+                    )
                   }
                   type="password"
                   className=" border-white border rounded-lg bg-indigo-50 outline-none p-1"
@@ -420,7 +432,12 @@ function TempLogin({ show }) {
                 <input
                   type="password"
                   onChange={(e) =>
-                    setPass(CryptoJS.AES.encrypt(e.target.value, "ae!@qws"))
+                    setPass(
+                      CryptoJS.AES.encrypt(
+                        e.target.value,
+                        process.env.REACT_APP_PASS_KEY
+                      )
+                    )
                   }
                   className={
                     " border-white border rounded-lg w-full bg-indigo-50 outline-none p-1 "

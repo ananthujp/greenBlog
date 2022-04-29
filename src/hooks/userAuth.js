@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Color } from "party-js";
+import CryptoJS from "crypto-js";
 import React, {
   createContext,
   useContext,
@@ -29,7 +30,12 @@ export const AuthProvider = ({ children }) => {
   const [login, setLogin] = useState(false);
   const [userID, setUserID] = useState(
     localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user"))
+      ? JSON.parse(
+          CryptoJS.AES.decrypt(
+            localStorage.getItem("user"),
+            process.env.REACT_APP_PASS_KEY
+          ).toString(CryptoJS.enc.Utf8)
+        )
       : null
   );
   useEffect(() => {
@@ -45,7 +51,13 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     userID
-      ? localStorage.setItem("user", JSON.stringify(userID))
+      ? localStorage.setItem(
+          "user",
+          CryptoJS.AES.encrypt(
+            JSON.stringify(userID),
+            process.env.REACT_APP_PASS_KEY
+          )
+        )
       : localStorage.removeItem("user");
 
     userID &&
