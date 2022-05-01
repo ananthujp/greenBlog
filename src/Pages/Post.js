@@ -156,25 +156,45 @@ function Post() {
   return (
     <>
       {load === true ? (
-        <div className="w-full h-screen md:h-full dark:bg-slate-700  bg-white flex flex-col items-center justify-center">
-          {load ? (
-            <Messaging
-              color="#818cf8"
-              width="15px"
-              height="15px"
-              duration="0.5s"
-            />
-          ) : (
-            <FillingBottle
-              color="#818cf8"
-              width="100px"
-              height="100px"
-              duration="2s"
-            />
-          )}
-          <h1 className="font-pop text-gray-500 text-center md:text-2xl lg:text-3xl mt-8">
-            {load ? "Loading.." : "Creating New Post"}
-          </h1>
+        // <div className="w-full h-screen md:h-full dark:bg-slate-700  bg-white flex flex-col items-center justify-center">
+        //   {load ? (
+        //     <Messaging
+        //       color="#818cf8"
+        //       width="15px"
+        //       height="15px"
+        //       duration="0.5s"
+        //     />
+        //   ) : (
+        //     <FillingBottle
+        //       color="#818cf8"
+        //       width="100px"
+        //       height="100px"
+        //       duration="2s"
+        //     />
+        //   )}
+        //   <h1 className="font-pop text-gray-500 text-center md:text-2xl lg:text-3xl mt-8">
+        //     {load ? "Loading.." : "Creating New Post"}
+        //   </h1>
+        // </div>
+        <div className="flex  bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
+          <div className="flex flex-row items-center mb-8 w-full justify-between">
+            <div className="flex flex-row items-center cursor-pointer">
+              <div className="mr-1">
+                <div className="w-8 h-8 rounded-full bg-gray-400 animate-pulse" />
+              </div>
+              <div className="flex flex-col ml-1">
+                <div className="font-poplg text-md my-auto dark:text-slate-100 bg-gray-400 animate-pulse h-3 w-20" />
+                <div className=" font-popxs text-xs mt-2 dark:text-slate-200 bg-gray-300 animate-pulse h-2 w-24" />
+              </div>
+            </div>
+            <div className="flex flex-row justify-between w-32">
+              <div className="w-8 h-8 rounded-full bg-gray-400 animate-pulse" />
+              <div className="w-8 h-8 rounded-full bg-gray-400 animate-pulse" />
+              <div className="w-8 h-8 rounded-full bg-gray-400 animate-pulse" />
+            </div>
+          </div>
+          <div className="font-pop text-4xl animate-pulse dark:text-slate-100 h-10 bg-gray-200 w-56" />
+          <div className="w-full mt-8 animate-pulse bg-gray-200 h-96 dark:text-slate-200" />
         </div>
       ) : (
         <div className="flex  bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
@@ -235,7 +255,7 @@ function Post() {
                 ref={(el) => (ref.current[`id.${1}`] = el)}
                 key={`id.${1}`}
                 className={
-                  "flex flex-row px-2 group dark:bg-slate-500 cursor-pointer items-center rounded-lg  shadow-sm  " +
+                  "flex flex-row px-2 group dark:hover:bg-slate-600 dark:bg-slate-500 cursor-pointer items-center rounded-lg  shadow-sm  " +
                   Pages[ColorID].active +
                   Pages[ColorID].postButtonHover +
                   (clap.flag && Pages[ColorID].active2)
@@ -264,7 +284,7 @@ function Post() {
               <div
                 onClick={() => navigate("/MailBox/to$" + author.id)}
                 className={
-                  "flex ml-4 flex-row px-2 cursor-pointer items-center rounded-lg group shadow-sm " +
+                  "flex ml-4 flex-row px-2  dark:hover:bg-slate-600 dark:bg-slate-500 cursor-pointer items-center rounded-lg group shadow-sm " +
                   Pages[ColorID].active +
                   Pages[ColorID].postButtonHover +
                   (clap.flag && Pages[ColorID].active2)
@@ -296,7 +316,7 @@ function Post() {
               ref={(el) => (ref.current[`id.${2}`] = el)}
               key={`id.${2}`}
               className={
-                "flex cursor-pointer flex-row px-2 items-center rounded-lg group shadow-sm  " +
+                "flex cursor-pointer  dark:bg-slate-500  dark:hover:bg-slate-600 flex-row px-2 items-center rounded-lg group shadow-sm  " +
                 Pages[ColorID].postButtonHover +
                 Pages[ColorID].active
               }
@@ -457,7 +477,7 @@ function Post() {
                 {dc.image ? (
                   <img className="w-1/2" src={dc.comment} alt="" />
                 ) : (
-                  <h1 className="mt-2 font-popxs italic text-sm">
+                  <h1 className="mt-2 font-popxs dark:text-slate-100 italic text-sm">
                     {dc.comment}
                   </h1>
                 )}
