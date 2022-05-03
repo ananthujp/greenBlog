@@ -52,13 +52,17 @@ const MailThread = ({ id, fromUser, userID }) => {
     doc(
       db,
       "Profiles",
-      fromUser === userID?.id ? userID?.id : fromUser,
+      fromUser === userID?.id
+        ? userID?.id
+        : fromUser
+        ? fromUser
+        : "d1V7XBQ4lvASIbeqpGyM",
       "Mailbox",
       id
     )
   ).then((dc) => {
-    setTitle(dc?.data().title);
-    setCont(dc?.data().text);
+    setTitle(dc?.data()?.title);
+    setCont(dc?.data()?.text);
   });
 
   return (
