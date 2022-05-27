@@ -107,9 +107,6 @@ const ReadCount = ({ items, userID }) => {
 
 function Home() {
   const { userID, login, setLogin, ColorID } = useAuth();
-  useEffect(() => {
-    console.log(process.env.REACT_APP_PASS_KEY);
-  }, []);
   const defaultTitle =
     " dark:from-white dark:to-white from-slate-800 to-slate-800";
 

@@ -27,34 +27,36 @@ const AnimatedRoutes = () => {
   }, [dark]);
   return (
     <AnimatePresence exitBeforeEnter>
-      <TempLogin key={`temp.login`} show={login} />
-      <Subscribe key={`sub.diag`} state={sub} change={setSub} />
-      <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-white">
-        <div className="flex flex-col md:flex-row md:w-full">
-          <div className="relative md:w-16 md:h-screen">
-            <NavBar />
-          </div>
-          <Routes location={location} key={location.pathname}>
-            <Route exact path="/" element={<Home />} />
+      <div className="w-full h-full bg-slate-100 dark:bg-slate-800">
+        <TempLogin key={`temp.login`} show={login} />
+        <Subscribe key={`sub.diag`} state={sub} change={setSub} />
+        <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-white max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:w-full">
+            <div className="relative md:w-16 md:h-screen">
+              <NavBar />
+            </div>
+            <Routes location={location} key={location.pathname}>
+              <Route exact path="/" element={<Home />} />
 
-            <Route path="/Posts/:id" element={<Post />} />
-            {userID && (
-              <>
-                <Route path="/Write/:id" element={<Write />} />
-                <Route path="/Write" element={<Write />} />
-                <Route path="/UserDash" element={<UserDash />} />
-                <Route path="/AdminPanel" element={<AdminPanel />} />
-                <Route path="/Notifications" element={<Notifications />} />
-                <Route path="/MailBox" element={<MailBox />} />
-                <Route path="/MailBox/:id" element={<MailBox />} />
-              </>
-            )}
-            <Route path="/Feed" element={<Feed />} />
-            <Route path="/Author/:id" element={<Author />} />
-          </Routes>
-        </div>
-        <div className="md:h-screen md:w-64">
-          <Sidebar dark={dark} setDispMode={setDispMode} />
+              <Route path="/Posts/:id" element={<Post />} />
+              {userID && (
+                <>
+                  <Route path="/Write/:id" element={<Write />} />
+                  <Route path="/Write" element={<Write />} />
+                  <Route path="/UserDash" element={<UserDash />} />
+                  <Route path="/AdminPanel" element={<AdminPanel />} />
+                  <Route path="/Notifications" element={<Notifications />} />
+                  <Route path="/MailBox" element={<MailBox />} />
+                  <Route path="/MailBox/:id" element={<MailBox />} />
+                </>
+              )}
+              <Route path="/Feed" element={<Feed />} />
+              <Route path="/Author/:id" element={<Author />} />
+            </Routes>
+          </div>
+          <div className="md:h-screen md:w-64">
+            <Sidebar dark={dark} setDispMode={setDispMode} />
+          </div>
         </div>
       </div>
     </AnimatePresence>

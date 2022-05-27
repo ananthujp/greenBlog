@@ -22,6 +22,7 @@ import { db } from "../firebase";
 import UserMenu from "./UserMenu";
 const ReadCount = ({ items, userID }) => {
   const [count, setCount] = useState(0);
+
   useEffect(() => {
     switch (items) {
       case "Mailbox":
@@ -55,7 +56,7 @@ const ReadCount = ({ items, userID }) => {
   return (
     <div
       className={
-        "absolute items-center justify-center text-white bottom-3 left-6 bg-red-500 rounded-full text-xs w-5 h-5 " +
+        "absolute items-center justify-center text-white bottom-3  left-6 bg-red-500 rounded-full text-xs w-5 h-5 " +
         (count > 0 ? " flex" : " hidden")
       }
     >

@@ -360,14 +360,14 @@ function Post() {
                   ref={(el) => (ref.current[`idcom.${1}`] = el)}
                   key={`idcom.${1}`}
                   className={
-                    "flex flex-col w-full rounded-md dark:bg-slate-600 border dark:border-slate-800 mb-4 " +
+                    "flex flex-col w-full rounded-md dark:bg-slate-500 border dark:border-slate-600 mb-4 " +
                     Pages[ColorID].border +
                     Pages[ColorID].active2
                   }
                 >
                   <div
                     className={
-                      "flex flex-row border-b dark:border-slate-800 pb-2 w-full items-center justify-between " +
+                      "flex flex-row border-b dark:border-slate-700 pb-2 w-full items-center justify-between " +
                       Pages[ColorID].border
                     }
                   >
@@ -440,8 +440,7 @@ function Post() {
               <div
                 key={`comments.post.${ind}`}
                 className={
-                  "flex flex-col p-1 rounded-lg hover:dark:bg-slate-600 my-2" +
-                  Pages[ColorID].hover
+                  "flex flex-col px-2 pt-1 pb-3 border dark:border-slate-600 rounded-lg hover:dark:bg-slate-600 my-2"
                 }
               >
                 <div className="flex flex-row items-center w-full justify-between">
@@ -471,13 +470,13 @@ function Post() {
                     }
                     onClick={() => deleteComment(dc.id)}
                   >
-                    <TrashIcon className="w-4" />
+                    <TrashIcon className="w-4 dark:text-slate-100" />
                   </h1>
                 </div>
                 {dc.image ? (
-                  <img className="w-1/2" src={dc.comment} alt="" />
+                  <img className="w-1/2 ml-10" src={dc.comment} alt="" />
                 ) : (
-                  <h1 className="mt-2 font-popxs dark:text-slate-100 italic text-sm">
+                  <h1 className="mt-2 ml-10 font-pop dark:text-slate-100 italic text-sm">
                     {dc.comment}
                   </h1>
                 )}

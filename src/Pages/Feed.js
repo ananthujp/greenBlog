@@ -16,7 +16,10 @@ import { Pages } from "../Components/Colors";
 const Author = ({ id }) => {
   const navigate = useNavigate();
   const [auth, setAuth] = useState(null);
-  getDoc(doc(db, "Profiles", id)).then((dc) => setAuth(dc.data()));
+  useEffect(() => {
+    getDoc(doc(db, "Profiles", id)).then((dc) => setAuth(dc.data()));
+  }, []);
+
   return (
     <div
       onClick={() => navigate(`/Author/${id}`)}
