@@ -73,7 +73,9 @@ function Author() {
           <div class="mb-1 text-3xl text-right text-gray-600">”</div>
         </div>
       </div>
-      <h1 className="text-left font-poplg text-lg w-3/4 mt-4">Articles</h1>
+      <h1 className="text-left font-poplg dark:text-slate-100 text-lg w-3/4 mt-4">
+        Articles
+      </h1>
       <table className=" w-3/4">
         <tbody>
           {/* <tr className="border-b text-left w-full border-gray-300 font-popxl text-indigo-900">
@@ -86,11 +88,15 @@ function Author() {
           {post?.map((dc, i) => (
             <tr
               key={`data.jkey${i}`}
-              className="cursor-default border-y border-gray-200 py-3 h-12 font-pop transition-all rounded-lg text-gray-700 hover:bg-indigo-100"
+              className="cursor-default border-y border-gray-200 dark:border-slate-600 py-3 h-12 font-pop transition-all rounded-lg text-gray-700 dark:hover:bg-slate-600 hover:bg-indigo-100"
             >
-              <th className="pr-3 whitespace-nowrap">{i + 1}</th>
-              <th className="pr-3 whitespace-nowrap text-left">{dc.title}</th>
-              <th className=" pr-3 text-left pl-3 whitespace-nowrap text-gray-400">
+              <th className="pr-3 whitespace-nowrap dark:text-slate-200">
+                {i + 1}
+              </th>
+              <th className="pr-3 whitespace-nowrap text-left dark:text-slate-200">
+                {dc.title}
+              </th>
+              <th className=" pr-3 text-left pl-3 whitespace-nowrap dark:text-slate-200 text-gray-400">
                 {dc.time}
               </th>
               <th

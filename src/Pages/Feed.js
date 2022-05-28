@@ -159,7 +159,7 @@ function Feed() {
                 </div>
               </div>
               <img
-                className="w-32 h-[94%] rounded-r-lg my-auto object-cover"
+                className="w-32 h-[94%] rounded-r-lg my-auto mr-2 object-cover"
                 src={dc?.img}
                 alt=""
               />

@@ -31,7 +31,7 @@ const AnimatedRoutes = () => {
         <TempLogin key={`temp.login`} show={login} />
         <Subscribe key={`sub.diag`} state={sub} change={setSub} />
         <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-slate-100 max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:w-full">
+          <div className="flex flex-col md:flex-row md:justify-between md:w-full">
             <div className="relative md:w-16 md:h-screen">
               <NavBar />
             </div>
