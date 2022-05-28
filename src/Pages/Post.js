@@ -176,7 +176,7 @@ function Post() {
         //     {load ? "Loading.." : "Creating New Post"}
         //   </h1>
         // </div>
-        <div className="flex  bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
+        <div className="flex  mx-2 my-3 border border-slate-200 dark:border-slate-500 rounded-lg  bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
           <div className="flex flex-row items-center mb-8 w-full justify-between">
             <div className="flex flex-row items-center cursor-pointer">
               <div className="mr-1">
@@ -197,7 +197,7 @@ function Post() {
           <div className="w-full mt-8 animate-pulse bg-gray-200 h-96 dark:text-slate-200" />
         </div>
       ) : (
-        <div className="flex  bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
+        <div className="flex mx-2 my-3 border border-slate-200 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
           <div className="flex flex-row items-center mb-8 w-full justify-between">
             <div
               onClick={() => navigate("/Author/" + author?.id)}

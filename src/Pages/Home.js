@@ -120,7 +120,7 @@ function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={
-          " flex flex-col border-b dark:border-slate-800 overflow-y-auto bg-gradient-to-br dark:from-slate-600 dark:to-gray-600" +
+          " flex flex-col border border-slate-300 m-3 rounded-lg dark:border-slate-500 overflow-y-auto bg-gradient-to-br dark:from-slate-600 dark:to-gray-600" +
           Pages[ColorID].pageBg
         }
       >

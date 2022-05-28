@@ -58,7 +58,7 @@ function Notifications() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className={
-        "flex flex-col  bg-gradient-to-br dark:from-slate-600 dark:to-gray-600 md:flex-row w-full h-screen md:h-full px-8 pt-2 md:pt-12 bg-gray-50 " +
+        "flex flex-col  md:mx-2 md:my-3 md:border md:border-slate-200 md:dark:border-slate-500 md:rounded-lg  bg-gradient-to-br dark:from-slate-600 dark:to-gray-600 md:flex-row w-full h-screen md:h-full px-8 pt-2 md:pt-12 bg-gray-50 " +
         Pages[ColorID].pageBg
       }
     >

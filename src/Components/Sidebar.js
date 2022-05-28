@@ -58,7 +58,7 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
   const navigate = useNavigate();
 
   return (
-    <div className="hidden fixed md:flex transition-all w-full flex-col md:h-full h-28 border-l border-gray-300 dark:border-slate-900 px-8 md:pt-4 md:w-auto">
+    <div className="hidden fixed my-3 rounded-lg bg-white dark:bg-slate-600 md:flex transition-all w-full flex-col md:h-[98%] h-28 border border-gray-200 dark:border-slate-500 px-8 md:pt-4 md:w-auto">
       <div>
         {route.pathname.split("/")[1] !== "Posts" ? (
           userID && (

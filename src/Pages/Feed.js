@@ -97,9 +97,9 @@ function Feed() {
   };
 
   return (
-    <div className="w-full flex flex-col px-4 dark:bg-slate-700">
-      <div className="mt-4">
-        <h1 className="mx-8 dark:text-white">Popular posts</h1>
+    <div className="w-full flex flex-col ">
+      <div className="mt-1 bg-white dark:bg-slate-600 dark:border-slate-500 rounded-lg border border-slate-200 py-2 mx-3">
+        <h1 className="mx-8 mt-2 dark:text-white">Popular posts</h1>
         <div className="flex flex-wrap -mt-4 flex-row">
           {popposts?.map((dc, i) => (
             <div
@@ -127,17 +127,16 @@ function Feed() {
           ))}
         </div>
       </div>
-      <div className="border-y mt-6 flex w-full border-purple-300 dark:border-slate-800">
+      <div className="border-y mt-3 pt-2 flex w-full">
         <div className="flex flex-col w-full">
           {posts?.map((dc, i) => (
             <div
               key={`feed.2.${i}`}
               className={
-                "flex flex-row dark:hover:bg-slate-600 rounded-md py-2 w-full justify-between px-4 my-4 " +
-                Pages[ColorID].hover
+                "flex flex-row items-center justify-between rounded-md "
               }
             >
-              <div className="flex flex-col flex-start ">
+              <div className="flex flex-col rounded-l-lg flex-start bg-white dark:bg-slate-600 dark:border-slate-500 py-2 w-full ml-3 border border-slate-200 px-4 my-1">
                 <div className="flex flex-row items-center mr-1">
                   <Author key={`key.author${i}`} id={dc.user} />
                 </div>
@@ -159,7 +158,11 @@ function Feed() {
                   {dc.time}. 3 min read
                 </div>
               </div>
-              <img className="w-32 h-32 object-cover" src={dc?.img} alt="" />
+              <img
+                className="w-32 h-[94%] rounded-r-lg my-auto object-cover"
+                src={dc?.img}
+                alt=""
+              />
             </div>
           ))}
         </div>

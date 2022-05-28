@@ -59,7 +59,7 @@ function UserDash() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={
-          " flex flex-col h-screen dark:from-slate-600 dark:to-gray-600 bg-gradient-to-br md:flex-row w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50" +
+          " flex  md:mx-2 md:my-3 md:border md:border-slate-200 md:dark:border-slate-500 md:rounded-lg  flex-col h-screen dark:from-slate-600 dark:to-gray-600 bg-gradient-to-br md:flex-row w-full px-8 md:px-16 pt-2 md:pt-12 bg-gray-50" +
           Pages[ColorID].pageBg
         }
       >
