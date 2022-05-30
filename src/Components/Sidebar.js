@@ -19,7 +19,7 @@ const BlogAuthor = ({ id }) => {
     setAuth({ id: dic.id, data: dic.data() })
   );
   return (
-    <div className="flex flex-col border-y py-6 dark:bg-slate-600 border-gray-200">
+    <div className="flex flex-col border-y py-6 dark:bg-slate-700 border-gray-200">
       <h1 className="font-pop text-gray-600 dark:text-slate-50 mb-2">
         Blog Author
       </h1>
@@ -58,7 +58,7 @@ function Sidebar({ preview, setOpen, dark, setDispMode }) {
   const navigate = useNavigate();
 
   return (
-    <div className="hidden fixed my-3 rounded-lg bg-white dark:bg-slate-600 md:flex transition-all w-full flex-col md:h-[98%] h-28 border border-gray-200 dark:border-slate-500 px-8 md:pt-4 md:w-auto">
+    <div className="hidden fixed my-3 rounded-lg bg-white dark:bg-slate-700 md:flex transition-all w-full flex-col md:h-[98%] h-28 border border-gray-200 dark:border-slate-500 px-8 md:pt-4 md:w-auto">
       <div>
         {route.pathname.split("/")[1] !== "Posts" ? (
           userID && (

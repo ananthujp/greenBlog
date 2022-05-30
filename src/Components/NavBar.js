@@ -158,7 +158,7 @@ function NavBar() {
         onMouseEnter={() => window.innerWidth > 640 && setHover(true)}
         onMouseLeave={() => window.innerWidth > 640 && setHover(false)}
         className={
-          "flex z-50 md:my-3 rounded-lg bg-white dark:bg-slate-600 backdrop-blur-md md:fixed flex-row md:flex-col h-16 md:w-16  transition-all w-full md:h-[97%] items-start md:justify-center justify-around md:border border-b border-gray-200 dark:border-slate-500 " +
+          "flex z-50 md:my-3 rounded-lg bg-white dark:bg-slate-700 backdrop-blur-md md:fixed flex-row md:flex-col h-16 md:w-16  transition-all w-full md:h-[97%] items-start md:justify-center justify-around md:border border-b border-gray-200 dark:border-slate-500 " +
           (hover && " md:w-52")
         }
       >

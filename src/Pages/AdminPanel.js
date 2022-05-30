@@ -78,7 +78,7 @@ function AdminPanel() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={
-          "flex  md:mx-2 md:my-3 md:border md:border-slate-200 md:dark:border-slate-500 md:rounded-lg  dark:from-slate-600 dark:to-gray-600 flex-col w-full px-8 md:px-16  pt-2 md:pt-12 bg-gradient-to-br " +
+          "flex  md:mx-2 md:my-3 md:border h-screen md:border-slate-200 md:dark:border-slate-500 md:rounded-lg  dark:from-slate-600 dark:to-gray-600 flex-col w-full px-8 md:px-16  pt-2 md:pt-12 bg-gradient-to-br " +
           Pages[ColorID].pageBg
         }
       >

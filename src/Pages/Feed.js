@@ -13,6 +13,7 @@ import useAuth from "../hooks/userAuth";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { Pages } from "../Components/Colors";
+import PostElement from "../Components/PostElement";
 const Author = ({ id }) => {
   const navigate = useNavigate();
   const [auth, setAuth] = useState(null);
@@ -127,43 +128,10 @@ function Feed() {
           ))}
         </div>
       </div>
-      <div className="border-y mt-3 pt-2 flex w-full">
-        <div className="flex flex-col w-full">
+      <div className="border-y mt-3 pt-2 flex w-full mx-auto">
+        <div className="flex flex-row flex-wrap w-full justify-center">
           {posts?.map((dc, i) => (
-            <div
-              key={`feed.2.${i}`}
-              className={
-                "flex flex-row items-center justify-between rounded-md "
-              }
-            >
-              <div className="flex flex-col rounded-l-lg flex-start bg-white dark:bg-slate-600 dark:border-slate-500 py-2 w-full ml-3 border border-slate-200 px-4 my-1">
-                <div className="flex flex-row items-center mr-1">
-                  <Author key={`key.author${i}`} id={dc.user} />
-                </div>
-
-                <h1
-                  onClick={() => navigate(`/Posts/${dc.id}`)}
-                  className="font-popxl  text-xl mt-2 cursor-pointer dark:text-slate-100"
-                >
-                  {dc.title}
-                </h1>
-                <h1
-                  onClick={() => navigate(`/Posts/${dc.id}`)}
-                  className="font-pop  text-md mb-2 text-gray-400 cursor-pointer dark:text-slate-300"
-                >
-                  {dc?.txt + "..."}
-                </h1>
-
-                <div className="flex flex-row mt-1 font-popxs text-xs dark:text-slate-400">
-                  {dc.time}. 3 min read
-                </div>
-              </div>
-              <img
-                className="w-32 h-[94%] rounded-r-lg my-auto mr-2 object-cover"
-                src={dc?.img}
-                alt=""
-              />
-            </div>
+            <PostElement i={i} dc={dc} />
           ))}
         </div>
       </div>

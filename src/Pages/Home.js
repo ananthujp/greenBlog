@@ -111,7 +111,7 @@ function Home() {
     " dark:from-white dark:to-white from-slate-800 to-slate-800";
 
   return (
-    <div className="w-full flex flex-col ">
+    <div className="w-full flex flex-col justify-center">
       {/* <div className="relative md:h-screen">
         <NavBar />
       </div> */}
