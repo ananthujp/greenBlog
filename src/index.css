@@ -1064,3 +1064,7 @@ blockquote {
   opacity: 1;
   transform: translate(4em, 0.2em) rotate(0deg);
 }
+
+.react__star__rating__lite__stars {
+  display: flex;
+}

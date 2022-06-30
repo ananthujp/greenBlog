@@ -13,6 +13,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   query,
   where,
@@ -30,6 +31,7 @@ function AdminPanel() {
   const { userID, role, switChId, ColorID } = useAuth();
   const [post, setPost] = useState();
   const [approvedpost, setapprovedPost] = useState();
+  const [feedbacks, setfeedbacks] = useState();
   const PostRef = collection(db, "Posts");
   const item =
     " rounded-md border border-gray-200 shadow-sm dark:border-slate-500 dark:bg-slate-700";
@@ -58,6 +60,13 @@ function AdminPanel() {
         }))
       );
     });
+    getDocs(collection(db, "Feedback")).then((dc) =>
+      setfeedbacks(
+        dc.docs.map((doc) => ({
+          data: doc.data(),
+        }))
+      )
+    );
   }, []);
   const HandleAuthor = ({ user }) => {
     const [author, setAuthor] = useState("Loading..");
@@ -307,9 +316,48 @@ function AdminPanel() {
             </tbody>
           </table>
         </div>
+        <h1 className={"font-poplg text-lg  text mt-4" + Pages[ColorID].head}>
+          Feedback
+        </h1>
+        <div className={"flex px-3 py-2 flex-row bg-white w-full " + item}>
+          <table className=" w-full">
+            <tbody>
+              <tr
+                className={
+                  "border-b text-left w-full border-gray-300 font-popxl " +
+                  Pages[ColorID].head
+                }
+              >
+                <th className="whitespace-nowrap pr-3">No</th>
+                <th className="whitespace-nowrap w-1/5">Q1</th>
+                <th className="whitespace-nowrap w-1/5">Q2</th>
+                <th className="whitespace-nowrap w-1/5">Q3</th>
+                <th className="whitespace-nowrap pl-3 w-2/5">Comment</th>
+              </tr>
+              {feedbacks?.map((dc, i) => (
+                <tr
+                  key={`data.jkey${i}`}
+                  className="cursor-default py-3 font-pop text-gray-400 hover:text-gray-600 dark:hover:text-slate-200"
+                >
+                  <th className="pr-3 whitespace-nowrap">{i + 1}</th>
+                  <th className="pr-3 whitespace-nowrap text-left">
+                    {dc.data.q1}
+                  </th>
+                  <th className="pr-3 whitespace-nowrap text-left">
+                    {dc.data.q2}
+                  </th>
+                  <th className="pr-3 whitespace-nowrap text-left">
+                    {dc.data.q3}
+                  </th>
+                  <th className="pr-3 whitespace-nowrap text-left">
+                    {dc.data.comment}
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </motion.div>
-      {/* </div>
-      <Sidebar /> */}
     </>
   );
 }

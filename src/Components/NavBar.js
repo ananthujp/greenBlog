@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { NavBarItem } from "./Colors";
 import {
   BellIcon,
+  CogIcon,
   HomeIcon,
   LibraryIcon,
   MailIcon,
@@ -18,6 +19,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import logo from "../images/logo.png";
 import { db } from "../firebase";
 import UserMenu from "./UserMenu";
 const ReadCount = ({ items, userID }) => {
@@ -64,7 +66,7 @@ const ReadCount = ({ items, userID }) => {
     </div>
   );
 };
-function NavBar() {
+function NavBar({ sub, feed }) {
   const scr = window.matchMedia("(min-width: 768px)");
   const { role, userID, ColorID, dark, setDispMode } = useAuth();
   const route = useLocation();
@@ -151,6 +153,8 @@ function NavBar() {
         <UserMenu
           setshowMenu={setshowMenu}
           dark={dark}
+          sub={sub}
+          feed={feed}
           setDispMode={setDispMode}
         />
       )}
@@ -158,69 +162,89 @@ function NavBar() {
         onMouseEnter={() => window.innerWidth > 640 && setHover(true)}
         onMouseLeave={() => window.innerWidth > 640 && setHover(false)}
         className={
-          "flex z-50 md:my-3 rounded-lg bg-white dark:bg-slate-700 backdrop-blur-md md:fixed flex-row md:flex-col h-16 md:w-16  transition-all w-full md:h-[97%] items-start md:justify-center justify-around md:border border-b border-gray-200 dark:border-slate-500 " +
+          "flex z-50 md:my-3 rounded-lg bg-white dark:bg-slate-700 backdrop-blur-md md:fixed flex-row md:flex-col h-16 md:w-16  transition-all w-full md:h-[97%] items-start justify-between md:justify-between md:border border-b border-gray-200 dark:border-slate-500 " +
           (hover && " md:w-52")
         }
       >
-        {items.map((item, index) => (
-          <Link
-            key={`navbar.item.${index}`}
-            to={item.link}
-            hidden={
-              (item.link === "/AdminPanel" && role !== "admin" && " true") ||
-              (!userID && item.link !== "/" && " true")
+        <Link
+          to="/"
+          className="relative flex overflow-hidden flex-row justify-start  my-auto ml-4 md:mt-4 "
+        >
+          <img src={logo} className=" w-8 h-8" alt="" />
+          <h1
+            className={
+              "ml-4 my-auto font-popxl dark:text-slate-300 whitespace-nowrap" +
+              (hover ? " flex" : " hidden")
             }
           >
-            <div
-              className={
-                "relative flex flex-row group items-center justify-start mx-4 transition-all cursor-pointer "
+            Green Club Blog
+          </h1>
+        </Link>
+        <div className="flex md:flex-col flex-row justify-center">
+          {items.map((item, index) => (
+            <Link
+              key={`navbar.item.${index}`}
+              to={item.link}
+              hidden={
+                (item.link === "/AdminPanel" && role !== "admin" && " true") ||
+                (!userID && item.link !== "/" && " true")
               }
             >
-              {userID && (
-                <ReadCount
-                  userID={userID}
-                  key={`read.count.${index}`}
-                  items={item?.title}
-                />
-              )}
-              <h1
+              <div
                 className={
-                  " transition-all  group-hover:text-white cursor-pointer my-4 " +
-                  (index === items.length - 1 &&
-                    "md:border-t md:mt-1 md:pt-4 pt-0 border-gray-200") +
-                  (!scr.matches &&
-                    index === items.length - 1 &&
-                    " ml-1 pl-4  border-l ") +
-                  (route.pathname === item.link
-                    ? NavBarItem[ColorID].text
-                    : "  text-gray-400 dark:text-white")
+                  "relative flex flex-row group items-center justify-start mx-4 transition-all cursor-pointer "
                 }
               >
-                {item.name}
-              </h1>
-              <h1
-                className={
-                  "my-auto ml-4 group transition-all " +
-                  NavBarItem[ColorID].group +
-                  (route.pathname === item.link
-                    ? NavBarItem[ColorID].text
-                    : "  text-gray-400") +
-                  (hover ? " hidden md:flex" : " hidden")
-                }
-              >
-                {item.title}
-              </h1>
-            </div>
-          </Link>
-        ))}
-        {userID && (
+                {userID && (
+                  <ReadCount
+                    userID={userID}
+                    key={`read.count.${index}`}
+                    items={item?.title}
+                  />
+                )}
+                <h1
+                  className={
+                    " transition-all  group-hover:text-white cursor-pointer my-4 " +
+                    (index === items.length - 1 &&
+                      "md:border-t md:mt-1 md:pt-4 pt-0 border-gray-200") +
+                    (!scr.matches &&
+                      index === items.length - 1 &&
+                      " ml-1 pl-4  border-l ") +
+                    (route.pathname === item.link
+                      ? NavBarItem[ColorID].text
+                      : "  text-gray-400 dark:text-white")
+                  }
+                >
+                  {item.name}
+                </h1>
+                <h1
+                  className={
+                    "my-auto ml-4 group transition-all " +
+                    NavBarItem[ColorID].group +
+                    (route.pathname === item.link
+                      ? NavBarItem[ColorID].text
+                      : "  text-gray-400") +
+                    (hover ? " hidden md:flex" : " hidden")
+                  }
+                >
+                  {item.title}
+                </h1>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="h-9 w-9 rounded-full overflow-hidden my-auto">
           <div
             onClick={() => setshowMenu(!showMenu)}
             className="h-8 w-8 rounded-full overflow-hidden my-auto md:hidden border-2 hover:border-indigo-300 border-indigo-100 shadow-sm"
           >
-            <img src={userID.img} className="" alt="" />
+            {userID ? (
+              <img src={userID.img} className="" alt="" />
+            ) : (
+              <CogIcon className="w-6 h-6 mt-0.5 dark:text-slate-300 mx-auto my-auto" />
+            )}
           </div>
-        )}
+        </div>
       </div>
     </>
   );

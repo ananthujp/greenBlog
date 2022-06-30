@@ -41,16 +41,18 @@ function Subscribe({ change, state }) {
         (state ? " fixed" : " hidden")
       }
     >
-      <div className="flex bg-white/40 backdrop-blur-lg p-4 rounded-xl w-2/5 h-auto shadow-md">
+      <div className="flex bg-white/40 backdrop-blur-lg p-4 rounded-xl w-4/5 md:w-3/5 h-auto shadow-md">
         <div
-          className="cursor-pointer flex items-center justify-center h-4 w-4 hover:bg-indigo-200 rounded-full p-1"
+          className="cursor-pointer flex items-center justify-center md:text-3xl h-4 w-4 md:w-8 md:h-8 hover:bg-indigo-200 rounded-full p-1"
           onClick={() => change(false)}
         >
           &times;
         </div>
         <div className="flex flex-col w-full my-auto items-center justify-between">
           <img src={SubLogo} className="w-3/5 mx-auto" alt="" />
-          <h1 className="font-popxl text-xl mt-4">Don't Miss a thing</h1>
+          <h1 className="font-popxl text-xl md:text-3xl mt-4">
+            Don't Miss a thing
+          </h1>
           <h1 className={"font-pop text-gray-500 text-xs text-center"}>
             Enter your email address and subscribe to the newsletter.
           </h1>

@@ -37,6 +37,7 @@ function Post() {
   const { userID, setLogin, setPostAuthor, ColorID } = useAuth();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
+  const [cover, setCover] = useState(null);
   const [url, setUrl] = useState(null);
   const [titleMsg, setTitleMsg] = useState(null);
   const [time, setTime] = useState(null);
@@ -102,6 +103,7 @@ function Post() {
     setLoad(true);
     getDoc(doc(db, "Posts", docID))
       .then((dc) => {
+        setCover(dc.data().data?.split('<img src="')[1]?.split('"')[0]);
         setEditorState(dc.data().data ? dc.data().data : "");
         getDoc(doc(db, "Profiles", dc.data().user)).then((dic) =>
           setAuthor({ id: dic.id, data: dic.data() })
@@ -197,100 +199,139 @@ function Post() {
           <div className="w-full mt-8 animate-pulse bg-gray-200 h-96 dark:text-slate-200" />
         </div>
       ) : (
-        <div className="flex mx-2 my-3 border border-slate-200 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-700 px-6 md:px-16 flex-col pt-4 md:pt-16 w-full h-full justify-start">
-          <div className="flex flex-row items-center mb-8 w-full justify-between">
-            <div
-              onClick={() => navigate("/Author/" + author?.id)}
-              className="flex flex-row items-center cursor-pointer"
-            >
-              <div className="mr-1">
-                <img
-                  src={author?.data.img}
-                  alt=""
-                  className="w-8 h-8 rounded-full"
-                />
-              </div>
-              <div className="flex flex-col ml-1">
-                <h1 className="font-poplg text-md my-auto dark:text-slate-100">
-                  {author?.data.name}
-                </h1>
-                <h1 className=" font-popxs text-xs my-auto dark:text-slate-200">
-                  {time} . 6 min read
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-row justify-between w-32">
-              <WhatsappShareButton title={titleMsg} url={url} separator="">
-                <WhatsappIcon round size={32} />
-              </WhatsappShareButton>
-              <FacebookShareButton
-                url={url}
-                quote={titleMsg}
-                hashtag={"#iitgn"}
-                description={"fbDesc"}
-              >
-                <FacebookIcon round size={32} />
-              </FacebookShareButton>
-              <TwitterShareButton
-                title={titleMsg}
-                url={url}
-                hashtags={["iitgn", "greenclub"]}
-              >
-                <TwitterIcon round size={32} />
-              </TwitterShareButton>
-            </div>
+        <div className="flex mx-2 my-3 border border-slate-200 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-700 flex-col overflow-hidden w-full h-full justify-start">
+          <div className="overflow-hidden">
+            <img
+              src={cover}
+              className="h-44 w-full object-cover saturate-200 shadow-inner"
+              alt=""
+            />
           </div>
-          <h1 className="font-pop text-4xl dark:text-slate-100">{title}</h1>
-          <div
-            className="ql-viewer dark:text-slate-200"
-            dangerouslySetInnerHTML={{
-              __html: editorState,
-            }}
-          ></div>
-
-          <div className="flex flex-row justify-between w-full mt-4">
-            <div className="flex flex-row">
+          <div className="px-6 md:px-16 pt-4 md:pt-4 flex flex-col">
+            <div className="flex flex-row items-center mb-8 w-full justify-between">
               <div
-                onClick={() => AddClap()}
-                ref={(el) => (ref.current[`id.${1}`] = el)}
-                key={`id.${1}`}
-                className={
-                  "flex flex-row px-2 group dark:hover:bg-slate-600 dark:bg-slate-500 cursor-pointer items-center rounded-lg  shadow-sm  " +
-                  Pages[ColorID].active +
-                  Pages[ColorID].postButtonHover +
-                  (clap.flag && Pages[ColorID].active2)
-                }
+                onClick={() => navigate("/Author/" + author?.id)}
+                className="flex flex-row items-center cursor-pointer"
               >
-                <img className="w-12 p-2" src={Clap} alt="" />
-                <div className="flex flex-col items-center justify-center">
-                  <h1
-                    className={
-                      " font-pop group-hover:text-white my-auto text-xxs" +
-                      Pages[ColorID].postText
-                    }
-                  >
-                    Claps
+                <div className="mr-1">
+                  <img
+                    src={author?.data.img}
+                    alt=""
+                    className="w-8 h-8 rounded-full"
+                  />
+                </div>
+                <div className="flex flex-col ml-1">
+                  <h1 className="font-poplg text-md my-auto dark:text-slate-100">
+                    {author?.data.name}
                   </h1>
-                  <h1
-                    className={
-                      "font-popxl group-hover:text-white  my-auto" +
-                      Pages[ColorID].postText
-                    }
-                  >
-                    {clap.clap}
+                  <h1 className=" font-popxs text-xs my-auto dark:text-slate-200">
+                    {time} . 6 min read
                   </h1>
                 </div>
               </div>
+              <div className="flex flex-row justify-between w-32">
+                <WhatsappShareButton title={titleMsg} url={url} separator="">
+                  <WhatsappIcon round size={32} />
+                </WhatsappShareButton>
+                <FacebookShareButton
+                  url={url}
+                  quote={titleMsg}
+                  hashtag={"#iitgn"}
+                  description={"fbDesc"}
+                >
+                  <FacebookIcon round size={32} />
+                </FacebookShareButton>
+                <TwitterShareButton
+                  title={titleMsg}
+                  url={url}
+                  hashtags={["iitgn", "greenclub"]}
+                >
+                  <TwitterIcon round size={32} />
+                </TwitterShareButton>
+              </div>
+            </div>
+            <h1 className="font-pop text-4xl dark:text-slate-100">{title}</h1>
+            <div
+              className="ql-viewer dark:text-slate-200"
+              dangerouslySetInnerHTML={{
+                __html: editorState,
+              }}
+            ></div>
+
+            <div className="flex flex-row justify-between w-full mt-4">
+              <div className="flex flex-row">
+                <div
+                  onClick={() => AddClap()}
+                  ref={(el) => (ref.current[`id.${1}`] = el)}
+                  key={`id.${1}`}
+                  className={
+                    "flex flex-row px-2 group dark:hover:bg-slate-600 dark:bg-slate-500 cursor-pointer items-center rounded-lg  shadow-sm  " +
+                    Pages[ColorID].active +
+                    Pages[ColorID].postButtonHover +
+                    (clap.flag && Pages[ColorID].active2)
+                  }
+                >
+                  <img className="w-12 p-2" src={Clap} alt="" />
+                  <div className="flex flex-col items-center justify-center">
+                    <h1
+                      className={
+                        " font-pop group-hover:text-white my-auto text-xxs" +
+                        Pages[ColorID].postText
+                      }
+                    >
+                      Claps
+                    </h1>
+                    <h1
+                      className={
+                        "font-popxl group-hover:text-white  my-auto" +
+                        Pages[ColorID].postText
+                      }
+                    >
+                      {clap.clap}
+                    </h1>
+                  </div>
+                </div>
+                <div
+                  onClick={() => navigate("/MailBox/to$" + author.id)}
+                  className={
+                    "flex ml-4 flex-row px-2  dark:hover:bg-slate-600 dark:bg-slate-500 cursor-pointer items-center rounded-lg group shadow-sm " +
+                    Pages[ColorID].active +
+                    Pages[ColorID].postButtonHover +
+                    (clap.flag && Pages[ColorID].active2)
+                  }
+                >
+                  <img className="w-12 h-12 p-2" src={Write} alt="" />
+                  <div className="flex flex-col items-center justify-center">
+                    <h1
+                      className={
+                        " font-pop group-hover:text-white text-xxs my-auto" +
+                        Pages[ColorID].postText
+                      }
+                    >
+                      Write to
+                    </h1>
+                    <h1
+                      className={
+                        "font-popxl group-hover:text-white text-xs my-auto" +
+                        Pages[ColorID].postText
+                      }
+                    >
+                      Author
+                    </h1>{" "}
+                  </div>
+                </div>
+              </div>
               <div
-                onClick={() => navigate("/MailBox/to$" + author.id)}
+                onClick={() => confetti(`id.${2}`)}
+                ref={(el) => (ref.current[`id.${2}`] = el)}
+                key={`id.${2}`}
                 className={
-                  "flex ml-4 flex-row px-2  dark:hover:bg-slate-600 dark:bg-slate-500 cursor-pointer items-center rounded-lg group shadow-sm " +
-                  Pages[ColorID].active +
+                  "flex cursor-pointer  dark:bg-slate-500  dark:hover:bg-slate-600 flex-row px-2 items-center rounded-lg group shadow-sm  " +
                   Pages[ColorID].postButtonHover +
-                  (clap.flag && Pages[ColorID].active2)
+                  Pages[ColorID].active
                 }
               >
-                <img className="w-12 h-12 p-2" src={Write} alt="" />
+                <img className="w-12 h-12 p-2" src={Read} alt="" />
                 <div className="flex flex-col items-center justify-center">
                   <h1
                     className={
@@ -298,190 +339,160 @@ function Post() {
                       Pages[ColorID].postText
                     }
                   >
-                    Write to
+                    Reads
                   </h1>
                   <h1
                     className={
-                      "font-popxl group-hover:text-white text-xs my-auto" +
+                      "font-popxl group-hover:text-white my-auto" +
                       Pages[ColorID].postText
                     }
                   >
-                    Author
-                  </h1>{" "}
+                    {read}
+                  </h1>
                 </div>
               </div>
             </div>
-            <div
-              onClick={() => confetti(`id.${2}`)}
-              ref={(el) => (ref.current[`id.${2}`] = el)}
-              key={`id.${2}`}
-              className={
-                "flex cursor-pointer  dark:bg-slate-500  dark:hover:bg-slate-600 flex-row px-2 items-center rounded-lg group shadow-sm  " +
-                Pages[ColorID].postButtonHover +
-                Pages[ColorID].active
-              }
-            >
-              <img className="w-12 h-12 p-2" src={Read} alt="" />
-              <div className="flex flex-col items-center justify-center">
-                <h1
-                  className={
-                    " font-pop group-hover:text-white text-xxs my-auto" +
-                    Pages[ColorID].postText
-                  }
-                >
-                  Reads
-                </h1>
-                <h1
-                  className={
-                    "font-popxl group-hover:text-white my-auto" +
-                    Pages[ColorID].postText
-                  }
-                >
-                  {read}
-                </h1>
-              </div>
-            </div>
-          </div>
 
-          <div className="flex flex-col mt-5 border-t">
-            <div className="flex flex-col justify-center mt-4">
-              <h1 className="flex font-poplg text-lg text-gray-600 mb-4">
-                Comments({comments?.length})
-              </h1>
-              {!userID ? (
-                <div
-                  onClick={() => setLogin(true)}
-                  className="cursor-pointer bg-gradient-to-br hover:shadow-md text-white font-pop from-orange-400 to-orange-600 p-2 rounded-md"
-                >
-                  Login to post your comment
-                </div>
-              ) : (
-                <div
-                  ref={(el) => (ref.current[`idcom.${1}`] = el)}
-                  key={`idcom.${1}`}
-                  className={
-                    "flex flex-col w-full rounded-md dark:bg-slate-500 border dark:border-slate-600 mb-4 " +
-                    Pages[ColorID].border +
-                    Pages[ColorID].active2
-                  }
-                >
+            <div className="flex flex-col mt-5 border-t">
+              <div className="flex flex-col justify-center mt-4">
+                <h1 className="flex font-poplg text-lg text-gray-600 mb-4">
+                  Comments({comments?.length})
+                </h1>
+                {!userID ? (
                   <div
+                    onClick={() => setLogin(true)}
+                    className="cursor-pointer bg-gradient-to-br hover:shadow-md text-white font-pop from-orange-400 to-orange-600 p-2 rounded-md"
+                  >
+                    Login to post your comment
+                  </div>
+                ) : (
+                  <div
+                    ref={(el) => (ref.current[`idcom.${1}`] = el)}
+                    key={`idcom.${1}`}
                     className={
-                      "flex flex-row border-b dark:border-slate-700 pb-2 w-full items-center justify-between " +
-                      Pages[ColorID].border
+                      "flex flex-col w-full rounded-md dark:bg-slate-500 border dark:border-slate-600 mb-4 " +
+                      Pages[ColorID].border +
+                      Pages[ColorID].active2
                     }
                   >
-                    <div className="mt-2 ml-2 flex flex-row items-center">
+                    <div
+                      className={
+                        "flex flex-row border-b dark:border-slate-700 pb-2 w-full items-center justify-between " +
+                        Pages[ColorID].border
+                      }
+                    >
+                      <div className="mt-2 ml-2 flex flex-row items-center">
+                        <img
+                          className="w-8 h-8 object-cover rounded-full"
+                          alt=""
+                          src={userID?.img}
+                        />
+                        <div className="flex flex-col">
+                          <h1 className="ml-2 font-poplg dark:text-slate-100 my-auto">
+                            {userID?.name}
+                          </h1>
+                          <h1 className="ml-2 text-xs font-popxs my-auto dark:text-slate-300">
+                            Now
+                          </h1>
+                        </div>
+                      </div>
+                      <div className="flex flex-row">
+                        <div
+                          onClick={() => toggleGif(!gif)}
+                          className={
+                            "mr-2 cursor-pointer hover:shadow-md rounded-md font-pop h-6 text-white px-4" +
+                            (gif
+                              ? " bg-gradient-to-br from-orange-400 to-orange-600 dark:from-orange-600 dark:to-orange-800"
+                              : " bg-gradient-to-br from-orange-200 to-orange-400 dark:from-orange-400 dark:to-orange-600")
+                          }
+                        >
+                          Gif
+                        </div>
+                        <div
+                          onClick={() => AddComment()}
+                          className={
+                            "mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br rounded-md font-pop h-6 text-white px-4" +
+                            Pages[ColorID].border +
+                            Pages[ColorID].commentButton
+                          }
+                        >
+                          Comment
+                        </div>
+                      </div>
+                    </div>
+                    {!gif ? (
+                      <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className="h-24 text-sm font-pop w-full bg-transparent p-4 outline-none"
+                      />
+                    ) : (
+                      <div className="flex justify-center mb-2">
+                        <ReactGiphySearchbox
+                          apiKey="9Ixlv3DWC1biJRI57RanyL7RTbfzz0o7"
+                          onSelect={(item) => AddComment(item)}
+                          masonryConfig={[
+                            { columns: 2, imageWidth: 110, gutter: 5 },
+                            {
+                              mq: "700px",
+                              columns: 3,
+                              imageWidth: 120,
+                              gutter: 5,
+                            },
+                          ]}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+              {comments?.map((dc, ind) => (
+                <div
+                  key={`comments.post.${ind}`}
+                  className={
+                    "flex flex-col px-2 pt-1 pb-3 border dark:border-slate-600 rounded-lg hover:dark:bg-slate-600 my-2"
+                  }
+                >
+                  <div className="flex flex-row items-center w-full justify-between">
+                    <div
+                      onClick={() => navigate("/Author/" + dc?.auth)}
+                      className="flex flex-row items-center mb-1 cursor-pointer hover:bg-white hover:dark:bg-slate-800 p-1 rounded-md"
+                    >
                       <img
                         className="w-8 h-8 object-cover rounded-full"
                         alt=""
-                        src={userID?.img}
+                        src={dc.img}
                       />
                       <div className="flex flex-col">
-                        <h1 className="ml-2 font-poplg dark:text-slate-100 my-auto">
-                          {userID?.name}
+                        <h1 className="ml-2 font-poplg my-auto dark:text-slate-100">
+                          {dc.name}
                         </h1>
-                        <h1 className="ml-2 text-xs font-popxs my-auto dark:text-slate-300">
-                          Now
+                        <h1 className="ml-2 text-xs font-pop italic text-gray-400 dark:text-slate-300 my-auto">
+                          {dc.time}
                         </h1>
                       </div>
                     </div>
-                    <div className="flex flex-row">
-                      <div
-                        onClick={() => toggleGif(!gif)}
-                        className={
-                          "mr-2 cursor-pointer hover:shadow-md rounded-md font-pop h-6 text-white px-4" +
-                          (gif
-                            ? " bg-gradient-to-br from-orange-400 to-orange-600 dark:from-orange-600 dark:to-orange-800"
-                            : " bg-gradient-to-br from-orange-200 to-orange-400 dark:from-orange-400 dark:to-orange-600")
-                        }
-                      >
-                        Gif
-                      </div>
-                      <div
-                        onClick={() => AddComment()}
-                        className={
-                          "mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br rounded-md font-pop h-6 text-white px-4" +
-                          Pages[ColorID].border +
-                          Pages[ColorID].commentButton
-                        }
-                      >
-                        Comment
-                      </div>
-                    </div>
+                    <h1
+                      className={
+                        " p-1 hover:text-white rounded-full " +
+                        Pages[ColorID].postButtonHover +
+                        (dc.auth === userID?.id ? " flex" : " hidden")
+                      }
+                      onClick={() => deleteComment(dc.id)}
+                    >
+                      <TrashIcon className="w-4 dark:text-slate-100" />
+                    </h1>
                   </div>
-                  {!gif ? (
-                    <textarea
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
-                      className="h-24 text-sm font-pop w-full bg-transparent p-4 outline-none"
-                    />
+                  {dc.image ? (
+                    <img className="w-1/2 ml-10" src={dc.comment} alt="" />
                   ) : (
-                    <div className="flex justify-center mb-2">
-                      <ReactGiphySearchbox
-                        apiKey="9Ixlv3DWC1biJRI57RanyL7RTbfzz0o7"
-                        onSelect={(item) => AddComment(item)}
-                        masonryConfig={[
-                          { columns: 2, imageWidth: 110, gutter: 5 },
-                          {
-                            mq: "700px",
-                            columns: 3,
-                            imageWidth: 120,
-                            gutter: 5,
-                          },
-                        ]}
-                      />
-                    </div>
+                    <h1 className="mt-2 ml-10 font-pop dark:text-slate-100 italic text-sm">
+                      {dc.comment}
+                    </h1>
                   )}
                 </div>
-              )}
+              ))}
             </div>
-            {comments?.map((dc, ind) => (
-              <div
-                key={`comments.post.${ind}`}
-                className={
-                  "flex flex-col px-2 pt-1 pb-3 border dark:border-slate-600 rounded-lg hover:dark:bg-slate-600 my-2"
-                }
-              >
-                <div className="flex flex-row items-center w-full justify-between">
-                  <div
-                    onClick={() => navigate("/Author/" + dc?.auth)}
-                    className="flex flex-row items-center mb-1 cursor-pointer hover:bg-white hover:dark:bg-slate-800 p-1 rounded-md"
-                  >
-                    <img
-                      className="w-8 h-8 object-cover rounded-full"
-                      alt=""
-                      src={dc.img}
-                    />
-                    <div className="flex flex-col">
-                      <h1 className="ml-2 font-poplg my-auto dark:text-slate-100">
-                        {dc.name}
-                      </h1>
-                      <h1 className="ml-2 text-xs font-pop italic text-gray-400 dark:text-slate-300 my-auto">
-                        {dc.time}
-                      </h1>
-                    </div>
-                  </div>
-                  <h1
-                    className={
-                      " p-1 hover:text-white rounded-full " +
-                      Pages[ColorID].postButtonHover +
-                      (dc.auth === userID?.id ? " flex" : " hidden")
-                    }
-                    onClick={() => deleteComment(dc.id)}
-                  >
-                    <TrashIcon className="w-4 dark:text-slate-100" />
-                  </h1>
-                </div>
-                {dc.image ? (
-                  <img className="w-1/2 ml-10" src={dc.comment} alt="" />
-                ) : (
-                  <h1 className="mt-2 ml-10 font-pop dark:text-slate-100 italic text-sm">
-                    {dc.comment}
-                  </h1>
-                )}
-              </div>
-            ))}
           </div>
         </div>
       )}

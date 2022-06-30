@@ -10,6 +10,7 @@ import MailBox from "./Pages/MailBox";
 import NavBar from "./Components/NavBar";
 import Sidebar from "./Components/Sidebar";
 import Subscribe from "./Pages/Subscribe";
+import Feedback from "./Pages/Feedback";
 import Feed from "./Pages/Feed";
 import Post from "./Pages/Post";
 import { useState, useEffect } from "react";
@@ -19,6 +20,7 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   const { user, login, userID, dark, setDispMode } = useAuth();
   const [sub, setSub] = useState(false);
+  const [fed, setFed] = useState(false);
 
   useEffect(() => {
     dark
@@ -30,10 +32,11 @@ const AnimatedRoutes = () => {
       <div className="w-full h-full bg-slate-100 dark:bg-slate-800">
         <TempLogin key={`temp.login`} show={login} />
         <Subscribe key={`sub.diag`} state={sub} change={setSub} />
+        <Feedback key={`sub.diag`} state={fed} change={setFed} />
         <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-slate-100 max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:justify-between md:w-full">
             <div className="relative md:w-16 md:h-screen">
-              <NavBar />
+              <NavBar sub={setSub} feed={setFed} />
             </div>
             <Routes location={location} key={location.pathname}>
               <Route exact path="/" element={<Home />} />
@@ -55,7 +58,12 @@ const AnimatedRoutes = () => {
             </Routes>
           </div>
           <div className="md:h-screen md:w-64">
-            <Sidebar dark={dark} setDispMode={setDispMode} />
+            <Sidebar
+              dark={dark}
+              setOpen={setSub}
+              setOpenFed={setFed}
+              setDispMode={setDispMode}
+            />
           </div>
         </div>
       </div>

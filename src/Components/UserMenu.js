@@ -5,7 +5,7 @@ import SwitchAdmin from "./SwitchAdmin";
 import { Pages } from "./Colors";
 import { motion } from "framer-motion";
 import onClickOutside from "react-onclickoutside";
-function UserMenu({ setshowMenu }) {
+function UserMenu({ setshowMenu, sub, feed }) {
   const { role, userID, setUserID, ColorID, setColorID, dark, setDispMode } =
     useAuth();
   const [showCol, setShowCol] = useState(false);
@@ -21,10 +21,14 @@ function UserMenu({ setshowMenu }) {
   };
   return (
     <div className="absolute shadow-md top-16 right-2 bg-white dark:bg-slate-700 border border-gray-100 dark:border-slate-800 px-6 py-4 z-50 font-pop text-sm">
-      <h1 className=" dark:text-gray-100">{userID?.name}</h1>
-      <h1 className="-ml-4 cursor-default  dark:text-gray-100">
-        {role === "admin" && <SwitchAdmin />}
-      </h1>
+      {userID && (
+        <>
+          <h1 className=" dark:text-gray-100">{userID?.name}</h1>
+          <h1 className="-ml-4 cursor-default  dark:text-gray-100">
+            {role === "admin" && <SwitchAdmin />}
+          </h1>
+        </>
+      )}
       <label className="mt-4 transform scale-90">
         <input
           checked={dark}
@@ -99,11 +103,24 @@ function UserMenu({ setshowMenu }) {
           </motion.div>
         )}
       </div>
+
       <h1
         className="cursor-pointer mt-2 hover:text-gray-400  dark:text-gray-100"
         onClick={() => handleLogout()}
       >
-        Logout
+        {userID && "Logout"}
+      </h1>
+      <h1
+        className="cursor-pointer border-t pt-2 mt-2 hover:text-gray-400  dark:text-gray-100"
+        onClick={() => sub(true)}
+      >
+        Subscribe
+      </h1>
+      <h1
+        className="cursor-pointer mt-2 hover:text-gray-400  dark:text-gray-100"
+        onClick={() => feed(true)}
+      >
+        Feedback
       </h1>
     </div>
   );

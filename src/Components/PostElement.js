@@ -64,7 +64,7 @@ function PostElement({ i, dc }) {
       key={`feed.2.${i}`}
       className="mx-4 md:mx-2 lg:w-[48%] md:w-[46.5%] w-full border border-slate-200 dark:border-slate-500 my-2 rounded-lg overflow-hidden flex flex-col"
     >
-      <div className="h-44 overflow-hidden">
+      <div className="h-44 shadow-inner overflow-hidden">
         <img src={dc?.img} alt="" className="object-cover h-44 w-full" />
       </div>
       <div className="flex flex-row px-2 py-3 bg-white dark:bg-slate-600">
