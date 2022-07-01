@@ -6,8 +6,16 @@ import { Pages } from "./Colors";
 import { motion } from "framer-motion";
 import onClickOutside from "react-onclickoutside";
 function UserMenu({ setshowMenu, sub, feed }) {
-  const { role, userID, setUserID, ColorID, setColorID, dark, setDispMode } =
-    useAuth();
+  const {
+    role,
+    userID,
+    setUserID,
+    ColorID,
+    setColorID,
+    dark,
+    setDispMode,
+    setLogin,
+  } = useAuth();
   const [showCol, setShowCol] = useState(false);
   const navigate = useNavigate();
   UserMenu.handleClickOutside = () => {
@@ -21,13 +29,20 @@ function UserMenu({ setshowMenu, sub, feed }) {
   };
   return (
     <div className="absolute shadow-md top-16 right-2 bg-white dark:bg-slate-700 border border-gray-100 dark:border-slate-800 px-6 py-4 z-50 font-pop text-sm">
-      {userID && (
+      {userID ? (
         <>
           <h1 className=" dark:text-gray-100">{userID?.name}</h1>
           <h1 className="-ml-4 cursor-default  dark:text-gray-100">
             {role === "admin" && <SwitchAdmin />}
           </h1>
         </>
+      ) : (
+        <h1
+          className="cursor-pointer mb-2 hover:text-gray-400  dark:text-gray-100"
+          onClick={() => setLogin(true)}
+        >
+          Login
+        </h1>
       )}
       <label className="mt-4 transform scale-90">
         <input

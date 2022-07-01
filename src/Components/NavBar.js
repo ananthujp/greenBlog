@@ -68,7 +68,7 @@ const ReadCount = ({ items, userID }) => {
 };
 function NavBar({ sub, feed }) {
   const scr = window.matchMedia("(min-width: 768px)");
-  const { role, userID, ColorID, dark, setDispMode } = useAuth();
+  const { role, userID, ColorID, dark, setDispMode, setLogin } = useAuth();
   const route = useLocation();
   const [hover, setHover] = useState(false);
   const [showMenu, setshowMenu] = useState(false);
@@ -90,7 +90,9 @@ function NavBar({ sub, feed }) {
         <BellIcon
           className={
             "w-8 rounded-full p-1 bg-gradient-to-br " +
-            NavBarItem[ColorID].gpHover
+            (userID
+              ? NavBarItem[ColorID].gpHover
+              : " group-hover:from-gray-400 group-hover:to-gray-600 dark:group-hover:from-gray-600 dark:group-hover:to-gray-800")
           }
         />
       ),
@@ -102,7 +104,9 @@ function NavBar({ sub, feed }) {
         <MailIcon
           className={
             "w-8 rounded-full p-1 bg-gradient-to-br " +
-            NavBarItem[ColorID].gpHover
+            (userID
+              ? NavBarItem[ColorID].gpHover
+              : " group-hover:from-gray-400 group-hover:to-gray-600 dark:group-hover:from-gray-600 dark:group-hover:to-gray-800")
           }
         />
       ),
@@ -114,7 +118,9 @@ function NavBar({ sub, feed }) {
         <UserIcon
           className={
             "w-8 rounded-full p-1 bg-gradient-to-br " +
-            NavBarItem[ColorID].gpHover
+            (userID
+              ? NavBarItem[ColorID].gpHover
+              : " group-hover:from-gray-400 group-hover:to-gray-600 dark:group-hover:from-gray-600 dark:group-hover:to-gray-800")
           }
         />
       ),
@@ -126,7 +132,9 @@ function NavBar({ sub, feed }) {
         <LibraryIcon
           className={
             "w-8 rounded-full p-1 bg-gradient-to-br " +
-            NavBarItem[ColorID].gpHover
+            (userID
+              ? NavBarItem[ColorID].gpHover
+              : " group-hover:from-gray-400 group-hover:to-gray-600 dark:group-hover:from-gray-600 dark:group-hover:to-gray-800")
           }
         />
       ),
@@ -138,7 +146,9 @@ function NavBar({ sub, feed }) {
         <PencilAltIcon
           className={
             "w-8 rounded-full p-1 bg-gradient-to-br " +
-            NavBarItem[ColorID].gpHover
+            (userID
+              ? NavBarItem[ColorID].gpHover
+              : " group-hover:from-gray-400 group-hover:to-gray-600 dark:group-hover:from-gray-600 dark:group-hover:to-gray-800")
           }
         />
       ),
@@ -184,13 +194,14 @@ function NavBar({ sub, feed }) {
           {items.map((item, index) => (
             <Link
               key={`navbar.item.${index}`}
-              to={item.link}
+              to={userID ? item.link : ""}
               hidden={
-                (item.link === "/AdminPanel" && role !== "admin" && " true") ||
-                (!userID && item.link !== "/" && " true")
+                item.link === "/AdminPanel" && role !== "admin" && " true"
+                //||(!userID && item.link !== "/" && " true")
               }
             >
               <div
+                onClick={() => !userID && item.link !== "/" && setLogin(true)}
                 className={
                   "relative flex flex-row group items-center justify-start mx-4 transition-all cursor-pointer "
                 }
@@ -220,7 +231,7 @@ function NavBar({ sub, feed }) {
                 <h1
                   className={
                     "my-auto ml-4 group transition-all " +
-                    NavBarItem[ColorID].group +
+                    (userID && NavBarItem[ColorID].group) +
                     (route.pathname === item.link
                       ? NavBarItem[ColorID].text
                       : "  text-gray-400") +
