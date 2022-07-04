@@ -204,7 +204,7 @@ function Home() {
                 <div className=" flex flex-col">
                   <div className="-mt-1 text-sm ">
                     Discover stories, thinking, and expertise from writers on
-                    any topic.
+                    green movement.
                   </div>
                 </div>
               </h1>
