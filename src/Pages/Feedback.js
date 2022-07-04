@@ -45,7 +45,7 @@ function Feedback({ change, state }) {
         (state ? " fixed" : " hidden")
       }
     >
-      <div className="flex bg-white/40 backdrop-blur-lg p-4 rounded-xl w-[95%] md:w-3/5 h-auto shadow-md">
+      <div className="flex h-screen mt-4 overflow-y-auto bg-white/40 backdrop-blur-lg p-4 rounded-xl w-[95%] md:w-3/5 shadow-md">
         <div
           className="cursor-pointer flex items-center justify-center md:text-3xl h-4 w-4 md:w-8 md:h-8 hover:bg-indigo-200 rounded-full p-1"
           onClick={() => change(false)}
@@ -111,7 +111,7 @@ function Feedback({ change, state }) {
               onChange={(e) =>
                 setFeed({ ...feedbackq, comment: e.target.value })
               }
-              className="w-full mx-auto p-3 rounded-lg border border-gray-300 h-44"
+              className="w-full mx-auto p-3 rounded-lg border border-gray-300 h-32"
             />
           </div>
           <button

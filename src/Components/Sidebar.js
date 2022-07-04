@@ -64,7 +64,7 @@ function Sidebar({ preview, setOpen, setOpenFed, dark, setDispMode }) {
       <div>
         {route.pathname.split("/")[1] !== "Posts" ? (
           userID && (
-            <div className="border py-6 border-gray-200 rounded-lg bg-white dark:bg-slate-700 px-8 ">
+            <div className="border py-6 border-gray-200 rounded-lg dark:border-slate-500 bg-white dark:bg-slate-700 px-8 ">
               <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
                 <img src={userID?.img} className="h-16 w-16" alt="" />
               </div>
@@ -133,7 +133,7 @@ function Sidebar({ preview, setOpen, setOpenFed, dark, setDispMode }) {
           </div>
         ))}
       </div> */}
-      <div className="border py-6 mt-2 border-gray-200 rounded-lg bg-white dark:bg-slate-700 px-8">
+      <div className="border py-6 mt-2 border-gray-200 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-700 px-8">
         <img src={SubLogo} alt="" />
         <button
           type="button"
@@ -146,7 +146,7 @@ function Sidebar({ preview, setOpen, setOpenFed, dark, setDispMode }) {
           Subscribe
         </button>
       </div>
-      <div className="border py-6 mt-2 border-gray-200 rounded-lg bg-white dark:bg-slate-700 px-8">
+      <div className="border py-6 mt-2 border-gray-200 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-700 px-8">
         <div
           onMouseEnter={() => setShowCust(true)}
           onMouseLeave={() => setShowCust(false)}
@@ -260,7 +260,7 @@ function Sidebar({ preview, setOpen, setOpenFed, dark, setDispMode }) {
         </div>
       </div>
 
-      <div className="border py-6 mt-2 border-gray-200 rounded-lg bg-white dark:bg-slate-700 px-8">
+      <div className="border py-6 mt-2 border-gray-200 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-700 px-8">
         <img src={RatingLogo} alt="" />
         <button
           type="button"

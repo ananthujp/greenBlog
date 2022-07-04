@@ -128,7 +128,7 @@ function Feed() {
           ))}
         </div>
       </div>
-      <div className="border-y mt-3 pt-2 flex w-full mx-auto">
+      <div className="border-y dark:border-slate-700 mt-3 pt-2 flex w-full mx-auto">
         <div className="flex flex-row flex-wrap w-full justify-center">
           {posts?.map((dc, i) => (
             <PostElement i={i} dc={dc} />

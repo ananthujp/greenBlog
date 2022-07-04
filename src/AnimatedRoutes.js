@@ -13,6 +13,7 @@ import Subscribe from "./Pages/Subscribe";
 import Feedback from "./Pages/Feedback";
 import Feed from "./Pages/Feed";
 import Post from "./Pages/Post";
+import logo from "./images/Logo_loading.png";
 import { useState, useEffect } from "react";
 import TempLogin from "./Components/TempLogin";
 import Author from "./Pages/Author";
@@ -21,7 +22,7 @@ const AnimatedRoutes = () => {
   const { user, login, userID, dark, setDispMode } = useAuth();
   const [sub, setSub] = useState(false);
   const [fed, setFed] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     dark
       ? document.documentElement.classList.add("dark")
@@ -29,44 +30,79 @@ const AnimatedRoutes = () => {
   }, [dark]);
   return (
     <AnimatePresence exitBeforeEnter>
-      <div className="w-full h-full bg-slate-100 dark:bg-slate-800">
-        <TempLogin key={`temp.login`} show={login} />
-        <Subscribe key={`sub.diag`} state={sub} change={setSub} />
-        <Feedback key={`sub.diag`} state={fed} change={setFed} />
-        <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-slate-100 max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:justify-between md:w-full">
-            <div className="relative md:w-16 md:h-screen">
-              <NavBar sub={setSub} feed={setFed} />
+      {loading ? (
+        <div className="w-screen h-screen bg-white flex flex-col justify-center items-center">
+          <div>
+            <div class="book">
+              <div class="inner">
+                <div class="left"></div>
+                <div class="middle"></div>
+                <div class="right"></div>
+              </div>
+              <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
             </div>
-            <Routes location={location} key={location.pathname}>
-              <Route exact path="/" element={<Home />} />
-
-              <Route path="/Posts/:id" element={<Post />} />
-              {userID && (
-                <>
-                  <Route path="/Write/:id" element={<Write />} />
-                  <Route path="/Write" element={<Write />} />
-                  <Route path="/UserDash" element={<UserDash />} />
-                  <Route path="/AdminPanel" element={<AdminPanel />} />
-                  <Route path="/Notifications" element={<Notifications />} />
-                  <Route path="/MailBox" element={<MailBox />} />
-                  <Route path="/MailBox/:id" element={<MailBox />} />
-                </>
-              )}
-              <Route path="/Feed" element={<Feed />} />
-              <Route path="/Author/:id" element={<Author />} />
-            </Routes>
           </div>
-          <div className="md:h-screen md:w-64">
-            <Sidebar
-              dark={dark}
-              setOpen={setSub}
-              setOpenFed={setFed}
-              setDispMode={setDispMode}
-            />
+          <img className="w-8" src={logo} alt="" />
+        </div>
+      ) : (
+        <div className="w-full h-full bg-slate-100 dark:bg-slate-800">
+          <TempLogin key={`temp.login`} show={login} />
+          <Subscribe key={`sub.diag`} state={sub} change={setSub} />
+          <Feedback key={`sub.diag`} state={fed} change={setFed} />
+          <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-slate-100 max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:justify-between md:w-full">
+              <div className="relative md:w-16 md:h-screen">
+                <NavBar sub={setSub} feed={setFed} />
+              </div>
+              <Routes location={location} key={location.pathname}>
+                <Route exact path="/" element={<Home />} />
+
+                <Route path="/Posts/:id" element={<Post />} />
+                {userID && (
+                  <>
+                    <Route path="/Write/:id" element={<Write />} />
+                    <Route path="/Write" element={<Write />} />
+                    <Route path="/UserDash" element={<UserDash />} />
+                    <Route path="/AdminPanel" element={<AdminPanel />} />
+                    <Route path="/Notifications" element={<Notifications />} />
+                    <Route path="/MailBox" element={<MailBox />} />
+                    <Route path="/MailBox/:id" element={<MailBox />} />
+                  </>
+                )}
+                <Route path="/Feed" element={<Feed />} />
+                <Route path="/Author/:id" element={<Author />} />
+              </Routes>
+            </div>
+            <div className="md:h-screen md:w-64">
+              <Sidebar
+                dark={dark}
+                setOpen={setSub}
+                setOpenFed={setFed}
+                setDispMode={setDispMode}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </AnimatePresence>
   );
 };

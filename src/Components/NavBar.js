@@ -12,14 +12,9 @@ import {
 } from "@heroicons/react/outline";
 import useAuth from "../hooks/userAuth";
 import { useLocation } from "react-router-dom";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import logo from "../images/logo.png";
+import logo_txt from "../images/logo_txt.png";
 import { db } from "../firebase";
 import UserMenu from "./UserMenu";
 const ReadCount = ({ items, userID }) => {
@@ -181,14 +176,14 @@ function NavBar({ sub, feed }) {
           className="relative flex overflow-hidden flex-row justify-start  my-auto ml-4 md:mt-4 "
         >
           <img src={logo} className=" w-8 h-8" alt="" />
-          <h1
+          <img
+            src={logo_txt}
+            alt=""
             className={
-              "ml-4 my-auto font-popxl dark:text-slate-300 whitespace-nowrap" +
+              "ml-2 h-8 my-auto font-popxl dark:text-slate-300 whitespace-nowrap" +
               (hover ? " flex" : " hidden")
             }
-          >
-            Green Club Blog
-          </h1>
+          />
         </Link>
         <div className="flex md:flex-col flex-row justify-center">
           {items.map((item, index) => (

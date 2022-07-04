@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import HomeLogo from "../images/homeLogo2.png";
+//import HomeLogo from "../images/homeLogo2.png";
+import img1 from "../images/homeSVGs/img1.svg";
+import img2 from "../images/homeSVGs/img2.svg";
+import img3 from "../images/homeSVGs/img3.svg";
+import img4 from "../images/homeSVGs/img4.svg";
+import img5 from "../images/homeSVGs/img5.svg";
+import img6 from "../images/homeSVGs/img6.svg";
+import img7 from "../images/homeSVGs/img7.svg";
 import { Link } from "react-router-dom";
 import TempLogin from "../Components/TempLogin";
 import useAuth from "../hooks/userAuth";
@@ -61,6 +68,32 @@ const Color = [
   "to-orange-400 from-pink-700",
   "to-green-400 from-cyan-700",
 ];
+const HomeLogo = () => {
+  const n = Math.floor(Math.random() * (6 - 0 + 1) + 0);
+  console.log(n);
+  switch (n) {
+    case 0:
+      return img1;
+      break;
+    case 1:
+      return img2;
+      break;
+    case 2:
+      return img3;
+      break;
+    case 3:
+      return img4;
+      break;
+    case 4:
+      return img5;
+    case 5:
+      return img6;
+    case 6:
+      return img7;
+      break;
+    default:
+  }
+};
 const ReadCount = ({ items, userID }) => {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -106,7 +139,10 @@ const ReadCount = ({ items, userID }) => {
 };
 
 function Home() {
-  const { userID, login, setLogin, ColorID } = useAuth();
+  const { userID, ColorID } = useAuth();
+
+  const [bg, setBG] = useState(img1);
+  useEffect(() => setBG(HomeLogo()), []);
   const defaultTitle =
     " dark:from-white dark:to-white from-slate-800 to-slate-800";
 
@@ -124,50 +160,68 @@ function Home() {
           Pages[ColorID].pageBg
         }
       >
-        <div className="relative flex flex-col md:my-16 my-2  w-full justify-between">
+        <div className="relative flex flex-col md:my-4 my-2  w-full justify-between">
           <div className="flex  md:flex-row flex-col w-full justify-between px-8 md:py-12 py-4 my-auto h-auto md:h-full">
-            <div className="flex md:my-auto">
+            <div className="flex md:my-auto w-full">
               <img
+                src={bg}
+                className="md:w-full w-4/5 h-auto max-h-82 mx-auto my-auto"
+                alt=""
+              />
+              {/* <img
                 src={HomeLogo}
                 className="w-3/5 h-auto mx-auto my-auto"
                 alt=""
-              />
+              /> */}
             </div>
-            <div className="md:w-full w-4/5 my-auto md:mx-0 mx-auto  rounded-lg border-white dark:border-slate-500 border bg-white/40 dark:bg-slate-800/60 backdrop-blur-md px-6 py-4">
-              <h1 className="font-pop text-slate-800 dark:text-white text-3xl md:text-4xl md:mb-2">
-                Write
-              </h1>
+            <div className="md:w-3/5 w-full my-auto md:mx-0 mx-auto  rounded-lg border-white dark:border-slate-500 border bg-white/40 dark:bg-slate-800/60 backdrop-blur-md px-6 py-4">
               <h1
                 className={
-                  "font-popxl  bg-gradient-to-br text-transparent bg-clip-text text-5xl md:text-6xl " +
-                  defaultTitle
-                }
-              >
-                YOUR
-              </h1>
-              <h1
-                className={
-                  "font-popxl md:-mt-7 bg-gradient-to-br text-transparent bg-clip-text text-5xl md:text-6xl " +
-                  defaultTitle
-                }
-              >
-                FIRST
-              </h1>
-              <h1
-                className={
-                  "font-popxl md:-mt-7 bg-gradient-to-br text-transparent bg-clip-text text-5xl md:text-6xl " +
+                  "font-popxl md:mt-2  mt-2  bg-gradient-to-br text-transparent bg-clip-text text-4xl md:text-6xl " +
                   Pages[ColorID].homeTxt
+                  //defaultTitle
                 }
               >
-                BLOG
+                READY FOR YOUR SIP?
               </h1>
-              <h1 className="font-pop text-gray-500 dark:text-gray-300">
-                We want to hear your stories, your experiences, your
+
+              <h1 className="mr-auto font-pop max-w-[65%] text-base text-gray-500 dark:text-gray-300">
+                {/* We want to hear your stories, your experiences, your
                 contribution, your message to make this world a better place.
                 Come pen down your thoughts and create a unique and beautiful
-                blog.
+                blog. */}
+                {/* <svg
+                  className=" transform scale-75"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="gray"
+                >
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg> */}
+
+                <div className=" flex flex-col">
+                  <div className="-mt-1 text-sm ">
+                    Discover stories, thinking, and expertise from writers on
+                    any topic.
+                  </div>
+                </div>
               </h1>
-              <div className="flex flex-row">
+              <div className="ml-auto">
+                <h1 className="mt-auto font-pop  opacity-5  text-md md:text-lg md:mb-2">
+                  Green Club
+                </h1>
+                <h1
+                  className={
+                    "font-popxl md:mb-auto md:-mt-4 -mt-4 opacity-5 text-3xl md:text-5xl "
+                    //+Pages[ColorID].homeTxt
+                  }
+                >
+                  BLOG
+                </h1>
+              </div>
+              {/* <div className="flex flex-row">
                 <div
                   className=" mx-auto md:mx-0"
                   onClick={() => setLogin(true)}
@@ -185,7 +239,7 @@ function Home() {
                     </div>
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex mx-auto flex-row justify-around md:mt-0 mt-6 pb-12">
