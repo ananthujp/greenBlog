@@ -70,7 +70,6 @@ const Color = [
 ];
 const HomeLogo = () => {
   const n = Math.floor(Math.random() * (6 - 0 + 1) + 0);
-  console.log(n);
   switch (n) {
     case 0:
       return img1;
@@ -182,7 +181,7 @@ function Home() {
                   //defaultTitle
                 }
               >
-                READY FOR YOUR SIP?
+                THOUGHTS, ANYONE?
               </h1>
 
               <h1 className="mr-auto font-pop max-w-[65%] text-base text-gray-500 dark:text-gray-300">
@@ -203,8 +202,8 @@ function Home() {
 
                 <div className=" flex flex-col">
                   <div className="-mt-1 text-sm ">
-                    Discover stories, thinking, and expertise from writers on
-                    green movement.
+                    Discover stories, experiences and insights of your peers on
+                    sustainability topics of your interest.
                   </div>
                 </div>
               </h1>
@@ -257,9 +256,9 @@ function Home() {
                     <h1 className="font-popxl mt-2 sm:text-sm text-xs md:text-xl text-gray-600 dark:text-gray-200 group-hover:text-white my-auto">
                       {doc.name}
                     </h1>
-                    <div className="font-pop hidden md:flex text-xs group-hover:text-white text-gray-400">
+                    {/* <div className="font-pop hidden md:flex text-xs group-hover:text-white text-gray-400">
                       {doc.txt}
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
               ))}

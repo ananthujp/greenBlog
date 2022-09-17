@@ -67,7 +67,7 @@ const AnimatedRoutes = () => {
         <div className="w-full h-full bg-slate-100 dark:bg-slate-800">
           <TempLogin key={`temp.login`} show={login} />
           <Subscribe key={`sub.diag`} state={sub} change={setSub} />
-          <Feedback key={`sub.diag`} state={fed} change={setFed} />
+          <Feedback key={`sub.diag.1`} state={fed} change={setFed} />
           <div className="flex flex-col md:flex-row h-full dark:bg-slate-800 bg-slate-100 max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:justify-between md:w-full">
               <div className="relative md:w-16 md:h-screen">

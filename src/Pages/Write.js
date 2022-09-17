@@ -25,6 +25,7 @@ function Write() {
   const route = useLocation();
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState(null);
+  const [usage, setUsage] = useState(null);
   const [author, setAuthor] = useState(null);
   const [preview, setPreview] = useState(false);
   const [load, setLoad] = useState(false);
@@ -94,9 +95,11 @@ function Write() {
           setTitle(dc?.data()?.title);
         });
   }, []);
-  // useEffect(() => {
-  //   console.log(editorState?.split('<img src="')[1]?.split('"')[0]);
-  // }, [editorState]);
+  useEffect(() => {
+    //console.log(editorState?.split('<img src="')[1]?.split('"')[0]);
+
+    editorState && setUsage((encodeURI(editorState).length - 1) / 10240);
+  }, [editorState]);
   return (
     <>
       {docID === "Create" || load === true ? (
@@ -214,21 +217,42 @@ function Write() {
                   {preview ? "Close" : "Preview"}
                 </button>
 
-                <button
-                  onClick={() => autoSave(false)}
-                  className="rounded-full mt-1 mx-0.5 bg-gradient-to-br from-gray-400 to-gray-600 hover:shadow-md text-white px-3"
-                >
-                  {userID.id === "HyAS9bQrGoNbH6yekzzK"
-                    ? "Approve Later"
-                    : "Save Draft"}
-                </button>
-                <button
-                  onClick={() => autoSave(true)}
-                  className="rounded-full mt-1 mx-0.5 bg-gradient-to-br from-green-400 to-green-600 hover:shadow-md text-white px-3"
-                >
-                  {userID.id === "HyAS9bQrGoNbH6yekzzK" ? "Approve" : "Submit"}
-                </button>
+                {usage < 100 && (
+                  <>
+                    <button
+                      onClick={() => autoSave(false)}
+                      className="rounded-full mt-1 mx-0.5 bg-gradient-to-br from-gray-400 to-gray-600 hover:shadow-md text-white px-3"
+                    >
+                      {userID.id === "HyAS9bQrGoNbH6yekzzK"
+                        ? "Approve Later"
+                        : "Save Draft"}
+                    </button>
+                    <button
+                      onClick={() => autoSave(true)}
+                      className="rounded-full mt-1 mx-0.5 bg-gradient-to-br from-green-400 to-green-600 hover:shadow-md text-white px-3"
+                    >
+                      {userID.id === "HyAS9bQrGoNbH6yekzzK"
+                        ? "Approve"
+                        : "Submit"}
+                    </button>
+                  </>
+                )}
               </div>
+              {usage &&
+                (usage < 100 ? (
+                  <div
+                    className={
+                      "mx-auto " +
+                      (usage > 50 ? " text-red-400" : " text-black")
+                    }
+                  >
+                    Characters left : {(100 - usage).toFixed(4)}%
+                  </div>
+                ) : (
+                  <div className={"mx-auto text-red-400"}>
+                    Characters limit exceeded, Try resizing/removing images.
+                  </div>
+                ))}
             </div>
           </div>
           <input

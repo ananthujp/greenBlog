@@ -35,6 +35,22 @@ function AdminPanel() {
   const PostRef = collection(db, "Posts");
   const item =
     " rounded-md border border-gray-200 shadow-sm dark:border-slate-500 dark:bg-slate-700";
+  const handleDelete = ({ dc }) => {
+    if (false) {
+      deleteDoc(doc(db, "Posts", dc.id));
+      setNotification(
+        dc.user,
+        "Your article is  removed",
+        "Your article titled " + dc.title + " has been removed.",
+        3
+      );
+    } else {
+      alert(
+        "You dont have the permission for this operation. Please contact the administrator"
+      );
+    }
+  };
+
   useEffect(() => {
     switChId(1);
     onSnapshot(
@@ -205,17 +221,7 @@ function AdminPanel() {
                     )}
                     {dc.status !== "Approved" || role === "admin" ? (
                       <div
-                        onClick={() => {
-                          deleteDoc(doc(db, "Posts", dc.id));
-                          setNotification(
-                            dc.user,
-                            "Your article is  removed",
-                            "Your article titled " +
-                              dc.title +
-                              " has been removed.",
-                            3
-                          );
-                        }}
+                        onClick={() => handleDelete({ dc })}
                         className="hover:bg-gray-200 dark:hover:bg-slate-600 rounded-full p-1"
                       >
                         <TrashIcon

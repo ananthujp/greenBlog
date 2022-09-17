@@ -49,6 +49,21 @@ function UserDash() {
         )
     );
   }, []);
+  const handleDelete = ({ dc }) => {
+    if (dc.status !== "Waiting for Review") {
+      deleteDoc(doc(db, "Posts", dc.id));
+      setNotification(
+        userID?.id,
+        "Your article is  removed",
+        "Your article titled " + dc.title + " has been removed.",
+        3
+      );
+    } else {
+      alert(
+        "You dont have the permission for this operation. Please contact the administrator"
+      );
+    }
+  };
   const item =
     " rounded-md border border-gray-200 dark:border-slate-500 dark:bg-slate-700 shadow-sm";
   //console.log(posts);
@@ -208,17 +223,7 @@ function UserDash() {
                             <PencilAltIcon className="w-5 flex group-hover:text-white" />
                           </div>
                           <div
-                            onClick={() => {
-                              deleteDoc(doc(db, "Posts", dc.id));
-                              setNotification(
-                                userID?.id,
-                                "Your article is  removed",
-                                "Your article titled " +
-                                  dc.title +
-                                  " has been removed.",
-                                3
-                              );
-                            }}
+                            onClick={() => handleDelete({ dc })}
                             className={
                               " my-auto group rounded-full p-1" +
                               Pages[ColorID].icoHover

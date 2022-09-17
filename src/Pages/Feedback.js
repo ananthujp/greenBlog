@@ -54,11 +54,13 @@ function Feedback({ change, state }) {
         </div>
         <div className="flex flex-col w-full my-auto items-center justify-between">
           <img src={SubLogo} className="w-3/5 mx-auto" alt="" />
-          <h1 className="font-popxl text-xl md:text-3xl mt-4">Feedback</h1>
+          <h1 className="font-popxl text-xl md:text-3xl mt-4">
+            We'd love your feedback!
+          </h1>
           <h1
             className={"font-pop font-bold text-gray-700 text-xs text-center"}
           >
-            Enter your email address and subscribe to the newsletter.
+            It helps us improve and serve you better.
           </h1>
           <div className="grid grid-cols-2 gap-y-2 my-2 w-[90%] md:w-[80%] items-center justify-around">
             <h1

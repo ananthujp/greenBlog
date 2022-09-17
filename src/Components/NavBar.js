@@ -185,7 +185,7 @@ function NavBar({ sub, feed }) {
             }
           />
         </Link>
-        <div className="flex md:flex-col flex-row justify-center">
+        <>
           {items.map((item, index) => (
             <Link
               key={`navbar.item.${index}`}
@@ -198,7 +198,7 @@ function NavBar({ sub, feed }) {
               <div
                 onClick={() => !userID && item.link !== "/" && setLogin(true)}
                 className={
-                  "relative flex flex-row group items-center justify-start mx-4 transition-all cursor-pointer "
+                  "relative flex flex-row group items-center justify-start md:mx-4 transition-all cursor-pointer "
                 }
               >
                 {userID && (
@@ -238,7 +238,7 @@ function NavBar({ sub, feed }) {
               </div>
             </Link>
           ))}
-        </div>
+        </>
         <div className="h-9 w-9 rounded-full overflow-hidden my-auto">
           <div
             onClick={() => setshowMenu(!showMenu)}

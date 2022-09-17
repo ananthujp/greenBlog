@@ -21,7 +21,7 @@ const BlogAuthor = ({ id }) => {
     setAuth({ id: dic.id, data: dic.data() })
   );
   return (
-    <div className="flex flex-col border-y py-6 dark:bg-slate-700 border-gray-200">
+    <div className="flex flex-col px-4 border py-6 dark:bg-slate-700 mb-2 bg-white  border-gray-200 dark:border-slate-500 rounded-lg">
       <h1 className="font-pop text-gray-600 dark:text-slate-50 mb-2">
         Blog Author
       </h1>

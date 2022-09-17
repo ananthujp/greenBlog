@@ -23,6 +23,7 @@ function Author() {
         email: dc.data().email,
         img: dc.data().img,
         bio: dc.data().Bio,
+        field: dc.data().field,
       })
     );
     getDocs(
@@ -54,7 +55,7 @@ function Author() {
     );
   }, []);
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center h-screen w-full">
       <>
         <div className="mt-12 border-indigo-400 border-8 shadow-md rounded-full">
           <img src={auth?.img} className="w-36 h-36 rounded-full" alt="" />
@@ -62,7 +63,7 @@ function Author() {
         <h1 className="font-poplg mt-2 mb-0 text-2xl text-indigo-500">
           {auth?.name}
         </h1>
-        <h1 className="font-pop text-md text-gray-400">PhD Student</h1>
+        <h1 className="font-pop text-md text-gray-400">{auth?.field}</h1>
       </>
       <div className="w-3/4 mt-1">
         <div class="mb-2 flex flex-row justify-center">
@@ -93,7 +94,7 @@ function Author() {
               <th className="pr-3 whitespace-nowrap dark:text-slate-200">
                 {i + 1}
               </th>
-              <th className="pr-3 whitespace-nowrap text-left dark:text-slate-200">
+              <th className="pr-3 whitespace-nowrap overflow-hidden w-8 md:w-full text-left dark:text-slate-200">
                 {dc.title}
               </th>
               <th className=" pr-3 text-left pl-3 whitespace-nowrap dark:text-slate-200 text-gray-400">

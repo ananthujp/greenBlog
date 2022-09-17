@@ -159,9 +159,9 @@ function TempLogin({ show }) {
                 </h1>
                 <div
                   onClick={() =>
-                    signInWithPopup(auth, provider).then((dc) =>
-                      recoverEmailCheck(dc.user.email)
-                    )
+                    signInWithPopup(auth, provider)
+                      .then((dc) => recoverEmailCheck(dc.user.email))
+                      .catch((err) => console.log(err))
                   }
                   className="flex px-2 cursor-pointer flex-row items-center justify-center bg-gradient-to-b from-indigo-100 to-indigo-300 hover:to-indigo-200 rounded-md"
                 >

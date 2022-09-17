@@ -41,6 +41,7 @@ function Post() {
   const [url, setUrl] = useState(null);
   const [titleMsg, setTitleMsg] = useState(null);
   const [time, setTime] = useState(null);
+  const [readtime, setRTime] = useState(4);
   const [clap, setClap] = useState({ clap: 0, flag: false });
   const [read, setRead] = useState(0);
   const [gif, toggleGif] = useState(false);
@@ -118,9 +119,10 @@ function Post() {
               { timeZone: "UTC", month: "long", day: "2-digit" }
             )
         );
+        setRTime(dc.data().time ? dc.data().time : 4);
         setTitle(dc?.data()?.title);
         setTitleMsg(dc?.data()?.title);
-        setUrl(docID);
+        setUrl("https://students.iitgn.ac.in/greenclub/blog/#/Posts/" + docID);
         setClap(
           dc?.data().clap
             ? { clap: dc?.data().clap, flag: false }
@@ -225,7 +227,7 @@ function Post() {
                     {author?.data.name}
                   </h1>
                   <h1 className=" font-popxs text-xs my-auto dark:text-slate-200">
-                    {time} . 6 min read
+                    {time} . {readtime} min read
                   </h1>
                 </div>
               </div>
@@ -359,11 +361,91 @@ function Post() {
                   Comments({comments?.length})
                 </h1>
                 {!userID ? (
+                  // <div
+                  //   onClick={() => setLogin(true)}
+                  //   className="cursor-pointer bg-gradient-to-br hover:shadow-md text-white font-pop from-orange-400 to-orange-600 p-2 rounded-md"
+                  // >
+                  //   Login to post your comment
+                  // </div>
                   <div
-                    onClick={() => setLogin(true)}
-                    className="cursor-pointer bg-gradient-to-br hover:shadow-md text-white font-pop from-orange-400 to-orange-600 p-2 rounded-md"
+                    ref={(el) => (ref.current[`idcom.${1}`] = el)}
+                    key={`idcom.${1}`}
+                    className={
+                      "flex flex-col w-full rounded-md dark:bg-slate-500 border dark:border-slate-600 mb-4 " +
+                      Pages[ColorID].border +
+                      Pages[ColorID].active2
+                    }
                   >
-                    Login to post your comment
+                    <div
+                      className={
+                        "flex flex-row border-b dark:border-slate-700 pb-2 w-full items-center justify-between " +
+                        Pages[ColorID].border
+                      }
+                    >
+                      <div className="mt-2 ml-2 flex flex-row items-center">
+                        <img
+                          className="w-8 h-8 object-cover rounded-full"
+                          alt=""
+                          src={
+                            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
+                          }
+                        />
+                        <div className="flex flex-col">
+                          <h1 className="ml-2 font-poplg dark:text-slate-100 my-auto">
+                            Unknown user
+                          </h1>
+                          <h1 className="ml-2 text-xs font-popxs my-auto dark:text-slate-300">
+                            Now
+                          </h1>
+                        </div>
+                      </div>
+                      <div className="flex flex-row">
+                        <div
+                          onClick={() => toggleGif(!gif)}
+                          className={
+                            "mr-2 cursor-pointer hover:shadow-md rounded-md font-pop h-6 text-white px-4" +
+                            (gif
+                              ? " bg-gradient-to-br from-orange-400 to-orange-600 dark:from-orange-600 dark:to-orange-800"
+                              : " bg-gradient-to-br from-orange-200 to-orange-400 dark:from-orange-400 dark:to-orange-600")
+                          }
+                        >
+                          Gif
+                        </div>
+                        <div
+                          onClick={() => setLogin(true)}
+                          className={
+                            "mr-2 cursor-pointer hover:shadow-md bg-gradient-to-br rounded-md font-pop h-6 text-white px-4" +
+                            Pages[ColorID].border +
+                            Pages[ColorID].commentButton
+                          }
+                        >
+                          Comment
+                        </div>
+                      </div>
+                    </div>
+                    {!gif ? (
+                      <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className="h-24 text-sm font-pop w-full bg-transparent p-4 outline-none"
+                      />
+                    ) : (
+                      <div className="flex justify-center mb-2">
+                        <ReactGiphySearchbox
+                          apiKey="9Ixlv3DWC1biJRI57RanyL7RTbfzz0o7"
+                          onSelect={(item) => setLogin(true)}
+                          masonryConfig={[
+                            { columns: 2, imageWidth: 110, gutter: 5 },
+                            {
+                              mq: "700px",
+                              columns: 3,
+                              imageWidth: 120,
+                              gutter: 5,
+                            },
+                          ]}
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div

@@ -62,6 +62,7 @@ function Feed() {
                 { timeZone: "UTC", month: "long", day: "2-digit" }
               ) + " ",
           id: dic.id,
+          readtime: dic.data().time,
         }))
       )
     );
@@ -88,6 +89,7 @@ function Feed() {
                 { timeZone: "UTC", month: "long", day: "2-digit" }
               ) + " ",
           id: dic.id,
+          readtime: dic.data().time,
         }))
       )
     );
@@ -121,7 +123,7 @@ function Feed() {
                   {dc.title}
                 </h1>
                 <div className="flex flex-row mt-1 dark:text-slate-300 font-popxs text-xs">
-                  {dc.time}. 3 min read
+                  {dc.time}. {dc.readtime ? dc.readtime : 4} min read
                 </div>
               </div>
             </div>
@@ -131,7 +133,7 @@ function Feed() {
       <div className="border-y dark:border-slate-700 mt-3 pt-2 flex w-full mx-auto">
         <div className="flex flex-row flex-wrap w-full justify-center">
           {posts?.map((dc, i) => (
-            <PostElement i={i} dc={dc} />
+            <PostElement key={`post.elem.div${i}`} i={i} dc={dc} />
           ))}
         </div>
       </div>
