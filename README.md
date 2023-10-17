@@ -2,9 +2,9 @@
 This repository contains the code and demo for a powerful and interactive blog website with various innovative features, designed to enhance the blogging experience for both users and administrators. The website is built with an intuitive inbuilt text editor, supports images, and provides a seamless sign-up process through Google accounts. Users can create, edit, and save their blogs for later submission and even submit them for review. Administrators have the ability to review and approve the submitted posts, ensuring high-quality content.
 <h3>Demo</h3>
 Check out the live demo <a href="http://ananthujp.github.io/greenBlog">here</a>.
-<div style="display:flex;flex-direction:row;width:'100%'">
-  <img style="width:'100%'" src="https://github.com/ananthujp/greenBlog/blob/master/blog-web.png"/>
-  <img style="width:'100%'" src="https://github.com/ananthujp/greenBlog/blob/master/blog-mobile.png"/>
+<div style="display:flex;flex-direction:column;width:100%;justify-items:space-between;">
+  <img style="width:50%" src="https://github.com/ananthujp/greenBlog/blob/master/blog-web.png"/>
+  <img style="width:25%" src="https://github.com/ananthujp/greenBlog/blob/master/blog-mobile.png"/>
 </div>
 <h2>Features</h2>
 <h3>1. Inbuilt Text Editor with Image Support</h3>
