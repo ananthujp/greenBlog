@@ -1,4 +1,4 @@
-<h1>Green Blog - Blog Website with Inbuilt Text Editor and Messaging System</h1>h1>
+<h1>Green Blog - Blog Website with Inbuilt Text Editor and Messaging System</h1>
 This repository contains the code and demo for a powerful and interactive blog website with various innovative features, designed to enhance the blogging experience for both users and administrators. The website is built with an intuitive inbuilt text editor, supports images, and provides a seamless sign-up process through Google accounts. Users can create, edit, and save their blogs for later submission and even submit them for review. Administrators have the ability to review and approve the submitted posts, ensuring high-quality content.
 <h3>Demo</h3>
 Check out the live demo <a href="http://ananthujp.github.io/greenBlog">here</a>.
